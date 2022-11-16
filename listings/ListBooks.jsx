@@ -1,19 +1,18 @@
 import React, { useState, useContext } from "react";
-import { FlatList, View, TouchableOpacity, Image } from "react-native";
-import { Actionsheet, useDisclose, Box, Text, Icon, ScrollView, IconButton, Center } from "native-base";
+import { FlatList, View, Image } from "react-native";
+import { Actionsheet, useDisclose, Box, Text, Icon, ScrollView, IconButton, Center, Pressable } from "native-base";
 import { MaterialIcons, } from "@expo/vector-icons";
 import { AuthContext } from "../navigation/AuthContext"
 
 
 const Item = ({ title, author, onPress }) => (
-
-    <TouchableOpacity style={{ backgroundColor: "#d2d2d2", paddingHorizontal: 10, paddingVertical: 10, marginVertical: 1, marginHorizontal: 5, borderRadius: 5, alignSelf: "center", alignItems: "center", width: "95%", flexDirection: 'row', height: 60 }} onPress={onPress}>
+    <Pressable style={{ backgroundColor: "#d2d2d2", paddingHorizontal: 10, paddingVertical: 10, marginVertical: 1, marginHorizontal: 5, borderRadius: 5, alignSelf: "center", alignItems: "center", width: "95%", flexDirection: 'row', height: 60 }} onPress={onPress}>
         <Image source={require('../assets/user-profile.png')} style={{ height: 35, width: 35, borderRadius: 15 }} />
         <View style={{ flex: 1, flexDirection: "column", alignItems: "flex-start" }}>
-            <Text style={{ fontSize: 18, paddingLeft: 10, textAlign: "center" }}>{title}</Text>
-            <Text style={{ fontSize: 14, paddingLeft: 10, textAlign: "center" }}>{author}</Text>
+            <Text style={{ fontSize: 18, paddingLeft: 10, textAlign: "center" }} numberOfLines={1}>{title}</Text>
+            <Text style={{ fontSize: 14, paddingLeft: 10, textAlign: "center" }} numberOfLines={1}>{author}</Text>
         </View>
-    </TouchableOpacity >
+    </Pressable >
 
 );
 
@@ -48,8 +47,8 @@ export function ListBooks(props) {
     );
 
     return (
-        <View style={{ flex: 1, justifyContent: "space-around", backgroundColor: "transparent" }}>
-            <FlatList data={props.data} renderItem={renderItem} keyExtractor={(item) => item.id} ListEmptyComponent={FlatListEmpty()} initialNumToRender={25} ListHeaderComponent={HeaderFlatList()} />
+        <Box flex={1} justifyContent={"space-around"}>
+            <FlatList data={props.data} renderItem={renderItem} keyExtractor={(item) => item.id} ListEmptyComponent={FlatListEmpty()} initialNumToRender={25} ListHeaderComponent={HeaderFlatList()} showsVerticalScrollIndicator={false} />
             <Actionsheet isOpen={isOpen} onClose={onClose} /* disableOverlay */>
                 <Actionsheet.Content >
                     <Box w="100%" h={350} px={2}>
@@ -67,7 +66,7 @@ export function ListBooks(props) {
 
                         <Box style={{ flexDirection: 'column', justifyContent: "flex-start", alignSelf: 'center', }} pt="2" maxH={"75%"}>
                             <Text style={{ fontSize: 18, textAlign: "center" }}>Resumo do Livro</Text>
-                            <ScrollView>
+                            <ScrollView showsVerticalScrollIndicator={false}>
                                 {/*  <Text style={{ fontSize: 16, textAlign: "center" }}>{dataBookModal.description}</Text> */}
                                 <Text style={{ fontSize: 16, textAlign: "left" }}>Com ilustrações criativas e texto bem-humorado, Hawking desvenda desde os mistérios da física de partículas até a dinâmica das centenas de milhões de galáxias do universo. Para o iniciado, é uma bela representação de conceitos complexos; para o leigo, é um vislumbre dos segredos mais profundos da criação. Com ilustrações criativas e texto bem-humorado, Hawking desvenda desde os mistérios da física de partículas até a dinâmica das centenas de milhões de galáxias do universo. Para o iniciado, é uma bela representação de conceitos complexos; para o leigo, é um vislumbre dos segredos mais profundos da criação. Com ilustrações criativas e texto bem-humorado, Hawking desvenda desde os mistérios da física de partículas até a dinâmica das centenas de milhões de galáxias do universo. Para o iniciado, é uma bela representação de conceitos complexos; para o leigo, é um vislumbre dos segredos mais profundos da criação.</Text>
                             </ScrollView>
@@ -75,6 +74,6 @@ export function ListBooks(props) {
                     </Box>
                 </Actionsheet.Content>
             </Actionsheet>
-        </View >
+        </Box >
     );
 }
