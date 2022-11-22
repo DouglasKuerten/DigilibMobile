@@ -3,6 +3,7 @@ import { FlatList, View, Image } from "react-native";
 import { Actionsheet, useDisclose, Box, Text, Icon, ScrollView, IconButton, Center, Pressable } from "native-base";
 import { MaterialIcons, } from "@expo/vector-icons";
 import { AuthContext } from "../navigation/AuthContext"
+import { ButtonContained } from "../components/ButtonContained";
 
 
 const Item = ({ name, title, onPress }) => (
@@ -23,8 +24,8 @@ export function ListReserves(props) {
 
     function clickItem(item) {
         onOpen();
+        console.log(item)
         setDataReservesModal(item);
-        console.log(dataReservesModal)
     }
 
     const renderItem = ({ item }) => <Item name={item.User.name} title={item.Book.title} onPress={() => clickItem(item)} />;
@@ -54,25 +55,21 @@ export function ListReserves(props) {
                 <Actionsheet.Content >
                     <Box w="100%" h={350} px={2}>
                         <Box style={{ flex: 1, flexDirection: 'row' }} maxH={"26%"} justifyContent={"space-around"}>
-                            <Image source={require('../assets/noPhoto.png')} style={{ maxHeight: "100%", width: 85 }}/>
+                            <Image source={require('../assets/noPhoto.png')} style={{ maxHeight: "100%", width: 85 }} />
                             <Box flex={1} flexDir={'column'} pl={1}>
-                                <Text style={{ fontSize: 22 }}>{dataReservesModal.name}</Text>
-                                <Text style={{ fontSize: 18 }}>Autor: {dataReservesModal.title}</Text>
-                                 <ScrollView showsVerticalScrollIndicator={false}/* w={"60%"} */>
-                                  {/*   <Text>Editora: {dataReservesModal.publishingCompany}</Text>
-                                    <Text>Publicação: {dataReservesModal.productionYear}</Text>
-                                    <Text>Categoria: {dataReservesModal.category}</Text> */}
+                                <Text style={{ fontSize: 22 }}>{dataReservesModal.User !== undefined ? dataReservesModal.User.name : null}</Text>
+                                <Text style={{ fontSize: 18 }}>Autor: {dataReservesModal.Book !== undefined ? dataReservesModal.Book.title : null}</Text>
+                                <ScrollView showsVerticalScrollIndicator={false}/* w={"60%"} */>
+                                    <Text>Matricula: {dataReservesModal.User !== undefined ? dataReservesModal.User.registration : null}</Text>
+                                    <Text>Data Empréstimo: {dataReservesModal.createdAt}</Text>
+                                    <Text>Data Devolução: {dataReservesModal.returnDate}</Text>
                                 </ScrollView>
                             </Box>
                             {userToken !== null ? <ButtonsManage /> : null}
                         </Box>
 
                         <Box style={{ flexDirection: 'column', justifyContent: "flex-start", alignSelf: 'center', }} pt="2" maxH={"74%"}>
-                            <Text style={{ fontSize: 18, textAlign: "center" }}>Resumo do Livro</Text>
-                            <ScrollView showsVerticalScrollIndicator={false}>
-                                {/*  <Text style={{ fontSize: 16, textAlign: "justify" }}>{dataReservesModal.description}</Text> */}
-                                <Text style={{ fontSize: 16, textAlign: "justify" }}>Com ilustrações criativas e texto bem-humorado, Hawking desvenda desde os mistérios da física de partículas até a dinâmica das centenas de milhões de galáxias do universo. Para o iniciado, é uma bela representação de conceitos complexos; para o leigo, é um vislumbre dos segredos mais profundos da criação. Com ilustrações criativas e texto bem-humorado, Hawking desvenda desde os mistérios da física de partículas até a dinâmica das centenas de milhões de galáxias do universo. Para o iniciado, é uma bela representação de conceitos complexos; para o leigo, é um vislumbre dos segredos mais profundos da criação. Com ilustrações criativas e texto bem-humorado, Hawking desvenda desde os mistérios da física de partículas até a dinâmica das centenas de milhões de galáxias do universo. Para o iniciado, é uma bela representação de conceitos complexos; para o leigo, é um vislumbre dos segredos mais profundos da criação.</Text>
-                            </ScrollView>
+                            {/* <ButtonContained title={"Devolver Livro"} /> */}
                         </Box>
                     </Box>
                 </Actionsheet.Content>
