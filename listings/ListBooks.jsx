@@ -7,7 +7,7 @@ import { AuthContext } from "../navigation/AuthContext"
 
 const Item = ({ title, author, onPress }) => (
     <Pressable style={{ backgroundColor: "#d2d2d2", paddingHorizontal: 10, paddingVertical: 10, marginVertical: 1, marginHorizontal: 5, borderRadius: 5, alignSelf: "center", alignItems: "center", width: "95%", flexDirection: 'row', height: 60 }} onPress={onPress}>
-        <Image source={require('../assets/user-profile.png')} style={{ height: 35, width: 35, borderRadius: 15 }} />
+        <Image source={require('../assets/noPhoto.png')} style={{ height: 35, width: 35, borderRadius: 15 }} />
         <View style={{ flex: 1, flexDirection: "column", alignItems: "flex-start" }}>
             <Text style={{ fontSize: 18, paddingLeft: 10, textAlign: "center" }} numberOfLines={1}>{title}</Text>
             <Text style={{ fontSize: 14, paddingLeft: 10, textAlign: "center" }} numberOfLines={1}>{author}</Text>
@@ -53,7 +53,7 @@ export function ListBooks(props) {
                 <Actionsheet.Content >
                     <Box w="100%" h={350} px={2}>
                         <Box style={{ flex: 1, flexDirection: 'row' }} maxH={"25%"} justifyContent={"space-around"} >
-                            <Image source={require('../assets/user-profile.png')} style={{ height: 85, width: 85 }} />
+                            <Image source={require('../assets/noPhoto.png')} style={{ height: 85, width: 85 }} />
                             <ScrollView showsVerticalScrollIndicator={false}/* w={"60%"} */>
                                 <Text style={{ fontSize: 22 }}>{dataBookModal.title}</Text>
                                 <Text style={{ fontSize: 18 }}>Autor: {dataBookModal.author}</Text>

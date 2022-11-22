@@ -12,7 +12,7 @@ export function CustomDrawer(props) {
       <DrawerContentScrollView {...props} contentContainerStyle={{ backgroundColor: "#000000" }}>
         <View Style={{ flex: 1, backgroundColor: "#fff", paddingTop: 10, marging: 20 }}>
           <ImageBackground source={require('../assets/background-drawer.png')} style={{ padding: 40, alignItems: 'center', }}>
-            <Image source={require('../assets/user-profile.png')} style={{ height: 80, width: 80, borderRadius: 40, marginBottom: 10 }} />
+            <Image source={require('../assets/userProfile.png')} style={{ height: 80, width: 80, borderRadius: 40, marginBottom: 10 }} />
             <Text style={{ color: '#fff', fontSize: 22/* , fontFamily: 'Roboto-Medium' */ }}>John Fiver</Text>
             <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 4 }}>
               <Ionicons name="laptop-outline" size={13} color="#fff"></Ionicons>
