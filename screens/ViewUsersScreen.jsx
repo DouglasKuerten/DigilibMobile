@@ -18,7 +18,7 @@ export function ViewUsersScreen() {
             const json = await response.json();
             setData(json);
         } catch (error) {
-            console.error(error);
+           // console.error(error);
         } finally {
             setLoading(false);
         }

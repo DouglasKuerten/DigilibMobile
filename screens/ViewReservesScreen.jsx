@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Icon, IconButton, Center, Skeleton } from "native-base";
-import { ListBooks } from '../listings/ListBooks';
+import { ListReserves } from '../listings/ListReserves';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { InputField } from "../components/InputField";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-export function ViewBooksScreen() {
+export function ViewReservesScreen() {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [dataFilter, setDataFilter] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [dataLoading, setDataLoading] = useState(new Array(30).fill(0));
 
-  const getBooks = async () => {
+  const getReserves = async () => {
     try {
-      const response = await fetch('https://book-library-back.herokuapp.com/books');
+      const response = await fetch('https://book-library-back.herokuapp.com/reserves');
       const json = await response.json();
       setData(json);
     } catch (error) {
@@ -25,13 +25,13 @@ export function ViewBooksScreen() {
   }
 
   useEffect(() => {
-    getBooks();
+    getReserves();
   }, []);
 
   /*   const filterBooks = data.filter(title => title.includes()) */
 
 
-  function LoadingBooks() {
+  function LoadingReservs() {
     return (
       <Box>
         {dataLoading.map((key, index) => {
@@ -57,7 +57,7 @@ export function ViewBooksScreen() {
   return (
     <Box flex={1} justifyContent={"flex-start"} w="100%" bgColor={"gray.100"} >
       <HeaderFlatList />
-      {isLoading ? <LoadingBooks /> : <ListBooks tag="Nome do Livro" data={data} />}
+      {isLoading ? <LoadingReservs /> : <ListReserves tag="Nome do Livro" data={data} />}
     </Box>
   );
 }
