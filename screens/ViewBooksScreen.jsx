@@ -55,7 +55,7 @@ export function ViewBooksScreen() {
   );
 
   return (
-    <Box flex={1} justifyContent={"flex-start"} w="100%" padding={1} bgColor={"gray.100"} >
+    <Box flex={1} justifyContent={"flex-start"} w="100%" bgColor={"gray.100"} >
       <HeaderFlatList />
       {isLoading ? <LoadingBooks /> : <ListBooks tag="Nome do Livro" data={data} />}
     </Box>

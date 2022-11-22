@@ -2,19 +2,20 @@ import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import { InputField } from "../components/InputField";
 import { ButtonContained } from "../components/ButtonContained";
-import { ButtonClean } from "../components/ButtonClean";
+import { ButtonUnderline } from "../components/ButtonUnderline";
+import { ViewUsersScreen } from "../screens/ViewUsersScreen"
 
 import { Select, CheckIcon, Box, Center } from "native-base";
 
 
 export function RegUserScreen() {
-  const [group, setGroup] = React.useState("");
+  const [group, setGroup] = useState('');
   return (
-    <Center pt={2}>
-      <InputField w={{ base: "85%", md: "15%" }} placeholder={"Número da Matricula"}></InputField>
-      <InputField w={{ base: "85%", md: "15%" }} placeholder={"Nome do Úsuario"}></InputField>
-      <InputField w={{ base: "85%", md: "15%" }} mb="5px" placeholder={"E-mail"}></InputField>
-      <Select selectedValue={group} variant={'rounded'} size={'lg'} borderRadius="10" w={{ base: "85%", md: "15%" }} h="55px" mb="2px" bgColor="gray.300" shadow={1} placeholderTextColor={"gray.600"} placeholder="Grupo de Acesso"
+    <Box flex={1} justifyContent={'center'} alignItems={'center'} pt={1}>
+      <InputField w={{ base: "95%", md: "15%" }} placeholder={"Número da Matricula"}></InputField>
+      <InputField w={{ base: "95%", md: "15%" }} placeholder={"Nome do Úsuario"}></InputField>
+      <InputField w={{ base: "95%", md: "15%" }} mb="5px" placeholder={"E-mail"}></InputField>
+      <Select selectedValue={group} variant={'rounded'} size={'lg'} borderRadius="10" w={{ base: "95%", md: "15%" }} h="55px" mb="2px" bgColor="gray.300" shadow={1} placeholderTextColor={"gray.600"} placeholder="Grupo de Acesso"
         _selectedItem={{
           bg: "grey.500", endIcon: <CheckIcon size="5" />
         }} mt={1} onValueChange={itemValue => setGroup(itemValue)}>
@@ -22,11 +23,8 @@ export function RegUserScreen() {
         <Select.Item label="Professor" value="PROFESSOR" />
         <Select.Item label="Aluno" value="ALUNO" />
       </Select>
-
-
       <Text>Usuarios Cadastrados</Text>
-
-      {/*  <ViewBooksScreen /> */}
-    </Center>
+      <ViewUsersScreen />
+    </Box>
   );
 }

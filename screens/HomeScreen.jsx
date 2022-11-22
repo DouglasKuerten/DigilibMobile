@@ -1,31 +1,11 @@
 import * as React from 'react';
-import { SafeAreaView, View, Image } from "react-native";
-import { Button } from "react-native-paper";
+import { Image } from "react-native";
+import { Center } from 'native-base'
 
-export function HomeScreen({ navigation }) {
+export function HomeScreen() {
   return (
-    <SafeAreaView style={{ flex: 1, alignItems: "center", backgroundColor: "#202226", justifyContent: "center" }}>
-      {/*       <Button mode="contained" onPress={() => navigation.navigate("Cadastro de Livros")}>
-        Cadastro de Livros
-      </Button>
-      <Button mode="contained" onPress={() => navigation.navigate("Cadastro de Usuários")}>
-        Cadastro de Usuários
-      </Button>
-      <Button mode="contained" onPress={() => navigation.navigate("Cadastro de Empréstimos")}>
-        Cadastro de Empréstimos
-      </Button>
-      <Button mode="contained" onPress={() => navigation.navigate("Visualização de Livros")}>
-        Visualização de Livros
-      </Button>
-      <Button mode="contained" onPress={() => navigation.navigate("Visualização de Empréstimos")}>
-        Visualização de Empréstimos
-      </Button> */}
-
-      <Image style={{ width: "70%", height: 500, marginBottom: "15%" }} source={require("../assets/logofontebranca.png")}></Image>
-    </SafeAreaView>
-
-
-
-
+    <Center flex={1} bgColor={"gray.300"}>
+      <Image style={{ width: "70%", height: 500, marginBottom: "15%" }} source={require("../assets/logofontepreta.png")}></Image>
+    </Center>
   );
 }

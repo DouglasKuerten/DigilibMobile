@@ -1,8 +1,8 @@
 import * as React from "react";
-import { Button } from 'react-native-paper'
+import { Button } from 'native-base'
 
 export function ButtonContained(props) {
   return (
-    <Button mode="contained" color="#000000" children={props.title} onPress={props.onPress} style={{ width: "30%", borderRadius: 25, marginTop: 20 }}></Button>
+    <Button variant="contained" bg={"black"} _text={{ color: 'white', fontWeight: 600 }} onPress={props.onPress} w={"30%"} borderRadius={25} mt={2}>{props.title}</Button>
   );
 }
