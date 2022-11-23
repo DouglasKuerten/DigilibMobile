@@ -4,8 +4,8 @@ import { HomeScreen } from "../screens/HomeScreen";
 import { RegBooksScreen } from "../screens/RegBooksScreen";
 import { RegUserScreen } from "../screens/RegUserScreen";
 import { RegReservesScreen } from "../screens/RegReservesScreen";
-import { ViewBooksScreen } from "../screens/ViewBooksScreen";
-import { ViewReservesScreen } from "../screens/ViewReservesScreen";
+import { ViewBooksScreen } from "../views/ViewBooksScreen";
+import { ViewReservesScreen } from "../views/ViewReservesScreen";
 
 import { CustomDrawer } from "./CustomDrawer";
 import { createDrawerNavigator } from "@react-navigation/drawer";

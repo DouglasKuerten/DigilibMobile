@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 import { InputField } from "../components/InputField";
 import { ButtonContained } from "../components/ButtonContained";
 import { ButtonUnderline } from "../components/ButtonUnderline";
-import { ViewUsersScreen } from "../screens/ViewUsersScreen"
+import { ViewUsersScreen } from "../views/ViewUsersScreen"
 
 import { Select, CheckIcon, Box, Center } from "native-base";
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Text } from 'react-native';
 import { InputField } from "../components/InputField";
-import { ViewReservesScreen } from './ViewReservesScreen';
+import { ViewReservesScreen } from '../views/ViewReservesScreen';
 import { Box } from "native-base";
 import { ButtonContained } from '../components/ButtonContained';
 

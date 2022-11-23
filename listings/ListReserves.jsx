@@ -53,9 +53,9 @@ export function ListReserves(props) {
             <FlatList data={props.data} renderItem={renderItem} keyExtractor={(item) => item.id} ListEmptyComponent={FlatListEmpty()} initialNumToRender={25} ListHeaderComponent={HeaderFlatList()} showsVerticalScrollIndicator={false} />
             <Actionsheet isOpen={isOpen} onClose={onClose} /* disableOverlay */>
                 <Actionsheet.Content >
-                    <Box w="100%" h={350} px={2}>
-                        <Box style={{ flex: 1, flexDirection: 'row' }} maxH={"26%"} justifyContent={"space-around"}>
-                            <Image source={require('../assets/noPhoto.png')} style={{ maxHeight: "100%", width: 85 }} />
+                    <Box w="100%" h={150} px={2}>
+                        <Box style={{ flex: 1, flexDirection: 'row' }} maxH={"100%"} justifyContent={"space-around"}>
+                            <Image source={require('../assets/noPhoto.png')} style={{ maxHeight: 85, width: 85 }} />
                             <Box flex={1} flexDir={'column'} pl={1}>
                                 <Text style={{ fontSize: 22 }}>{dataReservesModal.User !== undefined ? dataReservesModal.User.name : null}</Text>
                                 <Text style={{ fontSize: 18 }}>Autor: {dataReservesModal.Book !== undefined ? dataReservesModal.Book.title : null}</Text>
