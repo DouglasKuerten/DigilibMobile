@@ -6,6 +6,7 @@ import { RegUserScreen } from "../screens/RegUserScreen";
 import { RegReservesScreen } from "../screens/RegReservesScreen";
 import { ViewBooksScreen } from "../views/ViewBooksScreen";
 import { ViewReservesScreen } from "../views/ViewReservesScreen";
+import { ReadBarcode } from "../screens/ReadBarcode";
 
 import { CustomDrawer } from "./CustomDrawer";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -25,6 +26,7 @@ export function Navigation() {
             <Drawer.Screen name="Cadastro de Empréstimos" component={RegReservesScreen} options={{ drawerIcon: ({ color }) => <Ionicons name="cart-outline" size={22} color={color} /> }} />
             <Drawer.Screen name="Visualização de Empréstimos" component={ViewReservesScreen} options={{ drawerIcon: ({ color }) => <Ionicons name="pricetags-outline" size={22} color={color} /> }} />
             <Drawer.Screen name="Visualização de Livros" component={ViewBooksScreen} options={{ drawerIcon: ({ color }) => <Ionicons name="library-outline" size={22} color={color} /> }} />
+            <Drawer.Screen name="Leitor Código Barras" component={ReadBarcode} options={{ drawerIcon: ({ color }) => <Ionicons name="barcode-outline" size={22} color={color} /> }} />
         </Drawer.Navigator>
     );
 }

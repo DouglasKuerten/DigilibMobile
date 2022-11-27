@@ -10,7 +10,7 @@ export function NavigationLogin() {
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen options = {{headerShown: true}} name="Visualização de Livros" component={ViewBooksScreen} />
+            <Stack.Screen options={{ headerShown: true }} name="Visualização de Livros" component={ViewBooksScreen} />
         </Stack.Navigator>
     );
 };
