@@ -4,17 +4,12 @@ import { InputField } from "../components/InputField";
 import { ViewBooksScreen } from '../views/ViewBooksScreen';
 import { Box, Select, CheckIcon, ScrollView, VStack, FormControl, Divider, WarningOutlineIcon, Icon, Pressable } from "native-base";
 import { ButtonContained } from '../components/ButtonContained';
-import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-
-
+import { ReadBarcode } from './ReadBarcode';
 
 export function RegBooksScreen({ navigation }) {
   const [errors, setErrors] = useState({});
-  const [hasPermission, setHasPermission] = useState(null);
-  const [scanned, setScanned] = useState(false);
-  const [codeScan, setCodeScan] = useState('');
   const [dataInputs, setDataInputs] = useState({
     /*     internalCode: '',
         isbn: '',
@@ -37,30 +32,40 @@ export function RegBooksScreen({ navigation }) {
         bookSituation: '' */
   });
 
-  const askForCameraPermission = () => {
-    (async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setHasPermission(status == 'granted')
-    })()
+  async function setBooks() {
+    console.log("Exec")
+    let reqs = await fetch('http://172.31.0.52:3000/books', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        internalCode: dataInputs.internalCode,
+        isbn: dataInputs.isbn,
+        title: dataInputs.title,
+        subtitle: dataInputs.subtitle,
+        genre: dataInputs.genre,
+        volume: dataInputs.volume,
+        edition: dataInputs.edition,
+        collection: dataInputs.collection,
+        language: dataInputs.language,
+        synopsis: dataInputs.synopsis,
+        originCountry: dataInputs.originCountry,
+        author: dataInputs.author,
+        authorLastName: dataInputs.authorLastName,
+        publishingCompany: dataInputs.publishingCompany,
+        publishDate: dataInputs.publishDate,
+        pages: dataInputs.pages,
+        ageGroup: dataInputs.ageGroup,
+        bookImage: dataInputs.bookImage,
+        bookSituation: dataInputs.bookSituation
+      })
+    });
+    let ress = await reqs.text();
+    console.log(ress)
   }
 
-  useEffect(() => {
-    askForCameraPermission();
-  }, []);
-
-  const handleBarCodeScanned = ({ type, data }) => {
-    setScanned(true);
-    setCodeScan(data);
-    console.log('Type ' + type + '\nData: ' + data)
-    /* setDataInputs(...dataInputs, ) */
-  }
-
-  if (hasPermission === null) {
-    return <Text>Permissão Pendente</Text>;
-  }
-  if (hasPermission === false) {
-    return <Text>Sem Permissão</Text>;
-  }
 
   const validate = () => {
     if (dataInputs.internalCode !== undefined) {
@@ -102,39 +107,6 @@ export function RegBooksScreen({ navigation }) {
 
 
   return (
-    /*     <Box flex={1} justifyContent={'center'} alignItens={'center'} pt={1} >
-          <ScrollView flex={1} w={'100%'} contentContainerStyle={{ alignItems: 'center' }} showsVerticalScrollIndicator={false}>
-            <InputField w={{ base: "95%", md: "15%" }} placeholder={"Código Interno"} onChangeText={(value) => setDataInputs({ ...dataInputs, internalCode: value })} value={dataInputs.internalCode} />
-            <InputField w={{ base: "95%", md: "15%" }} placeholder={"ISBN"} onChangeText={(value) => setDataInputs({ ...dataInputs, isbn: value })} value={dataInputs.isbn} />
-            <InputField w={{ base: "95%", md: "15%" }} placeholder={"Título"} onChangeText={(value) => setDataInputs({ ...dataInputs, title: value })} value={dataInputs.title} />
-            <InputField w={{ base: "95%", md: "15%" }} placeholder={"Subtítulo"} onChangeText={(value) => setDataInputs({ ...dataInputs, subtitle: value })} value={dataInputs.subtitle} />
-            <InputField w={{ base: "95%", md: "15%" }} placeholder={"Categorias"} onChangeText={(value) => setDataInputs({ ...dataInputs, genre: value })} value={dataInputs.genre} />
-            <InputField w={{ base: "95%", md: "15%" }} placeholder={"Volume"} onChangeText={(value) => setDataInputs({ ...dataInputs, volume: value })} value={dataInputs.volume} />
-            <InputField w={{ base: "95%", md: "15%" }} placeholder={"Edição"} onChangeText={(value) => setDataInputs({ ...dataInputs, edition: value })} value={dataInputs.edition} />
-            <InputField w={{ base: "95%", md: "15%" }} placeholder={"Coleção"} onChangeText={(value) => setDataInputs({ ...dataInputs, collection: value })} value={dataInputs.collection} />
-            <InputField w={{ base: "95%", md: "15%" }} placeholder={"Idioma"} onChangeText={(value) => setDataInputs({ ...dataInputs, language: value })} value={dataInputs.language} />
-            <InputField w={{ base: "95%", md: "15%" }} placeholder={"Sinopse"} onChangeText={(value) => setDataInputs({ ...dataInputs, synopsis: value })} value={dataInputs.synopsis} />
-            <InputField w={{ base: "95%", md: "15%" }} placeholder={"País Original"} onChangeText={(value) => setDataInputs({ ...dataInputs, originCountry: value })} value={dataInputs.originCountry} />
-            <InputField w={{ base: "95%", md: "15%" }} placeholder={"Nome Autor"} onChangeText={(value) => setDataInputs({ ...dataInputs, author: value })} value={dataInputs.author} />
-            <InputField w={{ base: "95%", md: "15%" }} placeholder={"Sobrenome Autor"} onChangeText={(value) => setDataInputs({ ...dataInputs, authorLastName: value })} value={dataInputs.authorLastName} />
-            <InputField w={{ base: "95%", md: "15%" }} placeholder={"Editora"} onChangeText={(value) => setDataInputs({ ...dataInputs, publishingCompany: value })} value={dataInputs.publishingCompany} />
-            <InputField w={{ base: "95%", md: "15%" }} placeholder={"Data Publicação"} onChangeText={(value) => setDataInputs({ ...dataInputs, publishDate: value })} value={dataInputs.publishDate} />
-            <InputField w={{ base: "95%", md: "15%" }} placeholder={"Quantidade Páginas"} onChangeText={(value) => setDataInputs({ ...dataInputs, pages: value })} value={dataInputs.pages} />
-            <InputField w={{ base: "95%", md: "15%" }} placeholder={"Classificação Indicativa"} onChangeText={(value) => setDataInputs({ ...dataInputs, ageGroup: value })} value={dataInputs.ageGroup} />
-            <InputField w={{ base: "95%", md: "15%" }} placeholder={"Imagem do Livro"} onChangeText={(value) => setDataInputs({ ...dataInputs, bookImage: value })} value={dataInputs.bookImage} />
-    
-            <Select selectedValue={dataInputs.bookSituation} variant={'rounded'} size={'lg'} borderRadius="10" w={{ base: "95%", md: "15%" }} h="55px" mb="2px" bgColor="gray.300" shadow={1} placeholderTextColor={"gray.600"} placeholder="Disponibilidade"
-              _selectedItem={{
-                bg: "grey.500", endIcon: <CheckIcon size="5" />
-              }} mt={1} onValueChange={(value) => setDataInputs({ ...dataInputs, bookSituation: value })}>
-              <Select.Item label="Livre" value="Livre" />
-              <Select.Item label="Emprestado" value="Emprestado" />
-              <Select.Item label="Perdido" value="Perdido" />
-              <Select.Item label="Extraviado" value="Extraviado" />
-            </Select>
-          </ScrollView>
-          <ButtonContained title={"Cadastrar"} />
-        </Box> */
     <VStack marginX={3} /* maxW="300px" */>
       {/*  <BarCodeScanner onBarCodeScanned={scanned ? undefined : handleBarCodeScanned} style={[StyleSheet.absoluteFill, styles.container]} /> */}
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -144,11 +116,11 @@ export function RegBooksScreen({ navigation }) {
           {'internalCode' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.internalCode}</FormControl.ErrorMessage> : <FormControl.HelperText>(Caso não informado será gerado um automaticamente)</FormControl.HelperText>}
         </FormControl>
 
-        <FormControl isInvalid={'isbn' in errors} mb={2}>
+        <FormControl isInvalid={'isbn' in errors} mb={4}>
           <FormControl.Label _text={{ bold: true }}>ISBN</FormControl.Label>
           <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, isbn: value })} InputRightElement={<Pressable onPress={() => navigation.openDrawer()/* navigation.navigate("Leitor Código Barras") */}><Icon mr={2} size={'xl'} color="gray.400" as={<Ionicons name="barcode-outline" />} /></Pressable>} />
 
-          {'isbn' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.isbn}</FormControl.ErrorMessage> : null}
+          {'isbn' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.isbn}</FormControl.ErrorMessage> : <FormControl.HelperText>(Ao informar um ISBN todos os dados serão substituidos automaticamente)</FormControl.HelperText>}
         </FormControl>
 
         <FormControl isRequired isInvalid={'title' in errors} mb={2}>
