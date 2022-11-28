@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
-import { FlatList, View, TouchableOpacity, ImageBackground } from "react-native";
-import { Actionsheet, useDisclose, Box, Heading, Text, Icon, ScrollView, IconButton, Divider, Center, Image, Row, Column } from "native-base";
+import { View } from "react-native";
+import { Box, Heading, Text, Icon, ScrollView, Divider, Center, Image, Row, Column } from "native-base";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { ButtonUnderline } from "../components/ButtonUnderline"
 
@@ -14,16 +14,17 @@ export function DetailsBook(props) {
                 </Box>
                 <Box flex={1} pl={4}>
                     <Heading size={'lg'} color={'white'}>{props.dbValues.title}</Heading>
-                    <Text color={'white'}>{`${props.dbValues.author !== null ? props.dbValues.author : ' '} ${props.dbValues.authorLastName !== undefined ? props.dbValues.authorLastName : ' '}`}</Text>
+                    <Text color={'white'}>{`${props.dbValues.author !== null ? props.dbValues.author : ' '} ${props.dbValues.authorLastName !== null ? props.dbValues.authorLastName : ' '}`}</Text>
                     <Row pt={2}>
                         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                             {
-                                props.dbValues.genre.split(', ').map((gen, index) => {
-                                    return (
-                                        < Center key={index} bgColor={'blue.300'} borderRadius={10} marginRight={2} paddingX={3} paddingY={2} >
-                                            <Text color={'blue.600'} >{gen}</Text>
-                                        </Center>)
-                                })
+                                props.dbValues.genre !== undefined && props.dbValues.genre !== null ?
+                                    props.dbValues.genre.split(', ').map((gen, index) => {
+                                        return (
+                                            < Center key={index} bgColor={'blue.300'} borderRadius={10} marginRight={2} paddingX={3} paddingY={2} >
+                                                <Text color={'blue.600'} >{gen}</Text>
+                                            </Center>)
+                                    }) : null
                             }
                         </ScrollView>
                     </Row>
@@ -33,7 +34,7 @@ export function DetailsBook(props) {
             <Box flexDir={'row'} paddingY={5} mb={5} marginX={2} borderRadius={20} bgColor={'rgba(0,0,0,0.3)'}>
                 <Box flex={1} alignItems={'center'}>
                     <Heading size={'md'} color={'white'}>{props.dbValues.ageGroup}</Heading>
-                    <Text color={'white'}>Idade</Text>
+                    <Text color={'white'}>Classificação</Text>
                 </Box>
                 <Divider orientation="vertical" />
                 <Box flex={1} alignItems={'center'}>
@@ -42,8 +43,8 @@ export function DetailsBook(props) {
                 </Box>
                 <Divider orientation="vertical" />
                 <Box flex={1} alignItems={'center'}>
-                    <Heading size={'md'} color={'white'}>Info</Heading>
-                    <Text color={'white'}>Etiqueta</Text>
+                    <Heading size={'md'} color={'white'}>{props.dbValues.bookSituation}</Heading>
+                    <Text color={'white'}>Situação</Text>
                 </Box>
             </Box>
             <Box flexDir={'row'} p={2} pr={6} pb={5} bgColor={'gray.700'}>

@@ -4,6 +4,7 @@ import { ListUsers } from '../listings/ListUsers';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { InputField } from "../components/InputField";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { URL_API_BACK_END } from '@env';
 
 export function ViewUsersScreen() {
     const [isLoading, setLoading] = useState(true);
@@ -14,7 +15,7 @@ export function ViewUsersScreen() {
 
     const getUsers = async () => {
         try {
-            const response = await fetch('https://book-library-back.herokuapp.com/users');
+            const response = await fetch(URL_API_BACK_END + 'users');
             const json = await response.json();
             setData(json);
         } catch (error) {

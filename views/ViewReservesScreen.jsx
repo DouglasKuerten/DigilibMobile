@@ -4,6 +4,7 @@ import { ListReserves } from '../listings/ListReserves';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { InputField } from "../components/InputField";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { URL_API_BACK_END } from '@env';
 
 export function ViewReservesScreen() {
   const [isLoading, setLoading] = useState(true);
@@ -14,11 +15,11 @@ export function ViewReservesScreen() {
 
   const getReserves = async () => {
     try {
-      const response = await fetch('https://book-library-back.herokuapp.com/reserves');
+      const response = await fetch(URL_API_BACK_END + 'reserves');
       const json = await response.json();
       setData(json);
     } catch (error) {
-     // console.error(error);
+      // console.error(error);
     } finally {
       setLoading(false);
     }
@@ -48,7 +49,7 @@ export function ViewReservesScreen() {
   const HeaderFlatList = () => (
     <Center flexDir={'row'} w={"95%"} alignSelf={'center'} marginTop={2}>
       <Box flexGrow={1}>
-        <InputField value={searchValue} onChangeText={(value) => setSearchValue(value)} w={"100%"} size={"lg"} h={12} placeholder="Pesquisar" py="1" px="3" InputLeftElement={<Icon ml="3" size="5" color="gray.400" as={<Ionicons name="ios-search" />} />} keyboardType={"default"}/>
+        <InputField value={searchValue} onChangeText={(value) => setSearchValue(value)} w={"100%"} size={"lg"} h={12} placeholder="Pesquisar" py="1" px="3" InputLeftElement={<Icon ml="3" size="5" color="gray.400" as={<Ionicons name="ios-search" />} />} keyboardType={"default"} />
       </Box>
       <IconButton icon={<Icon as={MaterialCommunityIcons} size="6" name="filter-outline" />} _icon={{ color: "white", size: "md" }} bg={"blue.400"} w={10} h={10} borderRadius={20} marginLeft={2} />
     </Center>

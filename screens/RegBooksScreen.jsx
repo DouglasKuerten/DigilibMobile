@@ -2,13 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { Text, StyleSheet } from 'react-native';
 import { InputField } from "../components/InputField";
 import { ViewBooksScreen } from '../views/ViewBooksScreen';
-import { Box, Select, CheckIcon, ScrollView, VStack, FormControl, Divider, WarningOutlineIcon, Icon, Pressable } from "native-base";
+import { Box, Select, CheckIcon, ScrollView, VStack, FormControl, Divider, WarningOutlineIcon, Icon, Pressable, Center, Image, Row, Heading } from "native-base";
 import { ButtonContained } from '../components/ButtonContained';
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { ReadBarcode } from './ReadBarcode';
+import { URL_API_BACK_END } from '@env';
 
-export function RegBooksScreen({ navigation }) {
+import * as ImagePicker from 'expo-image-picker';
+
+
+export function RegBooksScreen({ navigation, isbn }) {
   const [errors, setErrors] = useState({});
   const [dataInputs, setDataInputs] = useState({
     /*     internalCode: '',
@@ -34,7 +38,7 @@ export function RegBooksScreen({ navigation }) {
 
   async function setBooks() {
     console.log("Exec")
-    let reqs = await fetch('http://172.31.0.52:3000/books', {
+    let reqs = await fetch(URL_API_BACK_END + 'books', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -64,6 +68,35 @@ export function RegBooksScreen({ navigation }) {
     });
     let ress = await reqs.text();
     console.log(ress)
+  }
+  const showImagePicker = async () => {
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (permissionResult.granted === false) {
+      alert('Você se recusou a permitir que este aplicativo acesse suas fotos!');
+      return;
+    }
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      allowsMultipleSelection: false
+    });
+    if (!result.canceled) {
+      setDataInputs({ ...dataInputs, bookImage: result.assets[0].uri });
+      console.log(result.assets[0].uri);
+    }
+  }
+
+  const openCamera = async () => {
+    const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+    if (permissionResult.granted === false) {
+      alert('Você se recusou a permitir que este aplicativo acesse sua câmera!');
+      return;
+    }
+    const result = await ImagePicker.launchCameraAsync({ allowsEditing: true, });
+    if (!result.canceled) {
+      setDataInputs({ ...dataInputs, bookImage: result.assets[0].uri });
+      console.log(result.assets[0].uri);
+    }
   }
 
 
@@ -102,14 +135,32 @@ export function RegBooksScreen({ navigation }) {
   };
 
   const registerBook = () => {
-    validate() ? console.log('Submitted') : console.log('Validation Failed');
+    validate() ? setBooks() : console.log('Validation Failed');
   };
 
 
   return (
     <VStack marginX={3} /* maxW="300px" */>
-      {/*  <BarCodeScanner onBarCodeScanned={scanned ? undefined : handleBarCodeScanned} style={[StyleSheet.absoluteFill, styles.container]} /> */}
       <ScrollView showsVerticalScrollIndicator={false}>
+        <FormControl isInvalid={'bookImage' in errors} mb={4} mt={2}>
+          <Heading w={'100%'} textAlign={'center'} size={'md'} marginY={2}>Imagem Ilustrativa</Heading>
+
+          <Center flex={1} >
+            <Center flex={1} w={180} h={300} borderRadius={10} bg={'gray.200'} shadow={1} >
+              {dataInputs.bookImage !== '' && dataInputs.bookImage !== undefined ? <Image w={180} h={300} resizeMode={'cover'} borderRadius={10} alt="Imagem Livro" source={{ uri: dataInputs.bookImage }} fallbackSource={require('../assets/noPhoto.png')} /> : <Ionicons name="cloud-upload-outline" size={100} color="black" />}
+            </Center>
+          </Center>
+
+          <Center flex={1} flexDir={'row'} marginY={2} justifyContent={'space-around'}>
+            <ButtonContained leftIcon={<Icon as={Ionicons} name="md-camera-outline" size="md" color={'white'} mr={1} />} w={100} title={'Camera'} onPress={() => openCamera()} />
+            <ButtonContained leftIcon={<Icon as={Ionicons} name="albums-outline" size="md" color={'white'} mr={1} />} w={100} title={'Galeria'} onPress={() => showImagePicker()} />
+            <ButtonContained leftIcon={<Icon as={Ionicons} name="md-trash-outline" size="md" color={'white'} mr={1} />} w={100} title={'Remover'} onPress={() => setDataInputs({ ...dataInputs, bookImage: '' })} />
+          </Center>
+          {'bookImage' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.bookImage}</FormControl.ErrorMessage> : <FormControl.HelperText>(Selecione uma imagem da galeria)</FormControl.HelperText>}
+
+        </FormControl>
+
+
         <FormControl isInvalid={'internalCode' in errors} mb={4}>
           <FormControl.Label _text={{ bold: true }}>Código Interno</FormControl.Label>
           <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, internalCode: value })} />
@@ -233,41 +284,10 @@ export function RegBooksScreen({ navigation }) {
 
         <Divider />
         <Box w={'100%'} alignItems={'center'} mt={2} mb={4}>
-          <ButtonContained title={'Cadastrar'} onPress={(registerBook)} colorScheme="cyan" />
+          <ButtonContained w={'30%'} title={'Cadastrar'} onPress={(registerBook)} colorScheme="cyan" />
         </Box>
       </ScrollView>
 
     </VStack>
   );
 }
-
-const opacity = 'rgba(0, 0, 0, .6)';
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column'
-  },
-  layerTop: {
-    flex: 2,
-    backgroundColor: opacity
-  },
-  layerCenter: {
-    flex: 1,
-    flexDirection: 'row'
-  },
-  layerLeft: {
-    flex: 1,
-    backgroundColor: opacity
-  },
-  focused: {
-    flex: 10
-  },
-  layerRight: {
-    flex: 1,
-    backgroundColor: opacity
-  },
-  layerBottom: {
-    flex: 2,
-    backgroundColor: opacity
-  },
-});

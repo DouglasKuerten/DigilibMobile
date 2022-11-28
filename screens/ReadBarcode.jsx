@@ -54,7 +54,7 @@ export function ReadBarcode() {
     }
 
     return (
-        <BarCodeScanner onBarCodeScanned={scanned ? undefined : handleBarCodeScanned} style={[StyleSheet.absoluteFillObject, styles.container]}  >
+        <BarCodeScanner onBarCodeScanned={scanned ? undefined : handleBarCodeScanned} style={[StyleSheet.absoluteFillObject, styles.container]}>
             <Heading size={'xs'} textAlign={'center'} marginX={4} marginY={6} color={'white'}>Aponte a camera para código ISBN do livro para trazer todos os campos preenchidos automaticamente</Heading>
             <Center flex={1}>
                 <Center flex={2} w={'100%'}>
@@ -66,13 +66,13 @@ export function ReadBarcode() {
                         <Box w={'100%'} h={'100%'} position={'absolute'} flexDir={'row'} opacity={0.4}>
                             <Box w={'5%'} h={'100%'} bg={'black'} />
                             <Box w={'90%'} h={'100%'} flexDir={'column'}>
-                                <Box w={'100%'} h={'33.333%'} bg={'black'} />
-                                <Box w={'100%'} h={'33.333%'} />
-                                <Box w={'100%'} h={'33.333%'} bg={'black'} />
+                                <Box w={'100%'} h={'33.3333%'} bg={'black'} />
+                                <Box w={'100%'} h={'33.3333%'} />
+                                <Box w={'100%'} h={'33.3333%'} bg={'black'} />
                             </Box>
                             <Box w={'5%'} h={'100%'} bg={'black'} />
                         </Box>
-                        <Box w={'90%'} h={'33.333%'} borderColor={'blue.500'} borderWidth={3} borderStyle={'dashed'} />
+                        <Box w={'90%'} h={'33.3333%'} borderColor={'blue.500'} borderWidth={3} borderStyle={'dashed'} />
                     </Center>
                 </Center>
                 <Box flex={1} w={'100%'} alignItems={'center'}>
@@ -81,7 +81,6 @@ export function ReadBarcode() {
                     <Text color={'white'}>{dataBook.status !== undefined ? dataBook.status.success ? '' : '(Cadastre o livro manualmente)' : ''}</Text>
                     <IconButton mt={5} icon={<Icon as={MaterialCommunityIcons} size="9" name="check" />} _icon={{ color: "white", size: "md" }} bg={"green.400"} w={55} h={55} borderRadius={30} />
                 </Box>
-
             </Center>
         </BarCodeScanner >
     );
@@ -91,8 +90,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#202124',
-        position: 'absolute',
-        height: '110%',
-        width: '100%'
+        position: 'relative',
+        height: '100%',
+        width: '100%',
     }
 });

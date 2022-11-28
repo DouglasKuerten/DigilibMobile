@@ -6,26 +6,16 @@ import { AuthContext } from "../navigation/AuthContext"
 import { ButtonUnderline } from "../components/ButtonUnderline"
 import { DetailsBook } from "./DetailsBook";
 import { Buffer } from "buffer";
-/* const Item = ({ title, author, onPress }) => (
-    <Pressable style={{ backgroundColor: "#d2d2d2", paddingHorizontal: 10, paddingVertical: 10, marginVertical: 1, marginHorizontal: 5, borderRadius: 5, alignSelf: "center", alignItems: "center", width: "95%", flexDirection: 'row', height: 60 }} onPress={onPress}>
-        <Image source={require('../assets/noPhoto.png')} style={{ height: 35, width: 35, borderRadius: 15 }} />
-        <View style={{ flex: 1, flexDirection: "column", alignItems: "flex-start" }}>
-            <Text style={{ fontSize: 18, paddingLeft: 10, textAlign: "center" }} numberOfLines={1}>{title}</Text>
-            <Text style={{ fontSize: 14, paddingLeft: 10, textAlign: "center" }} numberOfLines={1}>{author}</Text>
-        </View>
-    </Pressable >
-
-); */
-
 
 const Item = ({ dbValues, onPress }) => (
     <Box marginX={4} marginY={1.5}>
         <TouchableOpacity style={{ flex: 1, flexDirection: 'row', maxHeight: 144 }} onPress={onPress} activeOpacity={0.7}>
-            <Image source={require('../assets/imagemProvisoria2.jpg')} alt={"Foto Livro"} resizeMode={'cover'} w={'100'} h={'150'} borderRadius={'10'}></Image>
-
+            <Image source={require('../assets/noPhoto.png')} alt={"Foto Livro"} resizeMode={'cover'} w={'100'} h={'150'} borderRadius={'10'} />
+            {/*  source={dbValues.bookImage !== null ? 'data:image/jpg;base64,' + Buffer.from(dbValues.bookImage.data).toString('base64') : require('../assets/noPhoto.png')} */}
+            {/*    source={{ uri: dataInputs.bookImage }} fallbackSource={require('../assets/noPhoto.png') */}
             <Box flex={1} marginX={2}>
                 <Heading ellipsizeMode={'tail'} numberOfLines={1} text size={'lg'} color={'black'}>{dbValues.title}</Heading>
-                <Heading size={'sm'} color={'gray.500'}>{`${dbValues.author !== null ? dbValues.author : ' '} ${dbValues.authorLastName !== undefined ? dbValues.authorLastName : ' '}`}</Heading>
+                <Heading size={'sm'} color={'gray.500'}>{`${dbValues.author !== null ? dbValues.author : ' '} ${dbValues.authorLastName !== null ? dbValues.authorLastName : ' '}`}</Heading>
                 <Row marginY={2}>
                     <Icon as={<AntDesign name="copy1" />} />
                     <Text paddingX={1} color={'gray.500'}>{dbValues.pages}</Text>
@@ -34,12 +24,14 @@ const Item = ({ dbValues, onPress }) => (
                 </Row>
                 <Row>
                     {
-                        dbValues.genre.split(', ').map((gen, index) => {
-                            return (
-                                < Center key={index} bgColor={'blue.300'} borderRadius={10} marginRight={2} paddingX={3} paddingY={2} marginY={0.5} >
-                                    <Text color={'blue.600'} >{gen}</Text>
-                                </Center>)
-                        })
+                        dbValues.genre !== undefined && dbValues.genre !== null ?
+                            dbValues.genre.split(', ').map((gen, index) => {
+                                return (
+                                    < Center key={index} bgColor={'blue.300'} borderRadius={10} marginRight={2} paddingX={3} paddingY={2} marginY={0.5} >
+                                        <Text color={'blue.600'} >{gen}</Text>
+                                    </Center>)
+                            }) : null
+
                     }
                 </Row>
             </Box>
@@ -101,15 +93,24 @@ export function ListBooks(props/* , { navigation } */) {
             </Box>
         );
     };
+    function EmptyAllBooks() {
+        return (
+            <Box flex={1} paddingX={4} justifyContent={'center'} alignItems={'center'} pt={2} >
+                <Heading size={'md'}>Nenhum livro encontrado</Heading>
+            </Box>
+        );
+    };
     function AllBooks() {
         return (
             <Box flex={1}>
+                <HeaderAllBooks />
                 <FlatList
                     data={props.data}
                     renderItem={renderBooks}
                     keyExtractor={item => item.id}
                     showsHorizontalScrollIndicator={false}
-                    ListHeaderComponent={HeaderAllBooks}
+                    ListEmptyComponent={EmptyAllBooks}
+                //ListHeaderComponent={HeaderAllBooks}
                 />
             </Box>
         );

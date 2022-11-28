@@ -1,21 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Icon, IconButton, Center, Skeleton, Row } from "native-base";
+import React, { useEffect, useState, useContext } from 'react';
+import { Box, Icon, IconButton, Center, Skeleton, Row, Column } from "native-base";
 import { ListBooks } from '../listings/ListBooks';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { InputField } from "../components/InputField";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { URL_API_BACK_END } from '@env';
+import { AuthContext } from "../navigation/AuthContext"
 
 export function ViewBooksScreen() {
+  const { userToken } = useContext(AuthContext)
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [dataFilter, setDataFilter] = useState([]);
   const [searchValue, setSearchValue] = useState('');
-  const [dataLoading, setDataLoading] = useState(new Array(30).fill(0));
+  const [dataLoading, setDataLoading] = useState(new Array(5).fill(0));
 
   const getBooks = async () => {
     try {
-      /* const response = await fetch('https://book-library-back.herokuapp.com/books'); */
-      const response = await fetch('http://172.31.0.52:3000/books');
+      const response = await fetch(URL_API_BACK_END + 'books');
       const json = await response.json();
       setData(json);
     } catch (error) {
@@ -25,73 +27,61 @@ export function ViewBooksScreen() {
     }
   }
 
-  //Envia dados do formulário backend
-  async function setBooks() {
-    console.log("Exec")
-    let reqs = await fetch('http://172.31.0.52:3000/books', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        internalCode: "1",
-        isbn: "12",
-        title: "titulo",
-        subtitle: "subtitulo",
-        genre: "genre",
-        volume: "volume",
-        edition: "edicao",
-        collection: "collection",
-        language: "pt",
-        synopsis: "synop",
-        originCountry: "brasil",
-        author: "eu",
-        authorLastName: "eueu",
-        publishingCompany: "diglilb",
-        publishDate: null,
-        pages: 55,
-        ageGroup: 16,
-        bookImage: null,
-        bookSituation: "Livre"
-      })
-    });
-    let ress = await reqs.text();
-    console.log(ress)
-  }
-
-  const getBookss = async () => {
-    try {
-      const response = await fetch(
-        'http://172.31.0.52:3000/books'
-      );
-      const json = await response.json();
-      return json.movies;
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
     getBooks();
-    //setBooks()
   }, []);
 
   /*   const filterBooks = data.filter(title => title.includes()) */
 
-
+  function SkeletonMyBooks() {
+    return (
+      <Box>
+        <Skeleton.Text mt={5} lines={1} paddingX={4} maxWidth={"70%"} />
+        <Row ml={4} h={240}>
+          {dataLoading.map((key, index) => {
+            return (
+              <Box key={key + index} pt={2} >
+                <Skeleton mr={2} marginY={1.5} w={'150'} h={'225'} borderRadius={'10'} />
+              </Box>
+            )
+          })}
+        </Row>
+      </Box>
+    );
+  };
+  function SkeletonAllBooks() {
+    return (
+      <Box>
+        <Skeleton.Text mt={5} lines={1} paddingX={4} maxWidth={"65%"} />
+        <Column h={'100%'} ml={4} mr={4} marginY={1.5} >
+          {
+            dataLoading.map((key, index) => {
+              return (
+                <Row flex={1} key={key + index} maxHeight={144} marginY={1.5}>
+                  <Skeleton mr={2} marginY={1.5} w={'100'} h={'150'} borderRadius={'10'} />
+                  <Column flex={1} marginX={0.5}>
+                    <Skeleton.Text marginY={2} lines={1} />
+                    <Skeleton.Text marginY={2} lines={1} />
+                    <Row >
+                      <Skeleton.Text mr={1} paddingY={2} lines={1} w={4} />
+                      <Skeleton.Text mr={3} paddingY={2} lines={1} w={20} />
+                      <Skeleton.Text mr={1} paddingY={2} lines={1} w={4} />
+                      <Skeleton.Text mr={3} paddingY={2} lines={1} w={20} />
+                    </Row>
+                    <Skeleton.Text mr={3} paddingY={2} lines={1} w={20} />
+                  </Column>
+                </Row>
+              )
+            })
+          }
+        </Column>
+      </Box>);
+  };
   function LoadingBooks() {
     return (
       <Box>
-        {dataLoading.map((key, index) => {
-          return (
-            <Center key={key + index}>
-              <Box w={"95%"} bgColor={"gray.300"} h={60} flexDir={"row"} alignItems={"center"} borderRadius={8} style={{ paddingHorizontal: 10, paddingVertical: 10, marginVertical: 1, marginHorizontal: 5 }}>
-                <Skeleton h={35} w={35} borderRadius={20} marginLeft={1} />
-                <Skeleton.Text lines={2} px="3" maxWidth={"90%"} />
-              </Box>
-            </Center>);
-        })}
+        {userToken !== null ? <SkeletonMyBooks /> : null}
+        <SkeletonAllBooks />
       </Box>);
   }
   const SearchInput = () => (
