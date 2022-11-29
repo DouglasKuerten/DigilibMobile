@@ -38,16 +38,16 @@ export function ViewUsersScreen() {
                 {dataLoading.map((key, index) => {
                     return (
                         <Center key={key + index}>
-                            <Box w={"95%"} bgColor={"gray.300"} h={60} flexDir={"row"} alignItems={"center"} borderRadius={8} style={{ paddingHorizontal: 10, paddingVertical: 10, marginVertical: 1, marginHorizontal: 5 }}>
+                            <Box w={"100%"} h={60} flexDir={"row"} alignItems={"center"} borderRadius={8} style={{ paddingHorizontal: 10, paddingVertical: 10, marginVertical: 1, marginHorizontal: 5 }}>
                                 <Skeleton h={35} w={35} borderRadius={20} marginLeft={1} />
-                                <Skeleton.Text lines={2} px="3" maxWidth={"90%"} />
+                                <Skeleton.Text lines={2} px="3" maxWidth={"85%"} />
                             </Box>
                         </Center>);
                 })}
             </Box>);
     }
     const HeaderFlatList = () => (
-        <Center flexDir={'row'} w={"95%"} alignSelf={'center'} marginTop={2}>
+        <Center flexDir={'row'} w={"95%"} alignSelf={'center'} mt={2} mb={2}>
             <Box flexGrow={1}>
                 <InputField onChangeText={(value) => setSearchValue(value)} value={searchValue} keyboardType="default" w={"100%"} size={"lg"} h={12} placeholder="Pesquisar" py="1" px="3" InputLeftElement={<Icon ml="3" size="5" color="gray.400" as={<Ionicons name="ios-search" />} />} />
             </Box>

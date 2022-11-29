@@ -72,7 +72,7 @@ export function ReadBarcode() {
                             </Box>
                             <Box w={'5%'} h={'100%'} bg={'black'} />
                         </Box>
-                        <Box w={'90%'} h={'33.3333%'} borderColor={'blue.500'} borderWidth={3} borderStyle={'dashed'} />
+                        <Box w={'90%'} h={'33.3333%'} />
                     </Center>
                 </Center>
                 <Box flex={1} w={'100%'} alignItems={'center'}>

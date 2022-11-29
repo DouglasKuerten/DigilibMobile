@@ -3,6 +3,7 @@ import React from 'react';
 import { HomeScreen } from "../screens/HomeScreen";
 import { RegBooksScreen } from "../screens/RegBooksScreen";
 import { RegUserScreen } from "../screens/RegUserScreen";
+import { ViewUsersScreen } from "../views/ViewUsersScreen";
 import { RegReservesScreen } from "../screens/RegReservesScreen";
 import { ViewBooksScreen } from "../views/ViewBooksScreen";
 import { ViewReservesScreen } from "../views/ViewReservesScreen";
@@ -23,6 +24,7 @@ export function Navigation() {
             <Drawer.Screen name="Tela Inicial" component={HomeScreen} options={{ drawerIcon: ({ color }) => <Ionicons name="home-outline" size={22} color={color} /> }} />
             <Drawer.Screen name="Cadastro de Livros" component={RegBooksScreen} options={{ drawerIcon: ({ color }) => <Ionicons name="book-outline" size={22} color={color} /> }} />
             <Drawer.Screen name="Cadastro de Usuários" component={RegUserScreen} options={{ drawerIcon: ({ color }) => <Ionicons name="people-outline" size={22} color={color} /> }} />
+            <Drawer.Screen name="Lista de Usuários" component={ViewUsersScreen} options={{ drawerIcon: ({ color }) => <Ionicons name="people-outline" size={22} color={color} /> }} />
             <Drawer.Screen name="Cadastro de Empréstimos" component={RegReservesScreen} options={{ drawerIcon: ({ color }) => <Ionicons name="cart-outline" size={22} color={color} /> }} />
             <Drawer.Screen name="Visualização de Empréstimos" component={ViewReservesScreen} options={{ drawerIcon: ({ color }) => <Ionicons name="pricetags-outline" size={22} color={color} /> }} />
             <Drawer.Screen name="Visualização de Livros" component={ViewBooksScreen} options={{ drawerIcon: ({ color }) => <Ionicons name="library-outline" size={22} color={color} /> }} />

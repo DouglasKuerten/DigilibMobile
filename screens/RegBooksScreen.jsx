@@ -152,9 +152,9 @@ export function RegBooksScreen({ navigation, isbn }) {
           </Center>
 
           <Center flex={1} flexDir={'row'} marginY={2} justifyContent={'space-around'}>
-            <ButtonContained leftIcon={<Icon as={Ionicons} name="md-camera-outline" size="md" color={'white'} mr={1} />} w={100} title={'Camera'} onPress={() => openCamera()} />
-            <ButtonContained leftIcon={<Icon as={Ionicons} name="albums-outline" size="md" color={'white'} mr={1} />} w={100} title={'Galeria'} onPress={() => showImagePicker()} />
-            <ButtonContained leftIcon={<Icon as={Ionicons} name="md-trash-outline" size="md" color={'white'} mr={1} />} w={100} title={'Remover'} onPress={() => setDataInputs({ ...dataInputs, bookImage: '' })} />
+            <ButtonContained leftIcon={<Icon as={Ionicons} name="md-camera-outline" size="md" color={'white'} mr={1} />} w={110} title={'Camera'} onPress={() => openCamera()} />
+            <ButtonContained leftIcon={<Icon as={Ionicons} name="albums-outline" size="md" color={'white'} mr={1} />} w={110} title={'Galeria'} onPress={() => showImagePicker()} />
+            <ButtonContained leftIcon={<Icon as={Ionicons} name="md-trash-outline" size="md" color={'white'} mr={1} />} w={110} title={'Remover'} onPress={() => setDataInputs({ ...dataInputs, bookImage: '' })} />
           </Center>
           {'bookImage' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.bookImage}</FormControl.ErrorMessage> : <FormControl.HelperText>(Selecione uma imagem da galeria)</FormControl.HelperText>}
 
@@ -262,12 +262,6 @@ export function RegBooksScreen({ navigation, isbn }) {
           <FormControl.Label _text={{ bold: true }}>Classificação Indicativa</FormControl.Label>
           <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, ageGroup: value })} />
           {'ageGroup' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.ageGroup}</FormControl.ErrorMessage> : null}
-        </FormControl>
-
-        <FormControl isInvalid={'bookImage' in errors} mb={2}>
-          <FormControl.Label _text={{ bold: true }}>Imagem Ilustrativa</FormControl.Label>
-          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, bookImage: value })} />
-          {'bookImage' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.bookImage}</FormControl.ErrorMessage> : null}
         </FormControl>
 
         <FormControl isRequired isInvalid={'bookSituation' in errors} mb={5}>

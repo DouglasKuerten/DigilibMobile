@@ -57,8 +57,8 @@ export function ViewBooksScreen() {
           {
             dataLoading.map((key, index) => {
               return (
-                <Row flex={1} key={key + index} maxHeight={144} marginY={1.5}>
-                  <Skeleton mr={2} marginY={1.5} w={'100'} h={'150'} borderRadius={'10'} />
+                <Row key={key + index}>
+                  <Skeleton mr={2} marginY={1} w={'100'} h={'150'} borderRadius={'10'} />
                   <Column flex={1} marginX={0.5}>
                     <Skeleton.Text marginY={2} lines={1} />
                     <Skeleton.Text marginY={2} lines={1} />
@@ -75,7 +75,7 @@ export function ViewBooksScreen() {
             })
           }
         </Column>
-      </Box>);
+      </Box >);
   };
   function LoadingBooks() {
     return (

@@ -1,16 +1,17 @@
 import React, { useState, useContext } from "react";
 import { FlatList, View, Image } from "react-native";
-import { Actionsheet, useDisclose, Box, Text, Icon, ScrollView, IconButton, Center, Pressable } from "native-base";
+import { Actionsheet, useDisclose, Box, Text, Icon, ScrollView, IconButton, Heading, Center, Pressable } from "native-base";
 import { MaterialIcons, } from "@expo/vector-icons";
 import { AuthContext } from "../navigation/AuthContext"
+import { DetailsUser } from "./DetailsUser";
 
 
 const Item = ({ name, occupation, onPress }) => (
-    <Pressable style={{ backgroundColor: "#d2d2d2", paddingHorizontal: 10, paddingVertical: 10, marginVertical: 1, marginHorizontal: 5, borderRadius: 5, alignSelf: "center", alignItems: "center", width: "95%", flexDirection: 'row', height: 60 }} onPress={onPress}>
-        <Image source={require('../assets/userProfile.png')} style={{ height: 35, width: 35, borderRadius: 15 }} />
+    <Pressable style={{ paddingHorizontal: 10, paddingVertical: 10, marginVertical: 1, marginHorizontal: 5, borderRadius: 5, alignSelf: "center", alignItems: "center", width: "100%", flexDirection: 'row', height: 60 }} onPress={onPress}>
+        <Image source={require('../assets/elon.png')} style={{ height: 50, width: 50, borderRadius: 25 }} />
         <View style={{ flex: 1, flexDirection: "column", alignItems: "flex-start" }}>
-            <Text style={{ fontSize: 18, paddingLeft: 10, textAlign: "center" }} numberOfLines={1}>{name}</Text>
-            <Text style={{ fontSize: 14, paddingLeft: 10, textAlign: "center" }} numberOfLines={1}>{occupation}</Text>
+            <Heading size={'sm'} pl={3} numberOfLines={1}>{name}</Heading>
+            <Text fontSize={12} pl={3} numberOfLines={1}>{occupation}</Text>
         </View>
     </Pressable >
 
@@ -26,7 +27,7 @@ export function ListUsers(props) {
         setdataUserModal(item);
     }
 
-    const renderItem = ({ item }) => <Item name={item.name} occupation={item.occupation === 'student' ? 'Estudante' : (item.occupation === 'teacher' ? 'Professor' : (item.occupation === "admin" ? "Administrador" : "Não Cadastrado"))} onPress={() => clickItem(item)} />;
+    const renderItem = ({ item }) => <Item name={item.name} occupation={item.acessGroup} onPress={() => clickItem(item)} />;
 
     const ButtonsManage = () => (
         <Box>
@@ -49,19 +50,10 @@ export function ListUsers(props) {
     return (
         <Box flex={1} justifyContent={"space-around"}>
             <FlatList data={props.data} renderItem={renderItem} keyExtractor={(item) => item.id} ListEmptyComponent={FlatListEmpty()} initialNumToRender={25} ListHeaderComponent={HeaderFlatList()} showsVerticalScrollIndicator={false} />
-            <Actionsheet isOpen={isOpen} onClose={onClose} /* disableOverlay */>
-                <Actionsheet.Content >
-                    <Box w="100%" h={85} px={2}>
-                        <Box style={{ flex: 1, flexDirection: 'row' }} maxH={"100%"} justifyContent={"space-around"} >
-                            <Image source={require('../assets/userProfile.png')} style={{ height: 85, width: 85 }} />
-                            <ScrollView showsVerticalScrollIndicator={false}/* w={"60%"} */>
-                                <Text style={{ fontSize: 22 }}>{dataUserModal.name}</Text>
-                                <Text style={{ fontSize: 18 }}>{dataUserModal.occupation === 'student' ? 'Estudante' : (dataUserModal.occupation === 'teacher' ? 'Professor' : (dataUserModal.occupation === "admin" ? "Administrador" : "Não Cadastrado"))}</Text>
-                                <Text>Matricula: {dataUserModal.registration}</Text>
-                                <Text>Email: {dataUserModal.email}</Text>
-                            </ScrollView>
-                            {userToken !== null ? <ButtonsManage /> : null}
-                        </Box>
+            <Actionsheet isOpen={isOpen} onClose={onClose} /* disableOverlay */ >
+                <Actionsheet.Content bgColor={'gray.700'} >
+                    <Box h={'100%'}>
+                        <DetailsUser dbValues={dataUserModal} />
                     </Box>
                 </Actionsheet.Content>
             </Actionsheet>
