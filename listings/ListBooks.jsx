@@ -14,7 +14,7 @@ const Item = ({ dbValues, onPress }) => (
             {/*  source={dbValues.bookImage !== null ? 'data:image/jpg;base64,' + Buffer.from(dbValues.bookImage.data).toString('base64') : require('../assets/noPhoto.png')} */}
             {/*    source={{ uri: dataInputs.bookImage }} fallbackSource={require('../assets/noPhoto.png') */}
             <Box flex={1} marginX={2}>
-                <Heading ellipsizeMode={'tail'} numberOfLines={1} text size={'lg'} color={'black'}>{dbValues.title}</Heading>
+                <Heading ellipsizeMode={'tail'} numberOfLines={1} text size={'lg'} _light={{ color: 'black' }} _dark={{ color: 'white' }}>{dbValues.title}</Heading>
                 <Heading size={'sm'} color={'gray.500'}>{`${dbValues.author !== null ? dbValues.author : ' '} ${dbValues.authorLastName !== null ? dbValues.authorLastName : ' '}`}</Heading>
                 <Row marginY={2}>
                     <Icon as={<AntDesign name="copy1" />} />
@@ -25,7 +25,7 @@ const Item = ({ dbValues, onPress }) => (
                 <Row>
                     {
                         dbValues.genre !== undefined && dbValues.genre !== null ?
-                            dbValues.genre.split(', ').map((gen, index) => {
+                            dbValues.genre.split(',').map((gen, index) => {
                                 return (
                                     < Center key={index} bgColor={'blue.300'} borderRadius={10} marginRight={2} paddingX={3} paddingY={2} marginY={0.5} >
                                         <Text color={'blue.600'} >{gen}</Text>

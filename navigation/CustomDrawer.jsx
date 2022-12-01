@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 
+import { Switch, useColorMode, useColorModeValue } from "native-base";
 import { Text, View, TouchableOpacity, ImageBackground, Image } from "react-native";
 import { DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -7,6 +8,8 @@ import { AuthContext } from './AuthContext';
 
 export function CustomDrawer(props) {
   const { logout } = useContext(AuthContext);
+
+  const { colorMode, toggleColorMode } = useColorMode();
   return (
     <View style={{ flex: 1 }}>
       <DrawerContentScrollView {...props} contentContainerStyle={{ backgroundColor: "#000000" }}>
@@ -24,13 +27,17 @@ export function CustomDrawer(props) {
           </View>
         </View>
       </DrawerContentScrollView >
-      <View style={{ padding: 20, borderTopWidth: 1, borderTopColor: "#ccc" }}>
+      <View style={{ padding: 20, borderTopWidth: 1, borderTopColor: "#ccc", flexDirection: "column" }}>
         <TouchableOpacity onPress={() => { logout() }} style={{ paddingVertical: 15 }}>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Ionicons name="exit-outline" size={22} />
             <Text style={{ fontSize: 15, /* fontFamily: "Roboto-Medium", */ marginLeft: 5 }}>Sair</Text>
           </View>
         </TouchableOpacity>
+        <View>
+          <Switch offTrackColor="dark.100" onTrackColor="light.200" onThumbColor="dark.500" offThumbColor="light.300" onChange={toggleColorMode} />
+
+        </View>
       </View>
     </View >
   );

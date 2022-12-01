@@ -56,7 +56,7 @@ export function ViewReservesScreen() {
   );
 
   return (
-    <Box flex={1} justifyContent={"flex-start"} w="100%" bgColor={"gray.100"} >
+    <Box flex={1} justifyContent={"flex-start"} w="100%" _light={{ bgColor: 'gray.200' }} _dark={{ bgColor: 'dark.50' }} >
       <HeaderFlatList />
       {isLoading ? <LoadingReservs /> : <ListReserves tag="Nome do Livro" data={data} />}
     </Box>
