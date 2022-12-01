@@ -99,74 +99,76 @@ export function RegUserScreen({ navigation }) {
 
 
   return (
-    <VStack marginX={3} /* maxW="300px" */>
+    <Box flex={1} _light={{ bgColor: 'gray.200' }} _dark={{ bgColor: 'dark.50' }}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <FormControl isInvalid={'bookImage' in errors} mb={4} mt={2}>
-          <Heading w={'100%'} textAlign={'center'} size={'md'} marginY={2}>Foto do Usuário</Heading>
+        <VStack marginX={3}/* maxW="300px" */>
+          <FormControl isInvalid={'bookImage' in errors} mb={4} mt={2}>
+            <Heading w={'100%'} textAlign={'center'} size={'md'} marginY={2}>Foto do Usuário</Heading>
 
-          <Center flex={1} >
-            <Center flex={1} w={300} h={300} borderRadius={150} bg={'gray.200'} shadow={1} >
-              {dataInputs.bookImage !== '' && dataInputs.bookImage !== undefined ? <Image w={300} h={300} resizeMode={'cover'} borderRadius={150} alt="Imagem Livro" source={{ uri: dataInputs.bookImage }} fallbackSource={require('../assets/noPhoto.png')} /> : <Ionicons name="person-outline" size={140} color="black" />}
+            <Center flex={1} >
+              <Center flex={1} w={300} h={300} borderRadius={150} _light={{ bgColor: 'gray.300' }} _dark={{ bgColor: 'dark.100' }} shadow={1} >
+                {dataInputs.bookImage !== '' && dataInputs.bookImage !== undefined ? <Image w={300} h={300} resizeMode={'cover'} borderRadius={150} alt="Imagem Livro" source={{ uri: dataInputs.bookImage }} fallbackSource={require('../assets/noPhoto.png')} /> : <Ionicons name="person-outline" size={140} color={"black"} />}
+              </Center>
             </Center>
-          </Center>
 
-          <Center flex={1} flexDir={'row'} marginY={2} justifyContent={'space-around'}>
-            <ButtonContained leftIcon={<Icon as={Ionicons} name="md-camera-outline" size="md" color={'white'} mr={1} />} w={110} title={'Camera'} onPress={() => openCamera()} />
-            <ButtonContained leftIcon={<Icon as={Ionicons} name="albums-outline" size="md" color={'white'} mr={1} />} w={110} title={'Galeria'} onPress={() => showImagePicker()} />
-            <ButtonContained leftIcon={<Icon as={Ionicons} name="md-trash-outline" size="md" color={'white'} mr={1} />} w={110} title={'Remover'} onPress={() => setDataInputs({ ...dataInputs, bookImage: '' })} />
-          </Center>
-          {'bookImage' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.bookImage}</FormControl.ErrorMessage> : <FormControl.HelperText>(Selecione uma imagem da galeria)</FormControl.HelperText>}
+            <Center flex={1} flexDir={'row'} marginY={2} justifyContent={'space-around'}>
+              <ButtonContained leftIcon={<Icon as={Ionicons} name="md-camera-outline" size="md" color={'white'} mr={1} />} w={110} title={'Camera'} onPress={() => openCamera()} />
+              <ButtonContained leftIcon={<Icon as={Ionicons} name="albums-outline" size="md" color={'white'} mr={1} />} w={110} title={'Galeria'} onPress={() => showImagePicker()} />
+              <ButtonContained leftIcon={<Icon as={Ionicons} name="md-trash-outline" size="md" color={'white'} mr={1} />} w={110} title={'Remover'} onPress={() => setDataInputs({ ...dataInputs, bookImage: '' })} />
+            </Center>
+            {'bookImage' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.bookImage}</FormControl.ErrorMessage> : <FormControl.HelperText>(Selecione uma imagem da galeria)</FormControl.HelperText>}
 
-        </FormControl>
+          </FormControl>
 
 
-        <FormControl isRequired isInvalid={'registration' in errors} mb={2}>
-          <FormControl.Label _text={{ bold: true }}>Matricula</FormControl.Label>
-          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, registration: value })} />
-          {'registration' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.registration}</FormControl.ErrorMessage> : null}
-        </FormControl>
+          <FormControl isRequired isInvalid={'registration' in errors} mb={2}>
+            <FormControl.Label _text={{ bold: true }}>Matricula</FormControl.Label>
+            <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, registration: value })} />
+            {'registration' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.registration}</FormControl.ErrorMessage> : null}
+          </FormControl>
 
-        <FormControl isRequired isInvalid={'name' in errors} mb={4}>
-          <FormControl.Label _text={{ bold: true }}>Nome</FormControl.Label>
-          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, name: value })} />
-          {'name' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.name}</FormControl.ErrorMessage> : null}
-        </FormControl>
+          <FormControl isRequired isInvalid={'name' in errors} mb={4}>
+            <FormControl.Label _text={{ bold: true }}>Nome</FormControl.Label>
+            <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, name: value })} />
+            {'name' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.name}</FormControl.ErrorMessage> : null}
+          </FormControl>
 
-        <FormControl isRequired isInvalid={'lastName' in errors} mb={2}>
-          <FormControl.Label _text={{ bold: true }}>Sobrenome</FormControl.Label>
-          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, lastName: value })} />
-          {'lastName' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.lastName}</FormControl.ErrorMessage> : null}
-        </FormControl>
+          <FormControl isRequired isInvalid={'lastName' in errors} mb={2}>
+            <FormControl.Label _text={{ bold: true }}>Sobrenome</FormControl.Label>
+            <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, lastName: value })} />
+            {'lastName' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.lastName}</FormControl.ErrorMessage> : null}
+          </FormControl>
 
-        <FormControl isInvalid={'email' in errors} mb={2}>
-          <FormControl.Label _text={{ bold: true }}>E-mail</FormControl.Label>
-          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, email: value })} />
-          {'email' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.email}</FormControl.ErrorMessage> : null}
-        </FormControl>
+          <FormControl isInvalid={'email' in errors} mb={2}>
+            <FormControl.Label _text={{ bold: true }}>E-mail</FormControl.Label>
+            <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, email: value })} />
+            {'email' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.email}</FormControl.ErrorMessage> : null}
+          </FormControl>
 
-        <FormControl isInvalid={'phoneNumber' in errors} mb={4}>
-          <FormControl.Label _text={{ bold: true }}>Celular</FormControl.Label>
-          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, phoneNumber: value })} />
-          {'phoneNumber' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.phoneNumber}</FormControl.ErrorMessage> : null}
-        </FormControl>
+          <FormControl isInvalid={'phoneNumber' in errors} mb={4}>
+            <FormControl.Label _text={{ bold: true }}>Celular</FormControl.Label>
+            <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, phoneNumber: value })} />
+            {'phoneNumber' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.phoneNumber}</FormControl.ErrorMessage> : null}
+          </FormControl>
 
-        <FormControl isRequired isInvalid={'acessGroup' in errors} mb={5}>
-          <FormControl.Label _text={{ bold: true }}>Tipo de Usuário</FormControl.Label>
-          <Select selectedValue={dataInputs.acessGroup} variant={'rounded'} size={'lg'} borderRadius="10" h="55px" bgColor="gray.300" shadow={1} placeholderTextColor={"gray.600"} placeholder=""
-            _selectedItem={{ bg: "grey.500", endIcon: <CheckIcon size="5" /> }} mt={1} onValueChange={value => setDataInputs({ ...dataInputs, acessGroup: value })}>
-            <Select.Item label="Admin" value="Admin" />
-            <Select.Item label="Professor" value="Professor" />
-            <Select.Item label="Aluno" value="Aluno" />
-          </Select>
-          {'acessGroup' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.acessGroup}</FormControl.ErrorMessage> : <FormControl.HelperText>(Usuários Admin/Professor tem acesso total ao APP, enquanto o aluno apenas consegue vizualizar os livros e seus empréstimos ativos)</FormControl.HelperText>}
-        </FormControl>
+          <FormControl isRequired isInvalid={'acessGroup' in errors} mb={5}>
+            <FormControl.Label _text={{ bold: true }}>Tipo de Usuário</FormControl.Label>
+            <Select selectedValue={dataInputs.acessGroup} variant={'rounded'} size={'lg'} borderRadius="10" h="55px" _light={{ bgColor: 'gray.300' }} _dark={{ bgColor: 'dark.100' }} shadow={1} placeholderTextColor={"gray.600"} placeholder=""
+              _selectedItem={{ bg: "grey.500", endIcon: <CheckIcon size="5" /> }} mt={1} onValueChange={value => setDataInputs({ ...dataInputs, acessGroup: value })}>
+              <Select.Item label="Admin" value="Admin" />
+              <Select.Item label="Professor" value="Professor" />
+              <Select.Item label="Aluno" value="Aluno" />
+            </Select>
+            {'acessGroup' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.acessGroup}</FormControl.ErrorMessage> : <FormControl.HelperText>(Usuários Admin/Professor tem acesso total ao APP, enquanto o aluno apenas consegue vizualizar os livros e seus empréstimos ativos)</FormControl.HelperText>}
+          </FormControl>
 
-        <Divider />
-        <Box w={'100%'} alignItems={'center'} mt={2} mb={4}>
-          <ButtonContained w={'30%'} title={'Cadastrar'} onPress={(registerUser)} colorScheme="cyan" />
-        </Box>
+          <Divider />
+          <Box w={'100%'} alignItems={'center'} mt={2} mb={4}>
+            <ButtonContained w={'30%'} title={'Cadastrar'} onPress={(registerUser)} colorScheme="cyan" />
+          </Box>
+
+        </VStack>
       </ScrollView>
-
-    </VStack>
+    </Box>
   );
 }
