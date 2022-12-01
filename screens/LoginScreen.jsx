@@ -31,17 +31,16 @@ export function LoginScreen({ navigation }) {
     return false;
   };
 
-  const getUsuario = async () => {
+  const getTheme = async () => {
     try {
-      const jsonValue = await AsyncStorage.getItem("@usuario");
+      const jsonValue = await AsyncStorage.getItem("Theme");
       if (jsonValue !== null) {
-        const usuarioRecuperado = JSON.parse(jsonValue);
-        return usuarioRecuperado;
+        const recivedTheme = JSON.parse(jsonValue);
+        return recivedTheme;
       }
     } catch (e) { }
     return {
-      nome: "",
-      email: "",
+      theme: "_light"
     };
   };
 
