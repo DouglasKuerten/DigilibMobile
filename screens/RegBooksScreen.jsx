@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Text, StyleSheet } from 'react-native';
 import { InputField } from "../components/InputField";
 import { ViewBooksScreen } from '../views/ViewBooksScreen';
@@ -8,33 +8,14 @@ import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { ReadBarcode } from './ReadBarcode';
 import { URL_API_BACK_END } from '@env';
-
+import { BookValueContext } from '../contexts/RegisterBookContext'
 import * as ImagePicker from 'expo-image-picker';
 
 
-export function RegBooksScreen({ navigation, isbn }) {
+export function RegBooksScreen({ navigation }) {
   const [errors, setErrors] = useState({});
-  const [dataInputs, setDataInputs] = useState({
-    /*     internalCode: '',
-        isbn: '',
-        title: '',
-        subtitle: '',
-        genre: '',
-        volume: '',
-        edition: '',
-        collection: '',
-        language: '',
-        synopsis: '',
-        originCountry: '',
-        author: '',
-        authorLastName: '',
-        publishingCompany: '',
-        publishDate: '',
-        pages: '',
-        ageGroup: '',
-        bookImage: '',
-        bookSituation: '' */
-  });
+  /* const [dataInputs, setDataInputs] = useState({}); */
+  const { dataInputs, setDataInputs } = useContext(BookValueContext);
 
   async function setBooks() {
     console.log("Exec")
@@ -45,7 +26,7 @@ export function RegBooksScreen({ navigation, isbn }) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        internalCode: dataInputs.internalCode,
+        internalCode: parseInt(dataInputs.internalCode, 10),
         isbn: dataInputs.isbn,
         title: dataInputs.title,
         subtitle: dataInputs.subtitle,
@@ -59,12 +40,13 @@ export function RegBooksScreen({ navigation, isbn }) {
         author: dataInputs.author,
         authorLastName: dataInputs.authorLastName,
         publishingCompany: dataInputs.publishingCompany,
-        publishDate: dataInputs.publishDate,
-        pages: dataInputs.pages,
-        ageGroup: dataInputs.ageGroup,
-        bookImage: dataInputs.bookImage,
+        publishDate: new Date(dataInputs.publishDate),
+        pages: parseInt(dataInputs.pages, 10),
+        ageGroup: parseInt(dataInputs.ageGroup, 10),
+        bookImage: "",
         bookSituation: dataInputs.bookSituation
       })
+      /*bookImage: dataInputs.bookImage */,
     });
     let ress = await reqs.text();
     console.log(ress)
@@ -135,10 +117,13 @@ export function RegBooksScreen({ navigation, isbn }) {
   };
 
   const registerBook = () => {
-    validate() ? setBooks() : console.log('Validation Failed');
+    if (validate()) {
+      setBooks()
+      setDataInputs({})
+    } else {
+      alert('Erro ao inserir, validação falhou');
+    }
   };
-
-
   return (
     <VStack marginX={3} /* maxW="300px" */>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -163,104 +148,104 @@ export function RegBooksScreen({ navigation, isbn }) {
 
         <FormControl isInvalid={'internalCode' in errors} mb={4}>
           <FormControl.Label _text={{ bold: true }}>Código Interno</FormControl.Label>
-          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, internalCode: value })} />
+          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, internalCode: value })} value={dataInputs.internalCode} />
           {'internalCode' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.internalCode}</FormControl.ErrorMessage> : <FormControl.HelperText>(Caso não informado será gerado um automaticamente)</FormControl.HelperText>}
         </FormControl>
 
         <FormControl isInvalid={'isbn' in errors} mb={4}>
           <FormControl.Label _text={{ bold: true }}>ISBN</FormControl.Label>
-          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, isbn: value })} InputRightElement={<Pressable onPress={() => navigation.openDrawer()/* navigation.navigate("Leitor Código Barras") */}><Icon mr={2} size={'xl'} color="gray.400" as={<Ionicons name="barcode-outline" />} /></Pressable>} />
+          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, isbn: value })} value={dataInputs.isbn} InputRightElement={<Pressable onPress={() => navigation.navigate('Leitor Código Barras')}><Icon mr={2} size={'xl'} color="gray.400" as={<Ionicons name="barcode-outline" />} /></Pressable>} />
 
           {'isbn' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.isbn}</FormControl.ErrorMessage> : <FormControl.HelperText>(Ao informar um ISBN todos os dados serão substituidos automaticamente)</FormControl.HelperText>}
         </FormControl>
 
         <FormControl isRequired isInvalid={'title' in errors} mb={2}>
           <FormControl.Label _text={{ bold: true }}>Título</FormControl.Label>
-          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, title: value })} />
+          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, title: value })} value={dataInputs.title} />
           {'title' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.title}</FormControl.ErrorMessage> : null}
         </FormControl>
 
         <FormControl isInvalid={'subtitle' in errors} mb={2}>
           <FormControl.Label _text={{ bold: true }}>Subtítulo</FormControl.Label>
-          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, subtitle: value })} />
+          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, subtitle: value })} value={dataInputs.subtitle} />
           {'subtitle' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.subtitle}</FormControl.ErrorMessage> : null}
         </FormControl>
 
         <FormControl isInvalid={'genre' in errors} mb={4}>
           <FormControl.Label _text={{ bold: true }}>Categorias</FormControl.Label>
-          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, genre: value })} />
+          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, genre: value })} value={dataInputs.genre} />
           {'genre' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.genre}</FormControl.ErrorMessage> : <FormControl.HelperText> (Informe os valores separado por virgula e espaços){ } Ex: História, Ficção, Aventura)</FormControl.HelperText>}
         </FormControl>
 
         <FormControl isInvalid={'volume' in errors} mb={2}>
           <FormControl.Label _text={{ bold: true }}>Volume</FormControl.Label>
-          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, volume: value })} />
+          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, volume: value })} value={dataInputs.volume} />
           {'volume' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.volume}</FormControl.ErrorMessage> : null}
         </FormControl>
 
         <FormControl isInvalid={'edition' in errors} mb={2}>
           <FormControl.Label _text={{ bold: true }}>Edição</FormControl.Label>
-          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, edition: value })} />
+          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, edition: value })} value={dataInputs.edition} />
           {'edition' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.edition}</FormControl.ErrorMessage> : null}
         </FormControl>
 
         <FormControl isInvalid={'collection' in errors} mb={2}>
           <FormControl.Label _text={{ bold: true }}>Coleção</FormControl.Label>
-          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, collection: value })} />
+          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, collection: value })} value={dataInputs.collection} />
           {'collection' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.collection}</FormControl.ErrorMessage> : null}
         </FormControl>
 
         <FormControl isInvalid={'language' in errors} mb={2}>
           <FormControl.Label _text={{ bold: true }}>Idioma</FormControl.Label>
-          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, language: value })} />
+          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, language: value })} value={dataInputs.language} />
           {'language' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.language}</FormControl.ErrorMessage> : null}
         </FormControl>
 
         <FormControl isInvalid={'synopsis' in errors} mb={2}>
           <FormControl.Label _text={{ bold: true }}>Sinopse</FormControl.Label>
-          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, synopsis: value })} />
+          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, synopsis: value })} value={dataInputs.synopsis} />
           {'synopsis' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.synopsis}</FormControl.ErrorMessage> : null}
         </FormControl>
 
         <FormControl isInvalid={'originCountry' in errors} mb={2}>
           <FormControl.Label _text={{ bold: true }}>País de Origem</FormControl.Label>
-          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, originCountry: value })} />
+          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, originCountry: value })} value={dataInputs.originCountry} />
           {'originCountry' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.originCountry}</FormControl.ErrorMessage> : null}
         </FormControl>
 
         <FormControl isInvalid={'author' in errors} mb={2}>
           <FormControl.Label _text={{ bold: true }}>Nome do Autor</FormControl.Label>
-          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, author: value })} />
+          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, author: value })} value={dataInputs.author} />
           {'author' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.author}</FormControl.ErrorMessage> : null}
         </FormControl>
 
         <FormControl isInvalid={'authorLastName' in errors} mb={2}>
           <FormControl.Label _text={{ bold: true }}>Sobrenome do Autor</FormControl.Label>
-          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, authorLastName: value })} />
+          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, authorLastName: value })} value={dataInputs.authorLastName} />
           {'authorLastName' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.authorLastName}</FormControl.ErrorMessage> : null}
         </FormControl>
 
         <FormControl isInvalid={'publishingCompany' in errors} mb={2}>
           <FormControl.Label _text={{ bold: true }}>Editora</FormControl.Label>
-          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, publishingCompany: value })} />
+          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, publishingCompany: value })} value={dataInputs.publishingCompany} />
           {'publishingCompany' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.publishingCompany}</FormControl.ErrorMessage> : null}
         </FormControl>
 
         <FormControl isInvalid={'publishDate' in errors} mb={2}>
           <FormControl.Label _text={{ bold: true }}>Data de Publicação</FormControl.Label>
-          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, publishDate: value })} />
+          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, publishDate: value })} value={dataInputs.publishDate} />
           {'publishDate' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.publishDate}</FormControl.ErrorMessage> : null}
         </FormControl>
 
         <FormControl isInvalid={'pages' in errors} mb={2}>
           <FormControl.Label _text={{ bold: true }}>Quantidade de Páginas</FormControl.Label>
-          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, pages: value })} />
+          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, pages: value })} value={dataInputs.pages} />
           {'pages' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.pages}</FormControl.ErrorMessage> : null}
         </FormControl>
 
         <FormControl isInvalid={'ageGroup' in errors} mb={2}>
           <FormControl.Label _text={{ bold: true }}>Classificação Indicativa</FormControl.Label>
-          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, ageGroup: value })} />
+          <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, ageGroup: value })} value={dataInputs.ageGroup} />
           {'ageGroup' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.ageGroup}</FormControl.ErrorMessage> : null}
         </FormControl>
 
