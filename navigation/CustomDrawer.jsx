@@ -31,7 +31,7 @@ export function CustomDrawer(props) {
         <TouchableOpacity onPress={() => { logout() }} style={{ paddingVertical: 15, width: '80%' }}>
           <Box style={{ flexDirection: "row", alignItems: "center" }}>
             <Ionicons name="exit-outline" size={22} color={useColorModeValue('black', 'white')} />
-            <Text fontSize={15} marginLeft={5} _light={{ color: 'black' }} _dark={{ color: 'white' }}>Sair</Text>
+            <Text fontSize={15} marginLeft={5} _light={{ color: 'dark.200' }} _dark={{ color: 'gray.200' }}>Sair</Text>
           </Box>
         </TouchableOpacity>
         <Switch offTrackColor="dark.200" onTrackColor="light.200" onThumbColor="dark.500" offThumbColor="light.300" onChange={toggleColorMode} />

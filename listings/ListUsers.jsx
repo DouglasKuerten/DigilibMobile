@@ -52,7 +52,7 @@ export function ListUsers(props) {
             <FlatList data={props.data} renderItem={renderItem} keyExtractor={(item) => item.id} ListEmptyComponent={FlatListEmpty()} initialNumToRender={25} ListHeaderComponent={HeaderFlatList()} showsVerticalScrollIndicator={false} />
             <Actionsheet isOpen={isOpen} onClose={onClose} /* disableOverlay */ >
                 <Actionsheet.Content _light={{ bgColor: 'gray.700' }} _dark={{ bgColor: 'dark.100' }} >
-                    <Box h={'100%'}>
+                    <Box h={260}>
                         <DetailsUser dbValues={dataUserModal} />
                     </Box>
                 </Actionsheet.Content>

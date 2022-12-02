@@ -20,7 +20,7 @@ export function Navigation() {
     return (
         <Drawer.Navigator
             drawerContent={(props) => <CustomDrawer {...props} />}
-            screenOptions={{ headerShown: true, headerTintColor: "#FFF", headerStyle: { backgroundColor: "#0084da" }, drawerActiveBackgroundColor: "#0084da", drawerActiveTintColor: '#FFF', drawerInactiveTintColor: useColorModeValue('black', 'white'), LabelStyle: { marginLeft: -25, fontSize: 15, color: useColorModeValue('black', 'white') } }}
+            screenOptions={{ headerShown: true, headerTintColor: "#FFF", headerStyle: { backgroundColor: "#0084da" }, drawerActiveBackgroundColor: "#0084da", drawerActiveTintColor: '#FFF', drawerInactiveTintColor: useColorModeValue('#445460', '#d7dbdd'), LabelStyle: { marginLeft: -25, fontSize: 15, color: useColorModeValue('black', 'white') } }}
             useLegacyImplementation
             initialRouteName="Login">
             <Drawer.Screen name="Tela Inicial" component={HomeScreen} options={{ drawerIcon: ({ color }) => <Ionicons name="home-outline" size={22} color={color} /> }} />

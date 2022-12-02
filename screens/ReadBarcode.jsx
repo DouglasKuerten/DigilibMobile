@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { StyleSheet, View, Dimensions } from 'react-native';
-import { Box, Row, CheckIcon, ScrollView, Text, Icon, Divider, IconButton, Center, Heading } from "native-base";
+import { Box, Row, CheckIcon, Image, Text, Icon, Divider, IconButton, Center, Heading } from "native-base";
 import { ButtonContained } from '../components/ButtonContained';
 import { BarCodeScanner } from 'expo-barcode-scanner';
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, Feather } from "@expo/vector-icons";
 import { BookValueContext } from '../contexts/RegisterBookContext'
 
 export function ReadBarcode({ navigation }) {
@@ -20,8 +20,9 @@ export function ReadBarcode({ navigation }) {
             const response = await fetch(`https://api.mercadoeditorial.org/api/v1.2/book?isbn=${isbn}`);
             const jsonRes = await response.json();
             setDataBook(jsonRes)
-            /*  console.log(jsonRes.books[0]) */
-            console.log(dataBook)
+            if (!jsonRes.status.success) {
+                setTimeout(() => { setScanned(false) }, 2000);
+            }
         } catch (error) {
             // console.error(error);
         } finally {
@@ -74,51 +75,36 @@ export function ReadBarcode({ navigation }) {
     const handleBarCodeScanned = ({ type, data }) => {
         setScanned(true);
         setCodeScan(data);
-        console.log('Type ' + type + '\nData: ' + data)
         getBookInfos(data);
-        setTimeout(() => { setScanned(false) }, 50000);
     }
 
-    if (hasPermission === null) {
-        return <Text>Permissão Pendente</Text>;
-    }
     if (hasPermission === false) {
-        return <Text>Sem Permissão</Text>;
+        return (
+            <Center flex={1} _light={{ bgColor: 'gray.100' }} _dark={{ bgColor: 'dark.50' }}>
+                <Icon color={'red.600'} as={Feather} size="200" name="alert-triangle" />
+                <Heading mt={10} textAlign={'center'} _light={{ color: 'black' }} _dark={{ color: 'white' }}>Sem Permissão para acessar a câmera</Heading>
+            </Center >
+        );
     }
 
     return (
-        <BarCodeScanner onBarCodeScanned={scanned ? undefined : handleBarCodeScanned} style={[StyleSheet.absoluteFillObject, styles.container]}>
+        <Center flex={1} maxH={'100%'} bg={'#202124'}>
             <Heading size={'xs'} textAlign={'center'} marginX={4} marginY={6} color={'white'}>Aponte a camera para código ISBN do livro para trazer todos os campos preenchidos automaticamente</Heading>
-            <Center flex={1}>
-                <Center flex={2} w={'100%'}>
-                    <Center flex={1} w={'100%'}>
-                        <Box w={'100%'} h={'100%'} position={'absolute'} bg={'black'} opacity={0.4} />
-                        <Heading size={'xl'} color={'white'} textAlign={'center'} marginY={5}>{'ISBN'}</Heading>
-                    </Center>
-                    <Center flex={2} w={'100%'} alignItems={'center'}>
-                        <Box w={'100%'} h={'100%'} position={'absolute'} flexDir={'row'} opacity={0.4}>
-                            <Box w={'5%'} h={'100%'} bg={'black'} />
-                            <Box w={'90%'} h={'100%'} flexDir={'column'}>
-                                <Box w={'100%'} h={'33.3333%'} bg={'black'} />
-                                <Box w={'100%'} h={'33.3333%'} />
-                                <Box w={'100%'} h={'33.3333%'} bg={'black'} />
-                            </Box>
-                            <Box w={'5%'} h={'100%'} bg={'black'} />
-                        </Box>
-                        <Box w={'90%'} h={'33.3333%'} />
-                    </Center>
+            <BarCodeScanner onBarCodeScanned={scanned ? undefined : handleBarCodeScanned} style={styles.container} >
+                <Center flex={1} justifyContent={'space-between'}>
+                    <Heading w={'100%'} h={'10%'} size={'xl'} color={'white'} textAlign={'center'} marginY={1}>{'ISBN'}</Heading>
+                    <Image resizeMode='center' source={require("../assets/isbnFrameLeitor.png")} alt={' '} />
+                    <Box flex={1} w={'100%'} alignItems={'center'} justifyContent={'flex-end'} mb={5}>
+                        <Heading size={'xl'} color={'white'} textAlign={'center'} ellipsizeMode={'tail'} mt={5}>{codeScan + '\n' + (dataBook.status !== undefined ? (dataBook.status.success ? dataBook.books[0].titulo : 'Livro não encontrado') : '')}</Heading>
+                        <Text color={'white'}>{dataBook.status !== undefined ? dataBook.status.success ? '' : '(Cadastre o livro manualmente)' : ''}</Text>
+                        <Row w={'100%'} mb={4} justifyContent={'space-around'}>
+                            <IconButton mt={5} icon={<Icon as={MaterialCommunityIcons} size="9" name="check" />} _icon={{ color: "white", size: "md" }} bg={"green.400"} w={55} h={55} borderRadius={30} onPress={() => setValuesInputs()} />
+                            <IconButton mt={5} icon={<Icon as={MaterialCommunityIcons} size="9" name="window-close" />} _icon={{ color: "white", size: "md" }} bg={"red.500"} w={55} h={55} borderRadius={30} onPress={() => navigation.goBack()} />
+                        </Row>
+                    </Box>
                 </Center>
-                <Box flex={1} w={'100%'} alignItems={'center'}>
-                    <Box w={'100%'} h={'100%'} position={'absolute'} bg={'black'} opacity={0.4} />
-                    <Heading size={'xl'} color={'white'} textAlign={'center'} ellipsizeMode={'tail'} mt={5}>{codeScan + '\n' + (dataBook.status !== undefined ? (dataBook.status.success ? dataBook.books[0].titulo : 'Livro não encontrado') : '')}</Heading>
-                    <Text color={'white'}>{dataBook.status !== undefined ? dataBook.status.success ? '' : '(Cadastre o livro manualmente)' : ''}</Text>
-                    <Row w={'100%'} mb={4} justifyContent={'space-around'}>
-                        <IconButton mt={5} icon={<Icon as={MaterialCommunityIcons} size="9" name="check" />} _icon={{ color: "white", size: "md" }} bg={"green.400"} w={55} h={55} borderRadius={30} onPress={() => setValuesInputs()} />
-                        <IconButton mt={5} icon={<Icon as={MaterialCommunityIcons} size="9" name="window-close" />} _icon={{ color: "white", size: "md" }} bg={"red.500"} w={55} h={55} borderRadius={30} onPress={() => navigation.goBack()} />
-                    </Row>
-                </Box>
-            </Center>
-        </BarCodeScanner >
+            </BarCodeScanner >
+        </Center >
     );
 }
 
@@ -126,8 +112,5 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#202124',
-        position: 'absolute',
-        height: '109%',
-        width: '100%',
     }
 });
