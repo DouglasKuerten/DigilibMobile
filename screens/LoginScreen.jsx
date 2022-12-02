@@ -45,7 +45,7 @@ export function LoginScreen({ navigation }) {
   };
 
   return (
-    <Center flex={1} _light={{ bgColor: 'gray.200' }} _dark={{ bgColor: 'dark.50' }}>
+    <Center flex={1} _light={{ bgColor: 'gray.100' }} _dark={{ bgColor: 'dark.50' }}>
       {colorMode == 'dark' ? <Image style={{ width: "90%", height: "60%" }} source={require("../assets/logofontebranca.png")} /> : <Image style={{ width: "90%", height: "60%" }} source={require("../assets/logofontepreta.png")} />}
 
 

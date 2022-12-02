@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Text, StyleSheet } from 'react-native';
 import { InputField } from "../components/InputField";
-import { Box, Select, CheckIcon, ScrollView, VStack, FormControl, Divider, WarningOutlineIcon, Icon, Pressable, Center, Image, Row, Heading, Button } from "native-base";
+import { Box, Select, CheckIcon, ScrollView, VStack, FormControl, Divider, WarningOutlineIcon, Icon, Pressable, Center, Image, Row, Heading, Button, useColorModeValue } from "native-base";
 import { ButtonContained } from '../components/ButtonContained';
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -87,7 +87,7 @@ export function RegReservesScreen({ navigation }) {
   };
 
   return (
-    <Box flex={1} _light={{ bgColor: 'gray.200' }} _dark={{ bgColor: 'dark.50' }}>
+    <Box flex={1} _light={{ bgColor: 'gray.100' }} _dark={{ bgColor: 'dark.50' }}>
       <VStack marginX={3} /* maxW="300px" */>
         <Box>
           {show && (
@@ -115,13 +115,13 @@ export function RegReservesScreen({ navigation }) {
 
           <FormControl isRequired isInvalid={'reserveDate' in errors} mb={2}>
             <FormControl.Label _text={{ bold: true }}>Data da Reserva</FormControl.Label>
-            <Button leftIcon={<Icon as={Ionicons} name="calendar-outline" size="md" color={'black'} mr={1} />}  variant={'solid'} h={'55px'} borderRadius="10" _light={{ bgColor: 'gray.300', _text:{ textTransform: 'uppercase', color: 'black', fontSize: 'md' }}} _dark={{ bgColor: 'dark.100', _text:{ textTransform: 'uppercase', color: 'white', fontSize: 'md' }}} onPress={showDatepicker}>{moment(dataInputs.reserveDate).locale('pt-BR').format('LLLL')}</Button>
+            <Button leftIcon={<Icon as={Ionicons} name="calendar-outline" size="md" color={'gray.400'} mr={1} />} variant={'solid'} h={'55px'} borderRadius="10" _light={{ bgColor: 'gray.300', _text: { textTransform: 'uppercase', color: 'black', fontSize: 'md' } }} _dark={{ bgColor: 'dark.100', _text: { textTransform: 'uppercase', color: 'white', fontSize: 'md' } }} onPress={() => showDatepicker}>{moment(dataInputs.reserveDate).locale('pt-BR').format('LLL')}</Button>
             {'reserveDate' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.reserveDate}</FormControl.ErrorMessage> : null}
           </FormControl>
 
           <FormControl isInvalid={'returnDate' in errors} mb={2}>
             <FormControl.Label _text={{ bold: true }}>Data prevista de Retorno</FormControl.Label>
-            <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, returnDate: value })} />
+            <Button leftIcon={<Icon as={Ionicons} name="calendar-outline" size="md" color={'gray.400'} mr={1} />} variant={'solid'} h={'55px'} borderRadius="10" _light={{ bgColor: 'gray.300', _text: { textTransform: 'uppercase', color: 'black', fontSize: 'md' } }} _dark={{ bgColor: 'dark.100', _text: { textTransform: 'uppercase', color: 'white', fontSize: 'md' } }} onPress={() => showDatepicker}>{moment(dataInputs.returnDate).locale('pt-BR').format('LLL')}</Button>
             {'returnDate' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.returnDate}</FormControl.ErrorMessage> : null}
           </FormControl>
 

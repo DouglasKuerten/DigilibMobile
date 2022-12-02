@@ -122,7 +122,7 @@ export function ListBooks(props/* , { navigation } */) {
             <AllBooks />
 
             <Actionsheet isOpen={isOpen} onClose={onClose} /* disableOverlay */ >
-                <Actionsheet.Content bgColor={'gray.700'} >
+                <Actionsheet.Content _light={{ bgColor: 'gray.300' }} _dark={{ bgColor: 'dark.100' }} >
                     <Box h={'100%'}>
                         <DetailsBook dbValues={dataBookModal} />
                     </Box>

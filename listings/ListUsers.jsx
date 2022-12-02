@@ -48,10 +48,10 @@ export function ListUsers(props) {
     );
 
     return (
-        <Box flex={1} justifyContent={"space-around"} _light={{ bgColor: 'gray.200' }} _dark={{ bgColor: 'dark.50' }}>
+        <Box flex={1} justifyContent={"space-around"} _light={{ bgColor: 'gray.100' }} _dark={{ bgColor: 'dark.50' }}>
             <FlatList data={props.data} renderItem={renderItem} keyExtractor={(item) => item.id} ListEmptyComponent={FlatListEmpty()} initialNumToRender={25} ListHeaderComponent={HeaderFlatList()} showsVerticalScrollIndicator={false} />
             <Actionsheet isOpen={isOpen} onClose={onClose} /* disableOverlay */ >
-                <Actionsheet.Content  _light={{ bgColor: 'gray.700' }} _dark={{ bgColor: 'dark.100' }} >
+                <Actionsheet.Content _light={{ bgColor: 'gray.700' }} _dark={{ bgColor: 'dark.100' }} >
                     <Box h={'100%'}>
                         <DetailsUser dbValues={dataUserModal} />
                     </Box>

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 
-import { Switch, useColorMode, useColorModeValue } from "native-base";
-import { Text, View, TouchableOpacity, ImageBackground, Image } from "react-native";
+import { Text, Box, Switch, useColorMode, useColorModeValue } from "native-base";
+import { TouchableOpacity, ImageBackground, Image } from "react-native";
 import { DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { AuthContext } from './AuthContext';
@@ -11,34 +11,31 @@ export function CustomDrawer(props) {
 
   const { colorMode, toggleColorMode } = useColorMode();
   return (
-    <View style={{ flex: 1 }}>
+    <Box flex={1} _light={{ bgColor: 'white' }} _dark={{ bgColor: 'dark.100' }}>
       <DrawerContentScrollView {...props} contentContainerStyle={{ backgroundColor: "#000000" }}>
-        <View Style={{ flex: 1, backgroundColor: "#fff", paddingTop: 10, marging: 20 }}>
+        <Box flex={1} >
           <ImageBackground source={require('../assets/background-drawer.png')} style={{ padding: 40, alignItems: 'center', }}>
             <Image source={require('../assets/userProfile.png')} style={{ height: 80, width: 80, borderRadius: 40, marginBottom: 10 }} />
-            <Text style={{ color: '#fff', fontSize: 22/* , fontFamily: 'Roboto-Medium' */ }}>John Fiver</Text>
-            <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 4 }}>
+            <Text fontSize={22} color={'white'}>John Fiver</Text>
+            <Box style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 4 }}>
               <Ionicons name="laptop-outline" size={13} color="#fff"></Ionicons>
               <Text style={{ color: '#fff', fontSize: 13, paddingStart: 5/* , fontFamily: 'Roboto-Medium' */ }}>Administrador</Text>
-            </View>
+            </Box>
           </ImageBackground>
-          <View style={{ flex: 1, backgroundColor: '#fff', paddingTop: 5 }}>
+          <Box flex={1} _light={{ bgColor: 'white' }} _dark={{ bgColor: 'dark.100' }} pt={5} >
             <DrawerItemList {...props} />
-          </View>
-        </View>
+          </Box>
+        </Box>
       </DrawerContentScrollView >
-      <View style={{ padding: 20, borderTopWidth: 1, borderTopColor: "#ccc", flexDirection: "column" }}>
-        <TouchableOpacity onPress={() => { logout() }} style={{ paddingVertical: 15 }}>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Ionicons name="exit-outline" size={22} />
-            <Text style={{ fontSize: 15, /* fontFamily: "Roboto-Medium", */ marginLeft: 5 }}>Sair</Text>
-          </View>
+      <Box p={2} borderTopWidth={1} borderTopColor={'#CCC'} flexDirection={'row'} >
+        <TouchableOpacity onPress={() => { logout() }} style={{ paddingVertical: 15, width: '80%' }}>
+          <Box style={{ flexDirection: "row", alignItems: "center" }}>
+            <Ionicons name="exit-outline" size={22} color={useColorModeValue('black', 'white')} />
+            <Text fontSize={15} marginLeft={5} _light={{ color: 'black' }} _dark={{ color: 'white' }}>Sair</Text>
+          </Box>
         </TouchableOpacity>
-        <View>
-          <Switch offTrackColor="dark.100" onTrackColor="light.200" onThumbColor="dark.500" offThumbColor="light.300" onChange={toggleColorMode} />
-
-        </View>
-      </View>
-    </View >
+        <Switch offTrackColor="dark.200" onTrackColor="light.200" onThumbColor="dark.500" offThumbColor="light.300" onChange={toggleColorMode} />
+      </Box>
+    </Box >
   );
 }

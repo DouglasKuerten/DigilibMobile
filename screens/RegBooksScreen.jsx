@@ -2,9 +2,9 @@ import React, { useEffect, useState, useContext } from 'react';
 import { Text, StyleSheet } from 'react-native';
 import { InputField } from "../components/InputField";
 import { ViewBooksScreen } from '../views/ViewBooksScreen';
-import { Box, Select, CheckIcon, ScrollView, VStack, FormControl, Divider, WarningOutlineIcon, Icon, Pressable, Center, Image, Row, Heading } from "native-base";
+import { Box, Select, CheckIcon, ScrollView, VStack, FormControl, Divider, WarningOutlineIcon, Icon, Pressable, Center, Image, Row, Heading, useColorModeValue } from "native-base";
 import { ButtonContained } from '../components/ButtonContained';
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { ReadBarcode } from './ReadBarcode';
 import { URL_API_BACK_END } from '@env';
@@ -125,15 +125,14 @@ export function RegBooksScreen({ navigation }) {
     }
   };
   return (
-    <Box flex={1} _light={{ bgColor: 'gray.200' }} _dark={{ bgColor: 'dark.50' }}>
+    <Box flex={1} _light={{ bgColor: 'gray.100' }} _dark={{ bgColor: 'dark.50' }}>
       <VStack marginX={3} /* maxW="300px" */>
         <ScrollView showsVerticalScrollIndicator={false}>
           <FormControl isInvalid={'bookImage' in errors} mb={4} mt={2}>
-            <Heading w={'100%'} textAlign={'center'} size={'md'} marginY={2}>Imagem Ilustrativa</Heading>
 
             <Center flex={1} >
-              <Center flex={1} w={180} h={300} borderRadius={10} _light={{ bgColor: 'gray.200' }} _dark={{ bgColor: 'dark.100' }} shadow={1} >
-                {dataInputs.bookImage !== '' && dataInputs.bookImage !== undefined ? <Image w={180} h={300} resizeMode={'cover'} borderRadius={10} alt="Imagem Livro" source={{ uri: dataInputs.bookImage }} fallbackSource={require('../assets/noPhoto.png')} /> : <Ionicons name="cloud-upload-outline" size={100} color="black" />}
+              <Center flex={1} w={155} h={225} borderRadius={10} _light={{ bgColor: 'gray.200' }} _dark={{ bgColor: 'dark.100' }} shadow={1} >
+                {dataInputs.bookImage !== '' && dataInputs.bookImage !== undefined ? <Image w={180} h={300} resizeMode={'cover'} borderRadius={10} alt="Imagem Livro" source={{ uri: dataInputs.bookImage }} fallbackSource={require('../assets/noPhoto.png')} /> : <FontAwesome name="book" size={100} color={useColorModeValue('black', 'gray')} />}
               </Center>
             </Center>
 

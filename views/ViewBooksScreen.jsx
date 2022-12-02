@@ -94,7 +94,7 @@ export function ViewBooksScreen() {
   );
 
   return (
-    <Box flex={1} justifyContent={"flex-start"} w="100%" _light={{ bgColor: 'gray.200' }} _dark={{ bgColor: 'dark.50' }} >
+    <Box flex={1} justifyContent={"flex-start"} w="100%" _light={{ bgColor: 'gray.100' }} _dark={{ bgColor: 'dark.50' }} >
       <SearchInput />
       {isLoading ? <LoadingBooks /> : <ListBooks tag="Nome do Livro" data={data} />}
     </Box>

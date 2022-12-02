@@ -37,7 +37,7 @@ export function ViewUsersScreen() {
             <Box>
                 {dataLoading.map((key, index) => {
                     return (
-                        <Center key={key + index}>
+                        <Center key={key + index} >
                             <Box w={"100%"} h={60} flexDir={"row"} alignItems={"center"} borderRadius={8} style={{ paddingHorizontal: 10, paddingVertical: 10, marginVertical: 1, marginHorizontal: 5 }}>
                                 <Skeleton h={35} w={35} borderRadius={20} marginLeft={1} />
                                 <Skeleton.Text lines={2} px="3" maxWidth={"85%"} />
@@ -56,7 +56,7 @@ export function ViewUsersScreen() {
     );
 
     return (
-        <Box flex={1} justifyContent={"flex-start"} w="100%" _light={{ bgColor: 'gray.200' }} _dark={{ bgColor: 'dark.50' }} >
+        <Box flex={1} justifyContent={"flex-start"} w="100%" _light={{ bgColor: 'gray.100' }} _dark={{ bgColor: 'dark.50' }} >
             <HeaderFlatList />
             {isLoading ? <LoadingUsers /> : <ListUsers tag="Nome do Livro" data={data} />}
         </Box>

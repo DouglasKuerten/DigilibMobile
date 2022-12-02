@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Text, StyleSheet } from 'react-native';
 import { InputField } from "../components/InputField";
-import { Box, Select, CheckIcon, ScrollView, VStack, FormControl, Divider, WarningOutlineIcon, Icon, Pressable, Center, Image, Row, Heading } from "native-base";
+import { Box, Select, CheckIcon, ScrollView, VStack, FormControl, Divider, WarningOutlineIcon, Icon, Pressable, Center, Image, Row, Heading, useColorModeValue } from "native-base";
 import { ButtonContained } from '../components/ButtonContained';
 import { Ionicons } from "@expo/vector-icons";
 import { URL_API_BACK_END } from '@env';
@@ -99,15 +99,14 @@ export function RegUserScreen({ navigation }) {
 
 
   return (
-    <Box flex={1} _light={{ bgColor: 'gray.200' }} _dark={{ bgColor: 'dark.50' }}>
+    <Box flex={1} _light={{ bgColor: 'gray.100' }} _dark={{ bgColor: 'dark.50' }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <VStack marginX={3}/* maxW="300px" */>
           <FormControl isInvalid={'bookImage' in errors} mb={4} mt={2}>
-            <Heading w={'100%'} textAlign={'center'} size={'md'} marginY={2}>Foto do Usuário</Heading>
 
             <Center flex={1} >
               <Center flex={1} w={300} h={300} borderRadius={150} _light={{ bgColor: 'gray.300' }} _dark={{ bgColor: 'dark.100' }} shadow={1} >
-                {dataInputs.bookImage !== '' && dataInputs.bookImage !== undefined ? <Image w={300} h={300} resizeMode={'cover'} borderRadius={150} alt="Imagem Livro" source={{ uri: dataInputs.bookImage }} fallbackSource={require('../assets/noPhoto.png')} /> : <Ionicons name="person-outline" size={140} color={"black"} />}
+                {dataInputs.bookImage !== '' && dataInputs.bookImage !== undefined ? <Image w={300} h={300} resizeMode={'cover'} borderRadius={150} alt="Imagem Livro" source={{ uri: dataInputs.bookImage }} fallbackSource={require('../assets/noPhoto.png')} /> : <Ionicons name="person-outline" size={140} color={useColorModeValue('black', 'gray')} />}
               </Center>
             </Center>
 
