@@ -5,11 +5,38 @@ import { TouchableOpacity, ImageBackground, Image } from "react-native";
 import { DrawerContentScrollView, DrawerItemList } from "@react-navigation/drawer";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { AuthContext } from './AuthContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const setColorMode = async (value) => {
+  try {
+    await AsyncStorage.setItem('@colorMode', value)
+  } catch (e) {
+
+  }
+}
+const getColorMode = async () => {
+  try {
+    const value = await AsyncStorage.getItem('@colorMode')
+    if (value !== null) {
+      console.log(value)
+      return value;
+    }
+  } catch (e) {
+
+  }
+}
+
 
 export function CustomDrawer(props) {
   const { logout } = useContext(AuthContext);
-
   const { colorMode, toggleColorMode } = useColorMode();
+
+  async function toggleColorModeAndSave() {
+    toggleColorMode();
+    /*     await setColorMode(colorMode);
+        console.log(await getColorMode()) */
+  }
+
   return (
     <Box flex={1} _light={{ bgColor: 'white' }} _dark={{ bgColor: 'dark.100' }}>
       <DrawerContentScrollView {...props} contentContainerStyle={{ backgroundColor: "#000000" }}>
@@ -34,7 +61,7 @@ export function CustomDrawer(props) {
             <Text fontSize={15} marginLeft={5} _light={{ color: 'dark.200' }} _dark={{ color: 'gray.200' }}>Sair</Text>
           </Box>
         </TouchableOpacity>
-        <Switch offTrackColor="dark.200" onTrackColor="light.200" onThumbColor="dark.500" offThumbColor="light.300" onChange={toggleColorMode} />
+        <Switch offTrackColor="dark.200" onTrackColor="light.200" onThumbColor="dark.500" offThumbColor="light.300" onChange={toggleColorModeAndSave} />
       </Box>
     </Box >
   );

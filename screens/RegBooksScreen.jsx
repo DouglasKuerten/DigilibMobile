@@ -1,25 +1,23 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { Text, StyleSheet } from 'react-native';
+import React, { useState, useContext } from 'react';
+import { Text } from 'react-native';
 import { InputField } from "../components/InputField";
-import { ViewBooksScreen } from '../views/ViewBooksScreen';
-import { Box, Select, CheckIcon, ScrollView, VStack, FormControl, Divider, WarningOutlineIcon, Icon, Pressable, Center, Image, Row, Heading, useColorModeValue } from "native-base";
+import { Box, Select, CheckIcon, ScrollView, VStack, FormControl, Divider, WarningOutlineIcon, Icon, Pressable, Center, Image, useColorModeValue, useToast, Hidden } from "native-base";
 import { ButtonContained } from '../components/ButtonContained';
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-import { ReadBarcode } from './ReadBarcode';
 import { URL_API_BACK_END } from '@env';
 import { BookValueContext } from '../contexts/RegisterBookContext'
 import * as ImagePicker from 'expo-image-picker';
+import { ToastAlert } from '../components/ToastAlert';
 
 
 export function RegBooksScreen({ navigation }) {
   const [errors, setErrors] = useState({});
-  /* const [dataInputs, setDataInputs] = useState({}); */
+  const toast = useToast();
+  const toastIdRef = React.useRef();
   const { dataInputs, setDataInputs } = useContext(BookValueContext);
 
   async function setBooks() {
-    console.log("Exec")
-    let reqs = await fetch(URL_API_BACK_END + 'books', {
+    await fetch(URL_API_BACK_END + 'books', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -47,14 +45,29 @@ export function RegBooksScreen({ navigation }) {
         bookSituation: dataInputs.bookSituation
       })
       /*bookImage: dataInputs.bookImage */,
-    });
-    let ress = await reqs.text();
-    console.log(ress)
+    }).then(() => {
+      const idAtivo = toastIdRef !== undefined ? toastIdRef.current : null;
+      if (!toast.isActive(idAtivo)) {
+        toastIdRef.current = toast.show({
+          render: ({ id }) => {
+            return <ToastAlert id={id} title={"Sucesso"} status={'success'} description={"Livro cadastrado com sucesso!"} varToast={toast} />
+          }
+        });
+      };
+    }).catch(console.log('Erro ao inserir'));
+
   }
   const showImagePicker = async () => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (permissionResult.granted === false) {
-      alert('Você se recusou a permitir que este aplicativo acesse suas fotos!');
+    if (permissionResult.granted !== false) {
+      const idAtivo = toastIdRef !== undefined ? toastIdRef.current : null;
+      if (!toast.isActive(idAtivo)) {
+        toastIdRef.current = toast.show({
+          render: ({ id }) => {
+            return <ToastAlert id={id} title={"Acesso Negado"} status={'error'} description={"Você recusou que este aplicativo acesse suas fotos!"} varToast={toast} />
+          }
+        });
+      }
       return;
     }
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -70,8 +83,15 @@ export function RegBooksScreen({ navigation }) {
 
   const openCamera = async () => {
     const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
-    if (permissionResult.granted === false) {
-      alert('Você se recusou a permitir que este aplicativo acesse sua câmera!');
+    if (permissionResult.granted !== false) {
+      const idAtivo = toastIdRef !== undefined ? toastIdRef.current : null;
+      if (!toast.isActive(idAtivo)) {
+        toastIdRef.current = toast.show({
+          render: ({ id }) => {
+            return <ToastAlert id={id} title={"Acesso Negado"} status={'error'} description={"Você recusou que este aplicativo use sua câmera!"} varToast={toast} />
+          }
+        });
+      }
       return;
     }
     const result = await ImagePicker.launchCameraAsync({ allowsEditing: true, });
@@ -83,45 +103,67 @@ export function RegBooksScreen({ navigation }) {
 
 
   const validate = () => {
-    if (dataInputs.internalCode !== undefined) {
+    Object.keys(errors).forEach(key => {
+      delete errors[key];
+    })
+    if (dataInputs.internalCode !== null) {
       if (!Number.isInteger(Number(dataInputs.internalCode))) {
-        setErrors({ ...errors, internalCode: 'Somente números são aceitos no código interno' });
-        return false;
+        setErrors(Object.assign(errors, { internalCode: 'Somente números são aceitos no código interno' }));
       } else if (dataInputs.internalCode.length > 11) {
-        setErrors({ ...errors, internalCode: 'O código interno informado é muito grande (Máx. 11)' });
-        return false;
+        setErrors(Object.assign(errors, { internalCode: 'O código interno informado é muito grande (Máx. 11)' }));
       }
     }
-
-    if (dataInputs.title == undefined) {
-      setErrors({ ...errors, title: 'O título é obrigatório' });
-      return false;
+    if (dataInputs.title == null) {
+      setErrors(Object.assign(errors, { title: 'O título é obrigatório' }));
     }
 
-    if (dataInputs.pages !== undefined) {
+    if (dataInputs.pages !== null) {
       if (!Number.isInteger(Number(dataInputs.pages))) {
-        setErrors({ ...errors, pages: 'Somente números são aceitos na quantidade de páginas' });
-        return false;
+        setErrors(Object.assign(errors, { pages: 'Somente números são aceitos na quantidade de páginas' }));
       }
     }
 
-    if (dataInputs.ageGroup !== undefined) {
+    if (dataInputs.ageGroup !== null) {
       if (!Number.isInteger(Number(dataInputs.ageGroup))) {
-        setErrors({ ...errors, ageGroup: 'Somente números são aceitos na classificação indicativa' });
-        return false;
+        setErrors(Object.assign(errors, { ageGroup: 'Somente números são aceitos na classificação indicativa' }));
       }
     }
-
-    setErrors({});
-    return true;
+    return Object.values(errors).length == 0 ? true : false;
   };
 
   const registerBook = () => {
     if (validate()) {
-      setBooks()
-      setDataInputs({})
+      setBooks();
+      setDataInputs({
+        internalCode: null,
+        isbn: null,
+        title: null,
+        subtitle: null,
+        genre: null,
+        volume: null,
+        edition: null,
+        collection: null,
+        language: null,
+        synopsis: null,
+        originCountry: null,
+        author: null,
+        authorLastName: null,
+        publishingCompany: null,
+        publishDate: null,
+        pages: null,
+        ageGroup: null,
+        bookImage: null,
+        bookSituation: 'Livre'
+      });
     } else {
-      alert('Erro ao inserir, validação falhou');
+      const idAtivo = toastIdRef !== undefined ? toastIdRef.current : null;
+      if (!toast.isActive(idAtivo)) {
+        toastIdRef.current = toast.show({
+          render: ({ id }) => {
+            return <ToastAlert id={id} title={"Erro ao cadastrar"} status={'error'} description={"A validação de um ou mais campos falhou, revise todas as informações e tente novamente!"} varToast={toast} />
+          }
+        });
+      }
     }
   };
   return (
@@ -132,7 +174,7 @@ export function RegBooksScreen({ navigation }) {
 
             <Center flex={1} >
               <Center flex={1} w={155} h={225} borderRadius={10} _light={{ bgColor: 'gray.200' }} _dark={{ bgColor: 'dark.100' }} shadow={1} >
-                {dataInputs.bookImage !== '' && dataInputs.bookImage !== undefined ? <Image w={180} h={300} resizeMode={'cover'} borderRadius={10} alt="Imagem Livro" source={{ uri: dataInputs.bookImage }} fallbackSource={require('../assets/noPhoto.png')} /> : <FontAwesome name="book" size={100} color={useColorModeValue('black', 'gray')} />}
+                {dataInputs.bookImage !== null && dataInputs.bookImage !== undefined ? <Image w={180} h={300} resizeMode={'cover'} borderRadius={10} alt="Imagem Livro" source={{ uri: dataInputs.bookImage }} fallbackSource={require('../assets/noPhoto.png')} /> : <FontAwesome name="book" size={100} color={useColorModeValue('black', 'gray')} />}
               </Center>
             </Center>
 
@@ -252,7 +294,7 @@ export function RegBooksScreen({ navigation }) {
           <FormControl isRequired isInvalid={'bookSituation' in errors} mb={5}>
             <FormControl.Label _text={{ bold: true }}>Disponibilidade</FormControl.Label>
             <Select selectedValue={dataInputs.bookSituation} variant={'rounded'} size={'lg'} borderRadius="10" h="55px" _light={{ bgColor: 'gray.300' }} _dark={{ bgColor: 'dark.100' }} shadow={1} placeholderTextColor={"gray.600"} placeholder=""
-              _selectedItem={{ bg: "grey.500", endIcon: <CheckIcon size="5" /> }} mt={1} onValueChange={value => setDataInputs({ ...dataInputs, bookSituation: value })}>
+              _selectedItem={{ bg: "grey.500", endIcon: <CheckIcon size="5" /> }} mt={1} onValueChange={value => setDataInputs({ ...dataInputs, bookSituation: value })} value={dataInputs.bookSituation}>
               <Select.Item label="Livre" value="Livre" />
               <Select.Item label="Emprestado" value="Emprestado" />
               <Select.Item label="Perdido" value="Perdido" />

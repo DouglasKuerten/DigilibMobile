@@ -2,14 +2,33 @@ import * as React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { AuthProvider } from './navigation/AuthContext'
 import { NavigationAuth } from './navigation/NavigationAuth';
-import { NativeBaseProvider } from "native-base";
+import { NativeBaseProvider, useColorMode } from "native-base";
 import { RegBooksScreen } from "./screens/RegBooksScreen";
 import { ReadBarcode } from "./screens/ReadBarcode";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-/* import { NavigationContainer } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Stack = createNativeStackNavigator(); */
+const getColorModeCache = async () => {
+  try {
+    const value = await AsyncStorage.getItem('@colorMode')
+    if (value !== null) {
+      return JSON.parse(value);
+    }
+  } catch (e) {
+    console.log('Erro');
+    return 'light'
+  }
+}
+
 export default function App() {
+  const { colorMode, toggleColorMode } = useColorMode();
+
+  async function getColorThemeAndSet() {
+    const theme = await getColorModeCache();
+    console.log('Executou: ' + theme)
+
+  }
+
   return (
     <NativeBaseProvider>
       <AuthProvider>
@@ -22,12 +41,6 @@ export default function App() {
         />
         <NavigationAuth />
       </AuthProvider>
-      {/*       <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Cadastro de Livros" component={RegBooksScreen} />
-          <Stack.Screen name="Leitor Código Barras" component={ReadBarcode} />
-        </Stack.Navigator>
-      </NavigationContainer> */}
     </NativeBaseProvider>
   );
 }
