@@ -125,12 +125,6 @@ export function RegReservesScreen({ navigation }) {
             {'returnDate' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.returnDate}</FormControl.ErrorMessage> : null}
           </FormControl>
 
-          <FormControl isInvalid={'reserveStatus' in errors} mb={4}>
-            <FormControl.Label _text={{ bold: true }}>Status da Reserva</FormControl.Label>
-            <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, reserveStatus: value })} />
-            {'reserveStatus' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.reserveStatus}</FormControl.ErrorMessage> : null}
-          </FormControl>
-
           <FormControl isRequired isInvalid={'reserveStatus' in errors} mb={5}>
             <FormControl.Label _text={{ bold: true }}>Status da Reserva</FormControl.Label>
             <Select selectedValue={dataInputs.reserveStatus} variant={'rounded'} size={'lg'} borderRadius="10" h="55px" _light={{ bgColor: 'gray.300' }} _dark={{ bgColor: 'dark.100' }} shadow={1} placeholderTextColor={"gray.600"} placeholder=""
@@ -139,7 +133,7 @@ export function RegReservesScreen({ navigation }) {
               <Select.Item label='Cancelada' value='Cancelada' />
               <Select.Item label='Concluida' value='Concluida' />
             </Select>
-            {'acessGroup' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.acessGroup}</FormControl.ErrorMessage> : <FormControl.HelperText>(Usuários Admin/Professor tem acesso total ao APP, enquanto o aluno apenas consegue vizualizar os livros e seus empréstimos ativos)</FormControl.HelperText>}
+            {'acessGroup' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.acessGroup}</FormControl.ErrorMessage> : null}
           </FormControl>
 
           <FormControl isInvalid={'observation' in errors} mb={4}>
