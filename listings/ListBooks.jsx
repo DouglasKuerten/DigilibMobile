@@ -7,7 +7,7 @@ import { ButtonUnderline } from "../components/ButtonUnderline"
 import { DetailsBook } from "./DetailsBook";
 import { Buffer } from "buffer";
 
-const Item = ({ dbValues, onPress }) => (
+const BookWithInformation = ({ dbValues, onPress }) => (
     <Box marginX={4} marginY={1.5}>
         <TouchableOpacity style={{ flex: 1, flexDirection: 'row', maxHeight: 144 }} onPress={onPress} activeOpacity={0.7}>
             <Image source={require('../assets/noPhoto.png')} alt={"Foto Livro"} resizeMode={'cover'} w={'100'} h={'150'} borderRadius={'10'} />
@@ -38,10 +38,10 @@ const Item = ({ dbValues, onPress }) => (
         </TouchableOpacity >
     </Box >
 );
-const Book = ({ dbValues, onPress }) => (
+const BookOnlyPhoto = ({ dbValues, onPress }) => (
     <Box mr={2} marginY={1.5} >
         <TouchableOpacity style={{ flex: 1, flexDirection: 'row', maxHeight: 225 }} onPress={onPress} activeOpacity={0.7}>
-            <Image source={require('../assets/imagemProvisoria.png')/* dbValues.bookImage */} alt={"Foto Livro"} resizeMode={'cover'} w={'150'} h={'225'} borderRadius={'10'}></Image>
+            <Image source={require('../assets/noPhoto.png')/* dbValues.bookImage */} alt={"Foto Livro"} resizeMode={'cover'} w={'150'} h={'225'} borderRadius={'10'}></Image>
         </TouchableOpacity >
     </Box >
 );
@@ -56,8 +56,8 @@ export function ListBooks(props/* , { navigation } */) {
         setDataBookModal(item);
 
     }
-    const renderBooks = ({ item }) => <Item dbValues={item} onPress={() => openDetails(item)} />;
-    const renderMyBooks = ({ item }) => <Book dbValues={item} onPress={() => openDetails(item)} />;
+    const renderAllBooks = ({ item }) => <BookWithInformation dbValues={item} onPress={() => openDetails(item)} />;
+    const renderMyBooks = ({ item }) => <BookOnlyPhoto dbValues={item} onPress={() => openDetails(item)} />;
 
 
     function HeaderMyBooks() {
@@ -73,7 +73,7 @@ export function ListBooks(props/* , { navigation } */) {
                 <HeaderMyBooks />
                 <Box h={240} ml={4}>
                     <FlatList
-                        data={props.data}
+                        data={props.dataMyBooks}
                         renderItem={renderMyBooks}
                         keyExtractor={item => item.id}
                         showsHorizontalScrollIndicator={false}
@@ -105,8 +105,8 @@ export function ListBooks(props/* , { navigation } */) {
             <Box flex={1}>
                 <HeaderAllBooks />
                 <FlatList
-                    data={props.data}
-                    renderItem={renderBooks}
+                    data={props.dataAllBooks}
+                    renderItem={renderAllBooks}
                     keyExtractor={item => item.id}
                     showsHorizontalScrollIndicator={false}
                     ListEmptyComponent={EmptyAllBooks}
@@ -122,65 +122,14 @@ export function ListBooks(props/* , { navigation } */) {
             <AllBooks />
 
             <Actionsheet isOpen={isOpen} onClose={onClose} /* disableOverlay */ >
-                <Actionsheet.Content _light={{ bgColor: 'gray.300' }} _dark={{ bgColor: 'dark.100' }} >
+                <Actionsheet.Content _light={{ bgColor: 'gray.300' }} _dark={{ bgColor: 'dark.100' }}  >
                     <Box h={'100%'}>
                         <DetailsBook dbValues={dataBookModal} />
                     </Box>
                 </Actionsheet.Content>
+                {/* <Actionsheet.Item _light={{ bgColor: 'gray.300' }} _dark={{ bgColor: 'dark.100' }} startIcon={<Icon as={MaterialIcons} size="6" name="delete" />}>Deletar</Actionsheet.Item>
+                <Actionsheet.Item _light={{ bgColor: 'gray.300' }} _dark={{ bgColor: 'dark.100' }} startIcon={<Icon as={MaterialIcons} size="6" name="edit" />}>Editar</Actionsheet.Item> */}
             </Actionsheet>
         </Box>
     );
-
-
-    /* 
-        const renderItem = ({ item }) => <Item title={item.title} author={item.author} onPress={() => clickItem(item)} />;
-    
-        const ButtonsManage = () => (
-            <Box>
-                <IconButton icon={<Icon as={MaterialIcons} size="6" name="delete" />} _icon={{ color: "white", size: "md" }} bg={"red.500"} w={10} h={10} mb={1} />
-                <IconButton icon={<Icon as={MaterialIcons} size="6" name="edit" />} _icon={{ color: "white", size: "md" }} bg={"blue.400"} w={10} h={10} />
-            </Box>
-        )
-    
-        const FlatListEmpty = () => (
-            <Center >
-                <Text>Sem dados encontados</Text>
-            </Center>
-        );
-        const HeaderFlatList = () => (
-            <Center flexDir={'row'} w={"95%"} alignSelf={'center'} >
-            </Center>
-        );
-    
-        return (
-            <Box flex={1} justifyContent={"space-around"}>
-                <FlatList data={props.data} renderItem={renderItem} keyExtractor={(item) => item.id} ListEmptyComponent={FlatListEmpty()} initialNumToRender={25} ListHeaderComponent={HeaderFlatList()} showsVerticalScrollIndicator={false} />
-                <Actionsheet isOpen={isOpen} onClose={onClose} disableOverlay >
-                    <Actionsheet.Content >
-                        <Box w="100%" h={350} px={2}>
-                            <Box style={{ flex: 1, flexDirection: 'row' }} maxH={"26%"} justifyContent={"space-around"}>
-                                <Image source={require('../assets/noPhoto.png')} style={{ maxHeight: "100%", width: 85 }} />
-                                <Box flex={1} flexDir={'column'} pl={1}>
-                                    <Text style={{ fontSize: 22 }}>{dataBookModal.title}</Text>
-                                    <Text style={{ fontSize: 18 }}>Autor: {dataBookModal.author}</Text>
-                                    <ScrollView showsVerticalScrollIndicator={false}>
-                                        <Text>Editora: {dataBookModal.publishingCompany}</Text>
-                                        <Text>Publicação: {dataBookModal.productionYear}</Text>
-                                        <Text>Categoria: {dataBookModal.category}</Text>
-                                    </ScrollView>
-                                </Box>
-                                {userToken !== null ? <ButtonsManage /> : null}
-                            </Box>
-    
-                            <Box style={{ flexDirection: 'column', justifyContent: "flex-start", alignSelf: 'center', }} pt="2" maxH={"74%"}>
-                                <Text style={{ fontSize: 18, textAlign: "center" }}>Resumo do Livro</Text>
-                                <ScrollView showsVerticalScrollIndicator={false}>
-                                    <Text style={{ fontSize: 16, textAlign: "justify" }}>{dataBookModal.description}</Text>
-                                </ScrollView>
-                            </Box>
-                        </Box>
-                    </Actionsheet.Content>
-                </Actionsheet>
-            </Box >
-        ); */
 }

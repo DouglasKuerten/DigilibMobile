@@ -7,7 +7,7 @@ export function AuthProvider({ children }) {
     const [userToken, setUserToken] = useState(null);
 
     const login = () => {
-        setUserToken('userToken4533');
+        setUserToken('8');
         setIsLoading(false);
     }
     const logout = () => {

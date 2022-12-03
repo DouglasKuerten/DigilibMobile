@@ -1,16 +1,13 @@
 import React, { useState, useContext } from "react";
 import { View } from "react-native";
-import { Box, Heading, Text, Icon, ScrollView, Divider, Center, Image, Row, Column } from "native-base";
-import { AntDesign, MaterialIcons } from "@expo/vector-icons";
-import { ButtonUnderline } from "../components/ButtonUnderline"
-
+import { Box, Heading, Text, ScrollView, Divider, Center, Image, Row, Column } from "native-base";
 
 export function DetailsBook(props) {
     return (
         <Box flex={1} w={'100%'} flexDirection={'column'}>
             <Box w={'100%'} justifyContent={'space-around'} flexDir={'row'} height={255}>
                 <Box pl={2} pb={5} w={155}>
-                    <Image source={require('../assets/imagemProvisoria.png')} alt={'Foto Livro'} resizeMode='cover' style={{ flex: 1, width: 155, height: 225 }} borderRadius={10} />
+                    <Image source={require('../assets/noPhoto.png')} alt={'Foto Livro'} resizeMode='cover' style={{ flex: 1, width: 155, height: 225 }} borderRadius={10} />
                 </Box>
                 <Box flex={1} pl={4}>
                     <Heading size={'lg'} _light={{ color: 'black' }} _dark={{ color: 'gray.200' }}>{props.dbValues.title}</Heading>

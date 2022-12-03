@@ -10,16 +10,28 @@ import { AuthContext } from "../navigation/AuthContext"
 export function ViewBooksScreen() {
   const { userToken } = useContext(AuthContext)
   const [isLoading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
+  const [dataAllBooks, setDataAllBooks] = useState([]);
+  const [dataMyBooks, setDataMyBooks] = useState([]);
   const [dataFilter, setDataFilter] = useState([]);
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValues, setSearchValues] = useState('');
   const [dataLoading, setDataLoading] = useState(new Array(5).fill(0));
 
-  const getBooks = async () => {
+  const getAllBooks = async () => {
     try {
       const response = await fetch(URL_API_BACK_END + 'books');
       const json = await response.json();
-      setData(json);
+      setDataAllBooks(json);
+    } catch (error) {
+      // console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+  const getMyBooks = async () => {
+    try {
+      const response = await fetch(URL_API_BACK_END + 'books'/* 'reserves/books/' + userToken */);
+      const json = await response.json();
+      setDataMyBooks(json);
     } catch (error) {
       // console.error(error);
     } finally {
@@ -28,10 +40,11 @@ export function ViewBooksScreen() {
   }
 
   useEffect(() => {
-    getBooks();
+    getAllBooks();
+    getMyBooks();
   }, []);
 
-  /*   const filterBooks = data.filter(title => title.includes()) */
+  /*   const filterBooks = dataAllBooks.filter(title => title.includes()) */
 
   function SkeletonMyBooks() {
     return (
@@ -87,7 +100,7 @@ export function ViewBooksScreen() {
   const SearchInput = () => (
     <Row mt={2} marginX={4} alignItems={'center'}>
       <Box flexGrow={1}>
-        <InputField value={searchValue} onChangeText={(value) => setSearchValue(value)} mb={"0px"} w={"100%"} size={"lg"} h={12} placeholder="Pesquisar" py="1" px="3" InputLeftElement={<Icon ml="3" size="5" Color={'gray.400'} as={<Ionicons name="ios-search" />} />} keyboardType={"default"} />
+        <InputField value={searchValues} onChangeText={value => setSearchValues(value)} mb={"0px"} w={"100%"} size={"lg"} h={12} placeholder="Pesquisar" py="1" px="3" InputLeftElement={<Icon ml="3" size="5" Color={'gray.400'} as={<Ionicons name="ios-search" />} />} keyboardType={"default"} />
       </Box>
       <IconButton icon={<Icon as={MaterialCommunityIcons} size="6" name="filter-outline" />} _icon={{ color: "white", size: "md" }} bg={"blue.400"} w={10} h={10} borderRadius={20} marginLeft={2} />
     </Row>
@@ -96,7 +109,7 @@ export function ViewBooksScreen() {
   return (
     <Box flex={1} justifyContent={"flex-start"} w="100%" _light={{ bgColor: 'gray.100' }} _dark={{ bgColor: 'dark.50' }} >
       <SearchInput />
-      {isLoading ? <LoadingBooks /> : <ListBooks tag="Nome do Livro" data={data} />}
+      {isLoading ? <LoadingBooks /> : <ListBooks tag="Nome do Livro" dataAllBooks={dataAllBooks} dataMyBooks={dataMyBooks} />}
     </Box>
   );
 }

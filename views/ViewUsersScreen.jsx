@@ -38,9 +38,9 @@ export function ViewUsersScreen() {
                 {dataLoading.map((key, index) => {
                     return (
                         <Center key={key + index} >
-                            <Box w={"100%"} h={60} flexDir={"row"} alignItems={"center"} borderRadius={8} style={{ paddingHorizontal: 10, paddingVertical: 10, marginVertical: 1, marginHorizontal: 5 }}>
-                                <Skeleton h={35} w={35} borderRadius={20} marginLeft={1} />
-                                <Skeleton.Text lines={2} px="3" maxWidth={"85%"} />
+                            <Box w={"100%"} h={100} flexDir={"row"} alignItems={"center"} borderRadius={8} style={{ paddingHorizontal: 10, paddingVertical: 10, marginVertical: 1, marginHorizontal: 5 }}>
+                                <Skeleton h={85} w={85} borderRadius={42} marginLeft={1} />
+                                <Skeleton.Text lines={2} px="3" maxWidth={"75%"} />
                             </Box>
                         </Center>);
                 })}

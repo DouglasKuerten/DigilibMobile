@@ -59,7 +59,7 @@ export function RegBooksScreen({ navigation }) {
   }
   const showImagePicker = async () => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (permissionResult.granted !== false) {
+    if (permissionResult.granted === false) {
       const idAtivo = toastIdRef !== undefined ? toastIdRef.current : null;
       if (!toast.isActive(idAtivo)) {
         toastIdRef.current = toast.show({
@@ -83,7 +83,7 @@ export function RegBooksScreen({ navigation }) {
 
   const openCamera = async () => {
     const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
-    if (permissionResult.granted !== false) {
+    if (permissionResult.granted === false) {
       const idAtivo = toastIdRef !== undefined ? toastIdRef.current : null;
       if (!toast.isActive(idAtivo)) {
         toastIdRef.current = toast.show({
@@ -174,7 +174,7 @@ export function RegBooksScreen({ navigation }) {
 
             <Center flex={1} >
               <Center flex={1} w={155} h={225} borderRadius={10} _light={{ bgColor: 'gray.200' }} _dark={{ bgColor: 'dark.100' }} shadow={1} >
-                {dataInputs.bookImage !== null && dataInputs.bookImage !== undefined ? <Image w={180} h={300} resizeMode={'cover'} borderRadius={10} alt="Imagem Livro" source={{ uri: dataInputs.bookImage }} fallbackSource={require('../assets/noPhoto.png')} /> : <FontAwesome name="book" size={100} color={useColorModeValue('black', 'gray')} />}
+                {dataInputs.bookImage !== null && dataInputs.bookImage !== undefined ? <Image w={155} h={225} resizeMode={'cover'} borderRadius={10} alt="Imagem Livro" source={{ uri: dataInputs.bookImage }} fallbackSource={require('../assets/noPhoto.png')} /> : <FontAwesome name="book" size={100} color={useColorModeValue('black', 'gray')} />}
               </Center>
             </Center>
 

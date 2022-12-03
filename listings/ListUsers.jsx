@@ -1,18 +1,18 @@
 import React, { useState, useContext } from "react";
 import { FlatList, View, Image } from "react-native";
-import { Actionsheet, useDisclose, Box, Text, Icon, ScrollView, IconButton, Heading, Center, Pressable } from "native-base";
+import { Actionsheet, useDisclose, Box, Text, Icon, Avatar, IconButton, Heading, Center, Pressable } from "native-base";
 import { MaterialIcons, } from "@expo/vector-icons";
 import { AuthContext } from "../navigation/AuthContext"
 import { DetailsUser } from "./DetailsUser";
 
 
-const Item = ({ name, lastName, occupation, onPress }) => (
+const User = ({ name, lastName, occupation, onPress }) => (
     <Pressable style={{ paddingHorizontal: 10, paddingVertical: 10, marginVertical: 1, marginHorizontal: 5, borderRadius: 5, alignSelf: "center", alignItems: "center", width: "100%", flexDirection: 'row', height: 100 }} onPress={onPress}>
-        <Image source={require('../assets/elon.png')} style={{ height: 90, width: 90, borderRadius: 45 }} />
-        <View style={{ flex: 1, flexDirection: "column", alignItems: "flex-start" }}>
+        <Avatar source={require('../assets/elon.png')} size={'20'} />
+        <Box style={{ flex: 1, flexDirection: "column", alignItems: "flex-start" }}>
             <Heading size={'sm'} pl={3} numberOfLines={1}>{name} {lastName}</Heading>
             <Text fontSize={12} pl={3} numberOfLines={1}>{occupation}</Text>
-        </View>
+        </Box>
     </Pressable >
 
 
@@ -28,14 +28,7 @@ export function ListUsers(props) {
         setdataUserModal(item);
     }
 
-    const renderItem = ({ item }) => <Item name={item.name} occupation={item.acessGroup} lastName={item.lastName} onPress={() => clickItem(item)} />;
-
-    const ButtonsManage = () => (
-        <Box>
-            <IconButton icon={<Icon as={MaterialIcons} size="6" name="delete" />} _icon={{ color: "white", size: "md" }} bg={"red.500"} w={10} h={10} mb={1} />
-            <IconButton icon={<Icon as={MaterialIcons} size="6" name="edit" />} _icon={{ color: "white", size: "md" }} bg={"blue.400"} w={10} h={10} />
-        </Box>
-    )
+    const renderUser = ({ item }) => <User name={item.name} occupation={item.acessGroup} lastName={item.lastName} onPress={() => clickItem(item)} />;
 
     const FlatListEmpty = () => (
         <Center >
@@ -50,7 +43,7 @@ export function ListUsers(props) {
 
     return (
         <Box flex={1} justifyContent={"space-around"} _light={{ bgColor: 'gray.100' }} _dark={{ bgColor: 'dark.50' }}>
-            <FlatList data={props.data} renderItem={renderItem} keyExtractor={(item) => item.id} ListEmptyComponent={FlatListEmpty()} initialNumToRender={25} ListHeaderComponent={HeaderFlatList()} showsVerticalScrollIndicator={false} />
+            <FlatList data={props.data} renderItem={renderUser} keyExtractor={(item) => item.id} ListEmptyComponent={FlatListEmpty()} initialNumToRender={25} ListHeaderComponent={HeaderFlatList()} showsVerticalScrollIndicator={false} />
             <Actionsheet isOpen={isOpen} onClose={onClose} /* disableOverlay */ >
                 <Actionsheet.Content _light={{ bgColor: 'gray.300' }} _dark={{ bgColor: 'dark.100' }} >
                     <Box h={180}>
