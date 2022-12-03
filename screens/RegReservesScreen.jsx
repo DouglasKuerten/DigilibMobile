@@ -131,6 +131,17 @@ export function RegReservesScreen({ navigation }) {
             {'reserveStatus' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.reserveStatus}</FormControl.ErrorMessage> : null}
           </FormControl>
 
+          <FormControl isRequired isInvalid={'reserveStatus' in errors} mb={5}>
+            <FormControl.Label _text={{ bold: true }}>Status da Reserva</FormControl.Label>
+            <Select selectedValue={dataInputs.reserveStatus} variant={'rounded'} size={'lg'} borderRadius="10" h="55px" _light={{ bgColor: 'gray.300' }} _dark={{ bgColor: 'dark.100' }} shadow={1} placeholderTextColor={"gray.600"} placeholder=""
+              _selectedItem={{ bg: "grey.500", endIcon: <CheckIcon size="5" /> }} mt={1} onValueChange={value => setDataInputs({ ...dataInputs, reserveStatus: value })}>
+              <Select.Item label='Ativa' value='Ativa' />
+              <Select.Item label='Cancelada' value='Cancelada' />
+              <Select.Item label='Concluida' value='Concluida' />
+            </Select>
+            {'acessGroup' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.acessGroup}</FormControl.ErrorMessage> : <FormControl.HelperText>(Usuários Admin/Professor tem acesso total ao APP, enquanto o aluno apenas consegue vizualizar os livros e seus empréstimos ativos)</FormControl.HelperText>}
+          </FormControl>
+
           <FormControl isInvalid={'observation' in errors} mb={4}>
             <FormControl.Label _text={{ bold: true }}>Observação</FormControl.Label>
             <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, observation: value })} />

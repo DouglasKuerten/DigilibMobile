@@ -6,14 +6,15 @@ import { AuthContext } from "../navigation/AuthContext"
 import { DetailsUser } from "./DetailsUser";
 
 
-const Item = ({ name, occupation, onPress }) => (
-    <Pressable style={{ paddingHorizontal: 10, paddingVertical: 10, marginVertical: 1, marginHorizontal: 5, borderRadius: 5, alignSelf: "center", alignItems: "center", width: "100%", flexDirection: 'row', height: 60 }} onPress={onPress}>
-        <Image source={require('../assets/elon.png')} style={{ height: 50, width: 50, borderRadius: 25 }} />
+const Item = ({ name, lastName, occupation, onPress }) => (
+    <Pressable style={{ paddingHorizontal: 10, paddingVertical: 10, marginVertical: 1, marginHorizontal: 5, borderRadius: 5, alignSelf: "center", alignItems: "center", width: "100%", flexDirection: 'row', height: 100 }} onPress={onPress}>
+        <Image source={require('../assets/elon.png')} style={{ height: 90, width: 90, borderRadius: 45 }} />
         <View style={{ flex: 1, flexDirection: "column", alignItems: "flex-start" }}>
-            <Heading size={'sm'} pl={3} numberOfLines={1}>{name}</Heading>
+            <Heading size={'sm'} pl={3} numberOfLines={1}>{name} {lastName}</Heading>
             <Text fontSize={12} pl={3} numberOfLines={1}>{occupation}</Text>
         </View>
     </Pressable >
+
 
 );
 
@@ -27,7 +28,7 @@ export function ListUsers(props) {
         setdataUserModal(item);
     }
 
-    const renderItem = ({ item }) => <Item name={item.name} occupation={item.acessGroup} onPress={() => clickItem(item)} />;
+    const renderItem = ({ item }) => <Item name={item.name} occupation={item.acessGroup} lastName={item.lastName} onPress={() => clickItem(item)} />;
 
     const ButtonsManage = () => (
         <Box>
@@ -51,8 +52,8 @@ export function ListUsers(props) {
         <Box flex={1} justifyContent={"space-around"} _light={{ bgColor: 'gray.100' }} _dark={{ bgColor: 'dark.50' }}>
             <FlatList data={props.data} renderItem={renderItem} keyExtractor={(item) => item.id} ListEmptyComponent={FlatListEmpty()} initialNumToRender={25} ListHeaderComponent={HeaderFlatList()} showsVerticalScrollIndicator={false} />
             <Actionsheet isOpen={isOpen} onClose={onClose} /* disableOverlay */ >
-                <Actionsheet.Content _light={{ bgColor: 'gray.700' }} _dark={{ bgColor: 'dark.100' }} >
-                    <Box h={260}>
+                <Actionsheet.Content _light={{ bgColor: 'gray.300' }} _dark={{ bgColor: 'dark.100' }} >
+                    <Box h={180}>
                         <DetailsUser dbValues={dataUserModal} />
                     </Box>
                 </Actionsheet.Content>
