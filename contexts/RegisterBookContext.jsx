@@ -4,25 +4,25 @@ export const BookValueContext = createContext();
 
 export function BookValueContextProvider({ children }) {
     const [dataInputs, setDataInputs] = useState({
-        internalCode: '',
-        isbn: '',
-        title: '',
-        subtitle: '',
-        genre: '',
-        volume: '',
-        edition: '',
-        collection: '',
-        language: '',
-        synopsis: '',
-        originCountry: '',
-        author: '',
-        authorLastName: '',
-        publishingCompany: '',
-        publishDate: '',
-        pages: '',
-        ageGroup: '',
-        bookImage: '',
-        bookSituation: ''
+        internalCode: null,
+        isbn: null,
+        title: null,
+        subtitle: null,
+        genre: null,
+        volume: null,
+        edition: null,
+        collection: null,
+        language: null,
+        synopsis: null,
+        originCountry: null,
+        author: null,
+        authorLastName: null,
+        publishingCompany: null,
+        publishDate: null,
+        pages: null,
+        ageGroup: null,
+        bookImage: null,
+        bookSituation: 'Livre'
     })
     return (
         <BookValueContext.Provider value={{ dataInputs, setDataInputs }}>

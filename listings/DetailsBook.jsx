@@ -47,11 +47,11 @@ export function DetailsBook(props) {
                     <Text _light={{ color: 'black' }} _dark={{ color: 'gray.200' }}>Situação</Text>
                 </Box>
             </Box>
-            <Box flexDir={'row'} p={2} pr={6} pb={5}>
+            <Box flex={1} flexDir={'row'} p={2} pr={4} pb={5}>
                 <Box w={1} h={'100%'} backgroundColor={'blue.500'} opacity={0.2} />
-                <Column pl={5}>
+                <Column flex={1} pl={5}>
                     <Heading color={'blue.400'} size={'md'} mb={4}>Descrição</Heading>
-                    <ScrollView showsVerticalScrollIndicator={false} scrollEventThrottle={16} >
+                    <ScrollView flex={1} showsVerticalScrollIndicator={false} scrollEventThrottle={16} >
                         <Text _light={{ color: 'black' }} _dark={{ color: 'gray.200' }} textAlign={'justify'}>{props.dbValues.synopsis}</Text>
                     </ScrollView>
                 </Column>
