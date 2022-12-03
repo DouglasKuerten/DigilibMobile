@@ -88,23 +88,22 @@ export function ReadBarcode({ navigation }) {
     }
 
     return (
-        <Center flex={1} maxH={'100%'} bg={'#202124'}>
-            <Heading size={'xs'} textAlign={'center'} marginX={4} marginY={6} color={'white'}>Aponte a camera para código ISBN do livro para trazer todos os campos preenchidos automaticamente</Heading>
-            <BarCodeScanner onBarCodeScanned={scanned ? undefined : handleBarCodeScanned} style={styles.container} >
-                <Center flex={1} justifyContent={'space-between'}>
-                    <Heading w={'100%'} h={'10%'} size={'xl'} color={'white'} textAlign={'center'} marginY={1}>{'ISBN'}</Heading>
-                    <Image resizeMode='center' source={require("../assets/isbnFrameLeitor.png")} alt={' '} />
-                    <Box flex={1} w={'100%'} alignItems={'center'} justifyContent={'flex-end'} mb={5}>
-                        <Heading size={'xl'} color={'white'} textAlign={'center'} ellipsizeMode={'tail'} mt={5}>{codeScan + '\n' + (dataBook.status !== undefined ? (dataBook.status.success ? dataBook.books[0].titulo : 'Livro não encontrado') : '')}</Heading>
-                        <Text color={'white'}>{dataBook.status !== undefined ? dataBook.status.success ? '' : '(Cadastre o livro manualmente)' : ''}</Text>
-                        <Row w={'100%'} mb={4} justifyContent={'space-around'}>
-                            <IconButton mt={5} icon={<Icon as={MaterialCommunityIcons} size="9" name="check" />} _icon={{ color: "white", size: "md" }} bg={"green.400"} w={55} h={55} borderRadius={30} onPress={() => setValuesInputs()} />
-                            <IconButton mt={5} icon={<Icon as={MaterialCommunityIcons} size="9" name="window-close" />} _icon={{ color: "white", size: "md" }} bg={"red.500"} w={55} h={55} borderRadius={30} onPress={() => navigation.goBack()} />
-                        </Row>
-                    </Box>
-                </Center>
-            </BarCodeScanner >
-        </Center >
+
+        <BarCodeScanner onBarCodeScanned={scanned ? undefined : handleBarCodeScanned} style={[StyleSheet.absoluteFill, styles.container]} >
+            <Heading bg={'#202124'} w={'100%'} size={'xs'} textAlign={'center'} py={6} px={4} color={'white'}>Aponte a camera para código ISBN do livro para trazer todos os campos preenchidos automaticamente</Heading>
+            <Center flex={1} justifyContent={'space-between'}>
+                <Image flex={3} resizeMode='center' source={require("../assets/isbnFrameLeitor.png")} alt={' '} />
+                <Box flex={1} w={'100%'} alignItems={'center'} justifyContent={'flex-end'} mb={5}>
+                    <Heading size={'xl'} color={'white'} textAlign={'center'} ellipsizeMode={'tail'} mt={5}>{codeScan + '\n' + (dataBook.status !== undefined ? (dataBook.status.success ? dataBook.books[0].titulo : 'Livro não encontrado') : '')}</Heading>
+                    <Text mb={5} color={'white'}>{dataBook.status !== undefined ? dataBook.status.success ? '' : '(Cadastre o livro manualmente)' : ''}</Text>
+                    <Row w={'100%'} justifyContent={'space-around'} bg={'#202124'}>
+                        <IconButton _pressed={{ bg: 'red.400' }} mt={5} icon={<Icon as={MaterialCommunityIcons} size="9" name="window-close" />} _icon={{ color: "white", size: "md" }} bg={"red.500"} w={55} h={55} borderRadius={30} onPress={() => navigation.goBack()} />
+                        <IconButton _pressed={{ bg: 'green.300' }} mt={5} icon={<Icon as={MaterialCommunityIcons} size="9" name="check" />} _icon={{ color: "white", size: "md" }} bg={"green.400"} w={55} h={55} borderRadius={30} onPress={() => setValuesInputs()} />
+                    </Row>
+                </Box>
+            </Center>
+        </BarCodeScanner >
+
     );
 }
 
