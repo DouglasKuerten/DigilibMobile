@@ -12,8 +12,8 @@ export function RegReservesScreen({ navigation }) {
   const [errors, setErrors] = useState({});
   const [dataInputs, setDataInputs] = useState({});
 
-  const [mode, setMode] = useState('date');
-  const [show, setShow] = useState(false);
+  const [showReserveDate, setShowReserveDate] = useState(false);
+  const [showReturnDate, setShowReturnDate] = useState(false);
 
   async function setReserve() {
     console.log(dataInputs)
@@ -63,40 +63,66 @@ export function RegReservesScreen({ navigation }) {
 
   const onChangeReserveDate = (event, selectedDate) => {
     const currentDate = selectedDate;
-    setShow(false);
+    setShowReserveDate(false);
     setDataInputs({ ...dataInputs, reserveDate: currentDate });
     console.log(dataInputs.reserveDate)
   };
 
-  const showMode = (currentMode) => {
-    if (Platform.OS === 'android') {
-      setShow(false);
-      // for iOS, add a button that closes the picker
-    }
-    setMode(currentMode);
+  const onChangeReturnDate = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShowReturnDate(false);
+    setDataInputs({ ...dataInputs, returnDate: currentDate });
+    console.log(dataInputs.returnDate)
   };
 
-  const showDatepicker = () => {
-    showMode('date');
-    setShow(true);
+  const showModeReserveDate = (currentMode) => {
+    if (Platform.OS === 'android') {
+      setShowModeReserveDate(false);
+      // for iOS, add a button that closes the picker
+    }
+    setShowModeReserveDate(currentMode);
+  };
+
+  const showModeReturnDate = (currentMode) => {
+    if (Platform.OS === 'android') {
+      setShowReturnDate(false);
+      // for iOS, add a button that closes the picker
+    }
+    setShowReturnDate(currentMode);
+  };
+
+  const showDatepickerReserve = () => {
+    setShowReserveDate(true);
+
+  };
+  const showDatepickerReturn = () => {
+    setShowReturnDate(true);
   };
 
   const showTimepicker = () => {
-    showMode('time');
-    setShow(true);
+    setShowReserveDate(true);
   };
 
   return (
     <Box flex={1} _light={{ bgColor: 'gray.100' }} _dark={{ bgColor: 'dark.50' }}>
       <VStack marginX={3} /* maxW="300px" */>
         <Box>
-          {show && (
+          {showReserveDate && (
             <DateTimePicker
               testID="dateTimePicker"
               value={new Date()}
-              mode={mode}
+              mode={'date'}
               is24Hour={true}
               onChange={onChangeReserveDate}
+            />
+          )}
+          {showReturnDate && (
+            <DateTimePicker
+              testID="dateTimePickerReturn"
+              value={new Date()}
+              mode={'date'}
+              is24Hour={true}
+              onChange={onChangeReturnDate}
             />
           )}
         </Box >
@@ -115,13 +141,13 @@ export function RegReservesScreen({ navigation }) {
 
           <FormControl isRequired isInvalid={'reserveDate' in errors} mb={2}>
             <FormControl.Label _text={{ bold: true }}>Data da Reserva</FormControl.Label>
-            <Button leftIcon={<Icon as={Ionicons} name="calendar-outline" size="md" color={'gray.400'} mr={1} />} variant={'solid'} h={'55px'} borderRadius="10" _light={{ bgColor: 'gray.300', _text: { textTransform: 'uppercase', color: 'black', fontSize: 'md' } }} _dark={{ bgColor: 'dark.100', _text: { textTransform: 'uppercase', color: 'white', fontSize: 'md' } }} onPress={() => showDatepicker}>{moment(dataInputs.reserveDate).locale('pt-BR').format('LLL')}</Button>
+            <Button leftIcon={<Icon as={Ionicons} name="calendar-outline" size="md" color={'gray.400'} mr={1} />} variant={'solid'} h={'55px'} borderRadius="10" _light={{ bgColor: 'gray.300', _text: { textTransform: 'uppercase', color: 'black', fontSize: 'md' } }} _dark={{ bgColor: 'dark.100', _text: { textTransform: 'uppercase', color: 'white', fontSize: 'md' } }} onPress={() => showDatepickerReserve()}>{moment(dataInputs.reserveDate).locale('pt-BR').format('LLL')}</Button>
             {'reserveDate' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.reserveDate}</FormControl.ErrorMessage> : null}
           </FormControl>
 
           <FormControl isInvalid={'returnDate' in errors} mb={2}>
             <FormControl.Label _text={{ bold: true }}>Data prevista de Retorno</FormControl.Label>
-            <Button leftIcon={<Icon as={Ionicons} name="calendar-outline" size="md" color={'gray.400'} mr={1} />} variant={'solid'} h={'55px'} borderRadius="10" _light={{ bgColor: 'gray.300', _text: { textTransform: 'uppercase', color: 'black', fontSize: 'md' } }} _dark={{ bgColor: 'dark.100', _text: { textTransform: 'uppercase', color: 'white', fontSize: 'md' } }} onPress={() => showDatepicker}>{moment(dataInputs.returnDate).locale('pt-BR').format('LLL')}</Button>
+            <Button leftIcon={<Icon as={Ionicons} name="calendar-outline" size="md" color={'gray.400'} mr={1} />} variant={'solid'} h={'55px'} borderRadius="10" _light={{ bgColor: 'gray.300', _text: { textTransform: 'uppercase', color: 'black', fontSize: 'md' } }} _dark={{ bgColor: 'dark.100', _text: { textTransform: 'uppercase', color: 'white', fontSize: 'md' } }} onPress={() => showDatepickerReturn()}>{moment(dataInputs.returnDate).locale('pt-BR').format('LLL')}</Button>
             {'returnDate' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.returnDate}</FormControl.ErrorMessage> : null}
           </FormControl>
 
@@ -133,7 +159,7 @@ export function RegReservesScreen({ navigation }) {
               <Select.Item label='Cancelada' value='Cancelada' />
               <Select.Item label='Concluida' value='Concluida' />
             </Select>
-            {'acessGroup' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.acessGroup}</FormControl.ErrorMessage> : null}
+            {'reserveStatus' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.acessGroup}</FormControl.ErrorMessage> : null}
           </FormControl>
 
           <FormControl isInvalid={'observation' in errors} mb={4}>
