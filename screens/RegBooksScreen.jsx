@@ -215,7 +215,7 @@ export function RegBooksScreen({ navigation }) {
           <FormControl isInvalid={'genre' in errors} mb={4}>
             <FormControl.Label _text={{ bold: true }}>Categorias</FormControl.Label>
             <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, genre: value })} value={dataInputs.genre} />
-            {'genre' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.genre}</FormControl.ErrorMessage> : <FormControl.HelperText> (Informe os valores separado por virgula e espaços){ } Ex: História, Ficção, Aventura)</FormControl.HelperText>}
+            {'genre' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.genre}</FormControl.ErrorMessage> : <FormControl.HelperText> (Informe os valores separado por virgula e espaços){ } Ex: História,Ficção,Aventura)</FormControl.HelperText>}
           </FormControl>
 
           <FormControl isInvalid={'volume' in errors} mb={2}>

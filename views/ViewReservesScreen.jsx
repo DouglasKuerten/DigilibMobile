@@ -11,12 +11,13 @@ export function ViewReservesScreen() {
   const [data, setData] = useState([]);
   const [dataFilter, setDataFilter] = useState([]);
   const [searchValue, setSearchValue] = useState('');
-  const [dataLoading, setDataLoading] = useState(new Array(30).fill(0));
+  const [dataLoading, setDataLoading] = useState(new Array(10).fill(0));
 
   const getReserves = async () => {
     try {
       const response = await fetch(URL_API_BACK_END + 'reserves');
       const json = await response.json();
+      console.log(json)
       setData(json);
     } catch (error) {
       // console.error(error);

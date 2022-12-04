@@ -29,7 +29,7 @@ export function ViewBooksScreen() {
   }
   const getMyBooks = async () => {
     try {
-      const response = await fetch(URL_API_BACK_END + 'books'/* 'reserves/books/' + userToken */);
+      const response = await fetch(URL_API_BACK_END + 'reserves/books/' + userToken);
       const json = await response.json();
       setDataMyBooks(json);
     } catch (error) {
