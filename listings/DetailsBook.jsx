@@ -18,8 +18,8 @@ export function DetailsBook(props) {
                                 props.dbValues.genre !== undefined && props.dbValues.genre !== null ?
                                     props.dbValues.genre.split(',').map((gen, index) => {
                                         return (
-                                            < Center key={index} bgColor={'blue.300'} borderRadius={10} marginRight={2} paddingX={3} paddingY={2} >
-                                                <Text color={'blue.600'} >{gen}</Text>
+                                            < Center key={index} _light={{ bgColor: '#0084da' }} _dark={{ bgColor: 'dark.50' }} borderRadius={10} marginRight={2} paddingX={3} paddingY={2} >
+                                                <Text _light={{ color: 'white' }} _dark={{ color: 'darkBlue.400' }} >{gen.charAt(0).toUpperCase() + gen.slice(1)}</Text>
                                             </Center>)
                                     }) : null
                             }
@@ -45,9 +45,9 @@ export function DetailsBook(props) {
                 </Box>
             </Box>
             <Box flex={1} flexDir={'row'} p={2} pr={4} pb={5}>
-                <Box w={1} h={'100%'} backgroundColor={'blue.500'} opacity={0.2} />
+                <Box w={1} h={'100%'} backgroundColor={'#0084da'} opacity={0.5} />
                 <Column flex={1} pl={5}>
-                    <Heading color={'blue.400'} size={'md'} mb={4}>Descrição</Heading>
+                    <Heading color={'#0084da'} size={'md'} mb={4}>Descrição</Heading>
                     <ScrollView flex={1} showsVerticalScrollIndicator={false} scrollEventThrottle={16} >
                         <Text _light={{ color: 'black' }} _dark={{ color: 'gray.200' }} textAlign={'justify'}>{props.dbValues.synopsis}</Text>
                     </ScrollView>

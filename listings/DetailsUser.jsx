@@ -15,8 +15,8 @@ export function DetailsUser(props) {
                     <Text _light={{ color: 'dark.100' }} _dark={{ color: 'gray.200' }}>E-mail: {props.dbValues.email}</Text>
                     <Text _light={{ color: 'dark.100' }} _dark={{ color: 'gray.200' }}>Telefone: {props.dbValues.phoneNumber}</Text>
                     <Row pt={2}>
-                        < Center _light={{ bgColor: 'dark.100' }} _dark={{ bgColor: 'dark.50' }} borderRadius={10} marginRight={2} paddingX={3} paddingY={2} >
-                            <Text color={'darkBlue.400'} >{props.dbValues.acessGroup}</Text>
+                        < Center _light={{ bgColor: '#0084da' }} _dark={{ bgColor: 'dark.50' }} borderRadius={10} marginRight={2} paddingX={3} paddingY={2} >
+                            <Text _light={{ color: 'white' }} _dark={{ color: 'darkBlue.400' }} >{props.dbValues.acessGroup}</Text>
                         </Center>
                     </Row>
                 </Box>

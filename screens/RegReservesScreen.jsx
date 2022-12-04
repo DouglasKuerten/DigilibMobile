@@ -28,7 +28,6 @@ export function RegReservesScreen({ navigation }) {
   const [showReturnDate, setShowReturnDate] = useState(false);
 
   async function setReserve() {
-    console.log(dataInputs)
     await fetch(URL_API_BACK_END + 'reserves', {
       method: 'POST',
       headers: {
@@ -122,7 +121,6 @@ export function RegReservesScreen({ navigation }) {
   const onChangeBookInternalCode = (value) => {
     if (Number.isInteger(Number(value))) {
       setDataInputs({ ...dataInputs, internalCode: value })
-      console.log(Number.isInteger(Number(value)))
       getBook(value);
     } /* else {
       setErrors(Object.assign(errors, { internalCode: 'Somente números são aceitos no código interno' }));
@@ -131,7 +129,6 @@ export function RegReservesScreen({ navigation }) {
   const onChangeUserRegistration = (value) => {
     if (Number.isInteger(Number(value))) {
       setDataInputs({ ...dataInputs, registration: value })
-      console.log(Number.isInteger(Number(value)))
       getUser(value);
     } /* else {
       setErrors(Object.assign(errors, { registration: 'Somente números são aceitos na matrícula' }));

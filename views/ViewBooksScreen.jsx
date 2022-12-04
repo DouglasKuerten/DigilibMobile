@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Box, Icon, IconButton, Center, Skeleton, Row, Column } from "native-base";
+import { Box, Icon, IconButton, Center, Skeleton, Row, Column, useColorModeValue } from "native-base";
 import { ListBooks } from '../listings/ListBooks';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { InputField } from "../components/InputField";
@@ -29,7 +29,7 @@ export function ViewBooksScreen() {
   }
   const getMyBooks = async () => {
     try {
-      const response = await fetch(URL_API_BACK_END + 'reserves/books/' + userToken);
+      const response = await fetch(URL_API_BACK_END + 'reserves/user/' + userToken);
       const json = await response.json();
       setDataMyBooks(json);
     } catch (error) {
@@ -102,7 +102,7 @@ export function ViewBooksScreen() {
       <Box flexGrow={1}>
         <InputField value={searchValues} onChangeText={value => setSearchValues(value)} mb={"0px"} w={"100%"} size={"lg"} h={12} placeholder="Pesquisar" py="1" px="3" InputLeftElement={<Icon ml="3" size="5" Color={'gray.400'} as={<Ionicons name="ios-search" />} />} keyboardType={"default"} />
       </Box>
-      <IconButton icon={<Icon as={MaterialCommunityIcons} size="6" name="filter-outline" />} _icon={{ color: "white", size: "md" }} bg={"blue.400"} w={10} h={10} borderRadius={20} marginLeft={2} />
+      <IconButton icon={<Icon as={MaterialCommunityIcons} size="6" name="filter-outline" />} _icon={{ color: useColorModeValue('#FFF', '#0084da'), size: 'md' }} _light={{ bgColor: '#0084da' }} _dark={{ bgColor: 'dark.100' }} w={10} h={10} borderRadius={20} marginLeft={2} />
     </Row>
   );
 

@@ -25,7 +25,6 @@ export function RegUserScreen({ navigation }) {
   const [doc, setDoc] = useState();
 
   async function setUser() {
-    console.log("Exec")
     await fetch(URL_API_BACK_END + 'users', {
       method: 'POST',
       headers: {
@@ -72,7 +71,6 @@ export function RegUserScreen({ navigation }) {
     });
     if (!result.canceled) {
       setDataInputs({ ...dataInputs, userImage: result.assets[0].uri });
-      console.log(result.assets[0].uri);
     }
   }
 
@@ -93,7 +91,6 @@ export function RegUserScreen({ navigation }) {
     const result = await ImagePicker.launchCameraAsync({ allowsEditing: true, });
     if (!result.canceled) {
       setDataInputs({ ...dataInputs, userImage: result.assets[0].uri });
-      console.log(result.assets[0].uri);
     }
   }
 

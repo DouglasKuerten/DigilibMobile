@@ -11,7 +11,9 @@ const User = ({ name, lastName, occupation, onPress }) => (
         <Avatar source={require('../assets/elon.png')} size={'20'} />
         <Box style={{ flex: 1, flexDirection: "column", alignItems: "flex-start" }}>
             <Heading size={'sm'} pl={3} numberOfLines={1}>{name} {lastName}</Heading>
-            <Text fontSize={12} pl={3} numberOfLines={1}>{occupation}</Text>
+            <Center _light={{ bgColor: '#0084da' }} _dark={{ bgColor: 'dark.100' }} borderRadius={10} mt={1} mb={1} paddingX={3} paddingY={2} maxW={'40%'} ml={3}>
+                <Text _light={{ color: 'white' }} _dark={{ color: 'darkBlue.400' }} >{occupation}</Text>
+            </Center>
         </Box>
     </Pressable >
 

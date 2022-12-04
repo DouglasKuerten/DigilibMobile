@@ -76,7 +76,6 @@ export function RegBooksScreen({ navigation }) {
     });
     if (!result.canceled) {
       setDataInputs({ ...dataInputs, bookImage: result.assets[0].uri });
-      console.log(result.assets[0].uri);
     }
   }
 
@@ -96,7 +95,6 @@ export function RegBooksScreen({ navigation }) {
     const result = await ImagePicker.launchCameraAsync({ allowsEditing: true, });
     if (!result.canceled) {
       setDataInputs({ ...dataInputs, bookImage: result.assets[0].uri });
-      console.log(result.assets[0].uri);
     }
   }
 

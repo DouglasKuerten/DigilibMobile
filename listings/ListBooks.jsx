@@ -6,13 +6,12 @@ import { AuthContext } from "../navigation/AuthContext"
 import { ButtonUnderline } from "../components/ButtonUnderline"
 import { DetailsBook } from "./DetailsBook";
 import { Buffer } from "buffer";
+import { DetailsReserve } from "./DetailsReserve";
 
 const BookWithInformation = ({ dbValues, onPress }) => (
     <Box marginX={4} marginY={1.5}>
         <TouchableOpacity style={{ flex: 1, flexDirection: 'row', maxHeight: 144 }} onPress={onPress} activeOpacity={0.7}>
             <Image source={require('../assets/noPhoto.png')} alt={"Foto Livro"} resizeMode={'cover'} w={'100'} h={'150'} borderRadius={'10'} />
-            {/*  source={dbValues.bookImage !== null ? 'data:image/jpg;base64,' + Buffer.from(dbValues.bookImage.data).toString('base64') : require('../assets/noPhoto.png')} */}
-            {/*    source={{ uri: dataInputs.bookImage }} fallbackSource={require('../assets/noPhoto.png') */}
             <Box flex={1} marginX={2}>
                 <Heading ellipsizeMode={'tail'} numberOfLines={1} text size={'lg'} _light={{ color: 'black' }} _dark={{ color: 'white' }}>{dbValues.title}</Heading>
                 <Heading size={'sm'} color={'gray.500'}>{`${dbValues.author !== null ? dbValues.author : ' '} ${dbValues.authorLastName !== null ? dbValues.authorLastName : ' '}`}</Heading>
@@ -27,8 +26,8 @@ const BookWithInformation = ({ dbValues, onPress }) => (
                         dbValues.genre !== undefined && dbValues.genre !== null ?
                             dbValues.genre.split(',').map((gen, index) => {
                                 return (
-                                    < Center key={index} bgColor={'blue.300'} borderRadius={10} marginRight={2} paddingX={3} paddingY={2} marginY={0.5} >
-                                        <Text color={'blue.600'} >{gen}</Text>
+                                    < Center key={index} _light={{ bgColor: '#0084da' }} _dark={{ bgColor: 'dark.100' }} borderRadius={10} marginRight={2} paddingX={3} paddingY={2} marginY={0.5} >
+                                        <Text _light={{ color: 'white' }} _dark={{ color: 'darkBlue.400' }} >{gen.charAt(0).toUpperCase() + gen.slice(1)}</Text>
                                     </Center>)
                             }) : null
 
@@ -50,15 +49,21 @@ export function ListBooks(props/* , { navigation } */) {
     const { userToken } = useContext(AuthContext)
     const { isOpen, onOpen, onClose } = useDisclose();
     const [dataBookModal, setDataBookModal] = useState([]);
+    const [dataReserveModal, setDataReserveModal] = useState([]);
 
-    function openDetails(item) {
+    function openDetails(item, type) {
         onOpen();
-        setDataBookModal(item);
-
+        if (type === 'BOOK') {
+            setDataReserveModal([])
+            setDataBookModal(item);
+        }
+        else if (type === 'RESERVE') {
+            setDataBookModal([]);
+            setDataReserveModal(item)
+        }
     }
-    const renderAllBooks = ({ item }) => <BookWithInformation dbValues={item} onPress={() => openDetails(item)} />;
-    const renderMyBooks = ({ item }) => <BookOnlyPhoto dbValues={item} onPress={() => openDetails(item)} />;
-
+    const renderAllBooks = ({ item }) => <BookWithInformation dbValues={item} onPress={() => openDetails(item, 'BOOK')} />;
+    const renderMyBooks = ({ item }) => <BookOnlyPhoto dbValues={item} onPress={() => openDetails(item, 'RESERVE')} />;
 
     function HeaderMyBooks() {
         return (
@@ -117,18 +122,13 @@ export function ListBooks(props/* , { navigation } */) {
     }
 
     return (
-        <Box flex={1} mb={1}>
+        <Box flex={1} mb={1} justifyContent={'space-around'} >
             {userToken !== null ? <MyBooks /> : null}
             <AllBooks />
-
             <Actionsheet isOpen={isOpen} onClose={onClose} /* disableOverlay */ >
                 <Actionsheet.Content _light={{ bgColor: 'gray.300' }} _dark={{ bgColor: 'dark.100' }}  >
-                    <Box h={'100%'}>
-                        <DetailsBook dbValues={dataBookModal} />
-                    </Box>
+                    {dataBookModal.length !== 0 ? <Box h={'100%'}><DetailsBook dbValues={dataBookModal} /></Box> : <Box h={240}><DetailsReserve dbValues={dataReserveModal} /></Box>}
                 </Actionsheet.Content>
-                {/* <Actionsheet.Item _light={{ bgColor: 'gray.300' }} _dark={{ bgColor: 'dark.100' }} startIcon={<Icon as={MaterialIcons} size="6" name="delete" />}>Deletar</Actionsheet.Item>
-                <Actionsheet.Item _light={{ bgColor: 'gray.300' }} _dark={{ bgColor: 'dark.100' }} startIcon={<Icon as={MaterialIcons} size="6" name="edit" />}>Editar</Actionsheet.Item> */}
             </Actionsheet>
         </Box>
     );
