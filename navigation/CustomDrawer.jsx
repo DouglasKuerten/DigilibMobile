@@ -32,7 +32,7 @@ export function CustomDrawer(props) {
         <Box flex={1} >
           <ImageBackground source={require('../assets/background-drawer.png')} style={{ padding: 40, alignItems: 'center', }}>
             <Image source={require('../assets/userProfile.png')} style={{ height: 80, width: 80, borderRadius: 40, marginBottom: 10 }} />
-            <Text fontSize={22} color={'white'}>John Fiver</Text>
+            <Text fontSize={22} color={'white'}>Douglas</Text>
             <Box style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 4 }}>
               <Ionicons name="laptop-outline" size={13} color="#fff"></Ionicons>
               <Text style={{ color: '#fff', fontSize: 13, paddingStart: 5/* , fontFamily: 'Roboto-Medium' */ }}>Administrador</Text>
