@@ -192,13 +192,13 @@ export function RegBooksScreen({ navigation }) {
 
           <FormControl isInvalid={'internalCode' in errors} mb={4}>
             <FormControl.Label _text={{ bold: true }}>Código Interno</FormControl.Label>
-            <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, internalCode: value })} value={dataInputs.internalCode} />
+            <InputField placeholder="" keyboardType='numeric' onChangeText={value => setDataInputs({ ...dataInputs, internalCode: value })} value={dataInputs.internalCode} />
             {'internalCode' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.internalCode}</FormControl.ErrorMessage> : <FormControl.HelperText>(Caso não informado será gerado um automaticamente)</FormControl.HelperText>}
           </FormControl>
 
           <FormControl isInvalid={'isbn' in errors} mb={4}>
             <FormControl.Label _text={{ bold: true }}>ISBN</FormControl.Label>
-            <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, isbn: value })} value={dataInputs.isbn} InputRightElement={<Pressable onPress={() => navigation.navigate('Leitor Código Barras')}><Icon mr={2} size={'xl'} /*_light={{ color: 'gray.400' }} _dark={{ color: 'dark.200' }}*/ color="gray.400" as={<Ionicons name="barcode-outline" />} /></Pressable>} />
+            <InputField placeholder="" keyboardType='numeric' onChangeText={value => setDataInputs({ ...dataInputs, isbn: value })} value={dataInputs.isbn} InputRightElement={<Pressable onPress={() => navigation.navigate('Leitor Código Barras')}><Icon mr={2} size={'xl'} /*_light={{ color: 'gray.400' }} _dark={{ color: 'dark.200' }}*/ color="gray.400" as={<Ionicons name="barcode-outline" />} /></Pressable>} />
 
             {'isbn' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.isbn}</FormControl.ErrorMessage> : <FormControl.HelperText>(Ao informar um ISBN todos os dados serão substituidos automaticamente)</FormControl.HelperText>}
           </FormControl>
@@ -283,7 +283,7 @@ export function RegBooksScreen({ navigation }) {
 
           <FormControl isInvalid={'pages' in errors} mb={2}>
             <FormControl.Label _text={{ bold: true }}>Quantidade de Páginas</FormControl.Label>
-            <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, pages: value })} value={dataInputs.pages} />
+            <InputField placeholder="" keyboardType='numeric' onChangeText={value => setDataInputs({ ...dataInputs, pages: value })} value={dataInputs.pages} />
             {'pages' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.pages}</FormControl.ErrorMessage> : null}
           </FormControl>
 
