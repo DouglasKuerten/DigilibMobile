@@ -11,7 +11,7 @@ import { DetailsReserve } from "./DetailsReserve";
 const BookWithInformation = ({ dbValues, onPress }) => (
     <Box marginX={4} marginY={1.5}>
         <TouchableOpacity style={{ flex: 1, flexDirection: 'row', maxHeight: 144 }} onPress={onPress} activeOpacity={0.7}>
-            <Image source={require('../assets/noPhoto.png')} alt={"Foto Livro"} resizeMode={'cover'} w={'100'} h={'150'} borderRadius={'10'} />
+            <Image source={{ uri:'data:image/jpeg;base64,' + fromBase64(dbValues.bookImage) }} alt={"Foto Livro"} resizeMode={'cover'} w={'100'} h={'150'} borderRadius={'10'} />
             <Box flex={1} marginX={2}>
                 <Heading ellipsizeMode={'tail'} numberOfLines={1} text size={'lg'} _light={{ color: 'black' }} _dark={{ color: 'white' }}>{dbValues.title}</Heading>
                 <Heading size={'sm'} color={'gray.500'}>{`${dbValues.author !== null ? dbValues.author : ' '} ${dbValues.authorLastName !== null ? dbValues.authorLastName : ' '}`}</Heading>
@@ -37,6 +37,11 @@ const BookWithInformation = ({ dbValues, onPress }) => (
         </TouchableOpacity >
     </Box >
 );
+
+function fromBase64(encoded) {
+    return Buffer.from(encoded, 'base64').toString('utf8')
+}
+
 const BookOnlyPhoto = ({ dbValues, onPress }) => (
     <Box mr={2} marginY={1.5} >
         <TouchableOpacity style={{ flex: 1, flexDirection: 'row', maxHeight: 225 }} onPress={onPress} activeOpacity={0.7}>
