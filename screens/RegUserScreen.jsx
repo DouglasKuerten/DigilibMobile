@@ -171,7 +171,7 @@ export function RegUserScreen({ navigation }) {
 
           <FormControl isRequired isInvalid={'registration' in errors} mb={2}>
             <FormControl.Label _text={{ bold: true }}>Matricula</FormControl.Label>
-            <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, registration: value })} value={dataInputs.registration} />
+            <InputField placeholder="" keyboardType='numeric' onChangeText={value => setDataInputs({ ...dataInputs, registration: value })} value={dataInputs.registration} />
             {'registration' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.registration}</FormControl.ErrorMessage> : null}
           </FormControl>
 
@@ -189,13 +189,13 @@ export function RegUserScreen({ navigation }) {
 
           <FormControl isInvalid={'email' in errors} mb={2}>
             <FormControl.Label _text={{ bold: true }}>E-mail</FormControl.Label>
-            <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, email: value })} value={dataInputs.email} />
+            <InputField placeholder="" keyboardType='email-address' onChangeText={value => setDataInputs({ ...dataInputs, email: value })} value={dataInputs.email} />
             {'email' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.email}</FormControl.ErrorMessage> : null}
           </FormControl>
 
           <FormControl isInvalid={'phoneNumber' in errors} mb={4}>
             <FormControl.Label _text={{ bold: true }}>Celular</FormControl.Label>
-            <InputField placeholder="" onChangeText={value => setDataInputs({ ...dataInputs, phoneNumber: value })} value={dataInputs.phoneNumber} />
+            <InputField placeholder="" keyboardType='numeric' onChangeText={value => setDataInputs({ ...dataInputs, phoneNumber: value })} value={dataInputs.phoneNumber} />
             {'phoneNumber' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.phoneNumber}</FormControl.ErrorMessage> : null}
           </FormControl>
 
