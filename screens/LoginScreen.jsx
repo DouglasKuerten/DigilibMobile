@@ -53,7 +53,7 @@ export function LoginScreen({ navigation }) {
       <InputField onChangeText={(valuePassword) => setPassword(valuePassword)} w={{ base: "85%", md: "15%" }} mb={2} type={show ? "text" : "password"} InputLeftElement={<Icon as={<MaterialIcons name="lock" />} size={5} ml="2" color="muted.400" />} InputRightElement={<Pressable onPress={() => setShow(!show)}><Icon as={<MaterialIcons name={show ? "visibility" : "visibility-off"} />} size={5} mr="2" color="muted.400" /></Pressable>} placeholder="Senha" />
       <Switch offTrackColor="dark.100" onTrackColor="light.200" onThumbColor="dark.500" offThumbColor="light.300" onToggle={(value) => toggleColorModeAndSave(value)} value={switchValue} />
       <ButtonContained title="Entrar" onPress={login} w={'30%'} />
-      <ButtonUnderline title="Vizualicação Livros" onPress={() => navigation.navigate("Visualização de Livros")} mt={2} />
+      <ButtonUnderline title="Visualização Livros" onPress={() => navigation.navigate("Visualização de Livros")} mt={2} />
     </Center>
   );
 }
