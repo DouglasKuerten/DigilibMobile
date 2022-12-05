@@ -7,6 +7,7 @@ import moment from 'moment';
 import 'moment/locale/pt-br'
 import { URL_API_BACK_END } from '@env';
 import { ToastAlert } from '../components/ToastAlert';
+import { Buffer } from "buffer";
 
 export function DetailsBook(props) {
     const { userToken } = useContext(AuthContext)
@@ -52,7 +53,7 @@ export function DetailsBook(props) {
         <Box flex={1} w={'100%'} flexDirection={'column'}>
             <Box w={'100%'} justifyContent={'space-around'} flexDir={'row'} height={255}>
                 <Box pl={2} pb={5} w={155}>
-                    <Image source={require('../assets/noPhoto.png')} alt={'Foto Livro'} resizeMode='cover' style={{ flex: 1, width: 155, height: 225 }} borderRadius={10} />
+                    <Image source={{ uri:'data:image/png;base64,' + fromBase64(props.dbValues.bookImage) }} alt={'Foto Livro'} resizeMode='cover' style={{ flex: 1, width: 155, height: 225 }} borderRadius={10} />
                 </Box>
                 <Box flex={1} pl={4}>
                     <Row justifyContent={'space-between'} alignItems={'flex-start'}>
@@ -111,4 +112,7 @@ export function DetailsBook(props) {
         </Box >
     );
 
+    function fromBase64(encoded) {
+        return Buffer.from(encoded, 'base64').toString('utf8')
+    }
 }
