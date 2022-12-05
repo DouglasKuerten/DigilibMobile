@@ -1,33 +1,32 @@
 {
   "expo": {
-    "name": "Digilib_Mobile",
-    "slug": "Digilib_Mobile",
+    "name": "Digilib Manager",
+    "description": "Aplicativo destinado ao gerenciamento de uma biblioteca...",
+    "slug": "DigilibManagerMobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "icon": "./assets/iconDigilib.png",
+    "userInterfaceStyle": "default",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/splashDigilib.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/adaptive-icon-digilib.png",
         "backgroundColor": "#FFFFFF"
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/logofontepreta.png"
     }
   }
 }

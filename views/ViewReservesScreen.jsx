@@ -32,7 +32,7 @@ export function ViewReservesScreen() {
   /*   const filterBooks = data.filter(title => title.includes()) */
 
 
-  function LoadingReservs() {
+  function SkeletonReserves() {
     return (
       <Box>
         <Column h={'100%'} ml={4} mr={4} marginY={1.5} >
@@ -46,7 +46,7 @@ export function ViewReservesScreen() {
                     <Skeleton.Text marginY={1} lines={1} maxW={'90%'} />
                     <Skeleton.Text marginY={1} lines={1} maxW={'70%'} />
                     <Skeleton.Text marginY={1} lines={1} maxW={'70%'} />
-                    <Skeleton marginY={2} h={7} borderRadius={'10'} maxW={'40%'} />
+                    <Skeleton marginY={2} h={8} borderRadius={'10'} maxW={'40%'} />
                   </Column>
                 </Row>
               )
@@ -67,7 +67,7 @@ export function ViewReservesScreen() {
   return (
     <Box flex={1} justifyContent={"flex-start"} w="100%" _light={{ bgColor: 'gray.100' }} _dark={{ bgColor: 'dark.50' }} >
       <HeaderFlatList />
-      {isLoading ? <LoadingReservs /> : <ListReserves tag="Nome do Livro" data={data} />}
+      {isLoading ? <SkeletonReserves /> : <ListReserves tag="Nome do Livro" data={data} />}
     </Box>
   );
 }

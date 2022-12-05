@@ -1,8 +1,53 @@
-import React, { useState, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { View } from "react-native";
-import { Box, Heading, Text, ScrollView, Divider, Center, Image, Row, Column } from "native-base";
+import { Box, Heading, Text, ScrollView, Divider, Center, Image, Row, Column, useToast, Icon, Pressable, Menu } from "native-base";
+import { MaterialIcons } from '@expo/vector-icons';
+import { AuthContext } from "../navigation/AuthContext"
+import moment from 'moment';
+import 'moment/locale/pt-br'
+import { URL_API_BACK_END } from '@env';
+import { ToastAlert } from '../components/ToastAlert';
 
 export function DetailsBook(props) {
+    const { userToken } = useContext(AuthContext)
+    const toast = useToast();
+    const toastIdRef = React.useRef();
+
+
+    async function deleteBook(bookId) {
+        await fetch(URL_API_BACK_END + 'books/' + bookId, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+        }).then(() => {
+            const idAtivo = toastIdRef !== undefined ? toastIdRef.current : null;
+            if (!toast.isActive(idAtivo)) {
+                toastIdRef.current = toast.show({
+                    render: ({ id }) => {
+                        return <ToastAlert id={id} title={"Sucesso"} status={'success'} description={"Livro excluido com sucesso!"} varToast={toast} />
+                    }
+                });
+            };
+        })
+    }
+
+    function ButtonEditDelete(value) {
+        return (
+            <Box alignItems="center">
+                <Menu w="190" placement={'bottom right'} trigger={triggerProps => {
+                    return <Pressable accessibilityLabel="Mais" {...triggerProps}>
+                        <Icon as={MaterialIcons} name="more-vert" size="lg" color="0084da" />
+                    </Pressable>;
+                }}>
+                    <Menu.Item isDisabled>Editar</Menu.Item>
+                    <Menu.Item onPress={() => deleteBook(value.bookId)}>Deletar</Menu.Item>
+                </Menu>
+            </Box>)
+    }
+
+
     return (
         <Box flex={1} w={'100%'} flexDirection={'column'}>
             <Box w={'100%'} justifyContent={'space-around'} flexDir={'row'} height={255}>
@@ -10,7 +55,10 @@ export function DetailsBook(props) {
                     <Image source={require('../assets/noPhoto.png')} alt={'Foto Livro'} resizeMode='cover' style={{ flex: 1, width: 155, height: 225 }} borderRadius={10} />
                 </Box>
                 <Box flex={1} pl={4}>
-                    <Heading size={'lg'} _light={{ color: 'black' }} _dark={{ color: 'gray.200' }}>{props.dbValues.title}</Heading>
+                    <Row justifyContent={'space-between'} alignItems={'flex-start'}>
+                        <Heading size={'lg'} _light={{ color: 'black' }} _dark={{ color: 'gray.200' }}>{props.dbValues.title}</Heading>
+                        {userToken !== null ? <ButtonEditDelete bookId={props.dbValues.id} /> : null}
+                    </Row>
                     <Text _light={{ color: 'black' }} _dark={{ color: 'gray.200' }}>{`${props.dbValues.author !== null ? props.dbValues.author : ' '} ${props.dbValues.authorLastName !== null ? props.dbValues.authorLastName : ' '}`}</Text>
                     <Row pt={2}>
                         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -25,6 +73,13 @@ export function DetailsBook(props) {
                             }
                         </ScrollView>
                     </Row>
+                    <Column flexGrow={1} justifyContent={'center'} mb={5}>
+                        <Text ellipsizeMode={'tail'} numberOfLines={1} _light={{ color: 'dark.100' }} _dark={{ color: 'gray.200' }} mt={1} ><Text fontWeight={'bold'}>Edição: </Text>{props.dbValues.edition}</Text>
+                        <Text ellipsizeMode={'tail'} numberOfLines={1} _light={{ color: 'dark.100' }} _dark={{ color: 'gray.200' }}><Text fontWeight={'bold'}>Volume: </Text>{props.dbValues.volume}</Text>
+                        <Text ellipsizeMode={'tail'} numberOfLines={1} _light={{ color: 'dark.100' }} _dark={{ color: 'gray.200' }}><Text fontWeight={'bold'}>Coleção: </Text>{props.dbValues.collection}</Text>
+                        <Text ellipsizeMode={'tail'} numberOfLines={1} _light={{ color: 'dark.100' }} _dark={{ color: 'gray.200' }}><Text fontWeight={'bold'}>Editora: </Text>{props.dbValues.publishingCompany}</Text>
+                        <Text ellipsizeMode={'tail'} numberOfLines={1} _light={{ color: 'dark.100' }} _dark={{ color: 'gray.200' }}><Text fontWeight={'bold'}>Publicação: </Text>{props.dbValues.publishDate != undefined ? moment(props.dbValues.publishDate).locale('pt-BR').format('L') : ''}</Text>
+                    </Column>
                 </Box>
             </Box>
 
