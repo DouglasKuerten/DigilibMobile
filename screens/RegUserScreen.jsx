@@ -8,6 +8,7 @@ import { URL_API_BACK_END } from '@env';
 
 import * as ImagePicker from 'expo-image-picker';
 import { ToastAlert } from '../components/ToastAlert';
+import { Buffer } from "buffer";
 
 export function RegUserScreen({ navigation }) {
   const [errors, setErrors] = useState({});
@@ -38,7 +39,7 @@ export function RegUserScreen({ navigation }) {
         email: dataInputs.email,
         phoneNumber: dataInputs.phoneNumber,
         acessGroup: dataInputs.acessGroup,
-        userImage: dataInputs.userImage
+        userImage: toBase64(dataInputs.userImage)
       })
     }).then(() => {
       const idAtivo = toastIdRef !== undefined ? toastIdRef.current : null;
@@ -51,6 +52,11 @@ export function RegUserScreen({ navigation }) {
       };
     })
   }
+
+  function toBase64(input) {
+    return Buffer.from(input, 'utf-8').toString('base64')
+  }
+
   const showImagePicker = async () => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permissionResult.granted === false) {
