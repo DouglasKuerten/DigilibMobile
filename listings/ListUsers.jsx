@@ -4,11 +4,11 @@ import { Actionsheet, useDisclose, Box, Text, Icon, Avatar, IconButton, Heading,
 import { MaterialIcons, } from "@expo/vector-icons";
 import { AuthContext } from "../navigation/AuthContext"
 import { DetailsUser } from "./DetailsUser";
+import { Buffer } from "buffer";
 
-
-const User = ({ name, lastName, occupation, onPress }) => (
+const User = ({ name, lastName, occupation, userImage, onPress }) => (
     <Pressable style={{ paddingHorizontal: 10, paddingVertical: 10, marginVertical: 1, marginHorizontal: 5, borderRadius: 5, alignSelf: "center", alignItems: "center", width: "100%", flexDirection: 'row', height: 100 }} onPress={onPress}>
-        <Avatar source={require('../assets/elon.png')} size={'20'} />
+        <Avatar source={{ uri:'data:image/png;base64,' + fromBase64(userImage) }} size={'20'} />
         <Box style={{ flex: 1, flexDirection: "column", alignItems: "flex-start" }}>
             <Heading size={'sm'} pl={3} numberOfLines={1}>{name} {lastName}</Heading>
             <Center _light={{ bgColor: '#0084da' }} _dark={{ bgColor: 'dark.100' }} borderRadius={10} mt={1} mb={1} paddingX={3} paddingY={2} maxW={'40%'} ml={3}>
@@ -20,6 +20,10 @@ const User = ({ name, lastName, occupation, onPress }) => (
 
 );
 
+function fromBase64(encoded) {
+    return Buffer.from(encoded, 'base64').toString('utf8')
+}
+
 export function ListUsers(props) {
     const { userToken } = useContext(AuthContext)
     const { isOpen, onOpen, onClose } = useDisclose();
@@ -30,7 +34,7 @@ export function ListUsers(props) {
         setdataUserModal(item);
     }
 
-    const renderUser = ({ item }) => <User name={item.name} occupation={item.acessGroup} lastName={item.lastName} onPress={() => clickItem(item)} />;
+    const renderUser = ({ item }) => <User name={item.name} occupation={item.acessGroup} lastName={item.lastName} userImage={item.userImage} onPress={() => clickItem(item)} />;
 
     const FlatListEmpty = () => (
         <Center >
