@@ -45,7 +45,7 @@ function fromBase64(encoded) {
 const BookOnlyPhoto = ({ dbValues, onPress }) => (
     <Box mr={2} marginY={1.5} >
         <TouchableOpacity style={{ flex: 1, flexDirection: 'row', maxHeight: 225 }} onPress={onPress} activeOpacity={0.7}>
-            <Image source={require('../assets/noPhoto.png')/* dbValues.bookImage */} alt={"Foto Livro"} resizeMode={'cover'} w={'150'} h={'225'} borderRadius={'10'}></Image>
+            <Image source={{ uri:'data:image/png;base64,' + fromBase64(dbValues.Book.bookImage) }} alt={"Foto Livro"} resizeMode={'cover'} w={'150'} h={'225'} borderRadius={'10'}></Image>
         </TouchableOpacity >
     </Box >
 );
