@@ -41,7 +41,7 @@ export function RegBooksScreen({ navigation }) {
         publishDate: new Date(dataInputs.publishDate),
         pages: parseInt(dataInputs.pages, 10),
         ageGroup: parseInt(dataInputs.ageGroup, 10),
-        userImage: dataInputs.bookImage == null ? null : toBase64(dataInputs.bookImage)
+        userImage: dataInputs.bookImage == null ? null : toBase64(dataInputs.bookImage),
         bookSituation: dataInputs.bookSituation
       })
       /*bookImage: dataInputs.bookImage */,
