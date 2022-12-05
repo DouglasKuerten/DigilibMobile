@@ -39,7 +39,7 @@ export function RegUserScreen({ navigation }) {
         email: dataInputs.email,
         phoneNumber: dataInputs.phoneNumber,
         acessGroup: dataInputs.acessGroup,
-        userImage: toBase64(dataInputs.userImage)
+        userImage: dataInputs.userImage == null ? null : toBase64(dataInputs.userImage)
       })
     }).then(() => {
       const idAtivo = toastIdRef !== undefined ? toastIdRef.current : null;
