@@ -8,7 +8,7 @@ import { URL_API_BACK_END } from '@env';
 import { BookValueContext } from '../contexts/RegisterBookContext'
 import * as ImagePicker from 'expo-image-picker';
 import { ToastAlert } from '../components/ToastAlert';
-
+import { Buffer } from "buffer";
 
 export function RegBooksScreen({ navigation }) {
   const [errors, setErrors] = useState({});
@@ -41,7 +41,7 @@ export function RegBooksScreen({ navigation }) {
         publishDate: new Date(dataInputs.publishDate),
         pages: parseInt(dataInputs.pages, 10),
         ageGroup: parseInt(dataInputs.ageGroup, 10),
-        bookImage: "",
+        bookImage: toBase64(dataInputs.bookImage),
         bookSituation: dataInputs.bookSituation
       })
       /*bookImage: dataInputs.bookImage */,
@@ -56,6 +56,11 @@ export function RegBooksScreen({ navigation }) {
       };
     })
   }
+
+  function toBase64(input) {
+    return Buffer.from(input, 'utf-8').toString('base64')
+  }
+
   const showImagePicker = async () => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permissionResult.granted === false) {
