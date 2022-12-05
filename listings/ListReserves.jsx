@@ -6,6 +6,7 @@ import { AuthContext } from "../navigation/AuthContext"
 import { ButtonContained } from "../components/ButtonContained";
 import moment from 'moment'; import 'moment/locale/pt-br'
 import { DetailsReserve } from "./DetailsReserve";
+import { Buffer } from "buffer";
 
 /*
 const Item = ({ name, title, onPress }) => (
@@ -22,7 +23,7 @@ const Item = ({ name, title, onPress }) => (
 const Reserve = ({ dbValues, onPress }) => (
     <Box marginX={4} marginY={1.5}>
         <TouchableOpacity style={{ flex: 1, flexDirection: 'row', maxHeight: 144 }} onPress={onPress} activeOpacity={0.7}>
-            <Image source={require('../assets/noPhoto.png')} alt={"Foto Livro"} resizeMode={'cover'} w={'100'} h={'150'} borderRadius={'10'} />
+            <Image source={{ uri:'data:image/jpeg;base64,' + fromBase64(dbValues.Book.bookImage) }} alt={"Foto Livro"} resizeMode={'cover'} w={'100'} h={'150'} borderRadius={'10'} />
             <Box flex={1} marginX={2}>
                 <Heading ellipsizeMode={'tail'} numberOfLines={1} text size={'lg'} _light={{ color: 'black' }} _dark={{ color: 'white' }}>{dbValues.Book.title}</Heading>
                 <Text ellipsizeMode={'tail'} numberOfLines={1} fontSize={'md'} _light={{ color: 'black' }} _dark={{ color: 'gray.200' }}>Usuário: {dbValues.User.name} {dbValues.User.lastName}</Text>
@@ -37,6 +38,10 @@ const Reserve = ({ dbValues, onPress }) => (
         </TouchableOpacity >
     </Box >
 );
+
+function fromBase64(encoded) {
+    return Buffer.from(encoded, 'base64').toString('utf8')
+}
 
 export function ListReserves(props) {
     const { userToken } = useContext(AuthContext)
