@@ -204,7 +204,7 @@ export function RegReservesScreen({ navigation }) {
           <FormControl isRequired isInvalid={'internalCode' in errors} mb={2}>
             <FormControl.Label _text={{ bold: true }}>Código do Livro</FormControl.Label>
             <Row>
-              <InputField w={'30%'} mr={1} placeholder="" onChangeText={value => onChangeBookInternalCode(value)} value={dataInputs.internalCode} />
+              <InputField w={'30%'} mr={1} placeholder="" keyboardType='numeric' onChangeText={value => onChangeBookInternalCode(value)} value={dataInputs.internalCode} />
               <InputField isDisabled={true} flex={1} placeholder="" value={dataBook.title !== 'SequelizeDatabaseError' ? dataBook.title : ''} />
             </Row>
             {'internalCode' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.internalCode}</FormControl.ErrorMessage> : null}
@@ -213,7 +213,7 @@ export function RegReservesScreen({ navigation }) {
           <FormControl isRequired isInvalid={'registration' in errors} mb={4}>
             <FormControl.Label _text={{ bold: true }}>Matrícula do Usuário</FormControl.Label>
             <Row>
-              <InputField w={'30%'} mr={1} placeholder="" onChangeText={value => onChangeUserRegistration(value)} value={dataInputs.registration} />
+              <InputField w={'30%'} mr={1} placeholder="" keyboardType='numeric' onChangeText={value => onChangeUserRegistration(value)} value={dataInputs.registration} />
               <InputField isDisabled={true} flex={1} placeholder="" value={dataUser.name !== 'SequelizeDatabaseError' ? dataUser.name : ''} />
             </Row>
             {'registration' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.registration}</FormControl.ErrorMessage> : null}
