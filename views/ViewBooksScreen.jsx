@@ -122,7 +122,7 @@ export function ViewBooksScreen({ navigation }) {
     <Box flex={1} justifyContent={"flex-start"} w="100%" _light={{ bgColor: 'gray.100' }} _dark={{ bgColor: 'dark.50' }} >
       <Row mt={2} marginX={4} alignItems={'center'}>
         <Box flexGrow={1}>
-          <InputField value={searchValues} onChangeText={(value) => filterBooks(value)} mb={"0px"} w={"100%"} size={"lg"} h={12} placeholder="Pesquisar título do livro" py="1" px="3" InputLeftElement={<Icon ml="3" size="5" Color={'gray.400'} as={<Ionicons name="ios-search" />} />} keyboardType={"default"} />
+          <InputField value={searchValues} onChangeText={(value) => filterBooks(value)} mb={"0px"} w={"100%"} size={"lg"} h={12} placeholder="Pesquisar livro..." py="1" px="3" InputLeftElement={<Icon ml="3" size="5" Color={'gray.400'} as={<Ionicons name="ios-search" />} />} keyboardType={"default"} />
         </Box>
         <IconButton onPress={() => clearFilterBooks()} icon={<Icon as={MaterialIcons} size="7" name="clear" />} _icon={{ color: useColorModeValue('#FFF', '#0084da'), size: 'md' }} _light={{ bgColor: '#0084da' }} _dark={{ bgColor: 'dark.100' }} w={12} h={12} borderRadius={10} marginLeft={2} />
       </Row>
