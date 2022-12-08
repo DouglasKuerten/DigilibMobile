@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Box, Icon, IconButton, Center, Skeleton, Row, Column, useColorModeValue } from "native-base";
 import { ListBooks } from '../listings/ListBooks';
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import { InputField } from "../components/InputField";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { URL_API_BACK_END } from '@env';
@@ -12,7 +12,8 @@ export function ViewBooksScreen({ navigation }) {
   const [isLoading, setLoading] = useState(false);
   const [dataAllBooks, setDataAllBooks] = useState([]);
   const [dataMyBooks, setDataMyBooks] = useState([]);
-  const [dataFilter, setDataFilter] = useState([]);
+  const [dataFilterAllBooks, setDataFilterAllBooks] = useState([]);
+  const [dataFilterMyBooks, setDataFilterMyBooks] = useState([]);
   const [searchValues, setSearchValues] = useState('');
   const [dataLoading, setDataLoading] = useState(new Array(5).fill(0));
 
@@ -48,7 +49,22 @@ export function ViewBooksScreen({ navigation }) {
     return reloadBooks
   }, [navigation]);
 
-  /*   const filterBooks = dataAllBooks.filter(title => title.includes()) */
+  function filterBooks(valueFilter) {
+    try {
+      setSearchValues(valueFilter);
+      var jsonAllBooks = dataAllBooks.filter(book => book.title.includes(valueFilter))
+      setDataFilterAllBooks(jsonAllBooks);
+      var jsonMyBooks = dataMyBooks.filter(reserve => reserve.Book.title.includes(valueFilter))
+      setDataFilterMyBooks(jsonMyBooks);
+    } catch {
+
+    }
+  }
+  function clearFilterBooks() {
+    setSearchValues('');
+    setDataFilterAllBooks([]);
+    setDataFilterMyBooks([]);
+  }
 
   function SkeletonMyBooks() {
     return (
@@ -101,19 +117,16 @@ export function ViewBooksScreen({ navigation }) {
         <SkeletonAllBooks />
       </Box>);
   }
-  const SearchInput = () => (
-    <Row mt={2} marginX={4} alignItems={'center'}>
-      <Box flexGrow={1}>
-        <InputField value={searchValues} onChangeText={value => setSearchValues(value)} mb={"0px"} w={"100%"} size={"lg"} h={12} placeholder="Pesquisar" py="1" px="3" InputLeftElement={<Icon ml="3" size="5" Color={'gray.400'} as={<Ionicons name="ios-search" />} />} keyboardType={"default"} />
-      </Box>
-      <IconButton icon={<Icon as={MaterialCommunityIcons} size="6" name="filter-outline" />} _icon={{ color: useColorModeValue('#FFF', '#0084da'), size: 'md' }} _light={{ bgColor: '#0084da' }} _dark={{ bgColor: 'dark.100' }} w={10} h={10} borderRadius={20} marginLeft={2} />
-    </Row>
-  );
 
   return (
     <Box flex={1} justifyContent={"flex-start"} w="100%" _light={{ bgColor: 'gray.100' }} _dark={{ bgColor: 'dark.50' }} >
-      <SearchInput />
-      {isLoading ? <LoadingBooks /> : <ListBooks tag="Nome do Livro" dataAllBooks={dataAllBooks} dataMyBooks={dataMyBooks} />}
+      <Row mt={2} marginX={4} alignItems={'center'}>
+        <Box flexGrow={1}>
+          <InputField value={searchValues} onChangeText={(value) => filterBooks(value)} mb={"0px"} w={"100%"} size={"lg"} h={12} placeholder="Pesquisar título do livro" py="1" px="3" InputLeftElement={<Icon ml="3" size="5" Color={'gray.400'} as={<Ionicons name="ios-search" />} />} keyboardType={"default"} />
+        </Box>
+        <IconButton onPress={() => clearFilterBooks()} icon={<Icon as={MaterialIcons} size="7" name="clear" />} _icon={{ color: useColorModeValue('#FFF', '#0084da'), size: 'md' }} _light={{ bgColor: '#0084da' }} _dark={{ bgColor: 'dark.100' }} w={12} h={12} borderRadius={10} marginLeft={2} />
+      </Row>
+      {isLoading ? <LoadingBooks /> : <ListBooks tag="Nome do Livro" dataAllBooks={dataFilterAllBooks.length == 0 && searchValues == '' ? dataAllBooks : dataFilterAllBooks} dataMyBooks={dataFilterMyBooks.length == 0 && searchValues == '' ? dataMyBooks : dataFilterMyBooks} />}
     </Box>
   );
 }

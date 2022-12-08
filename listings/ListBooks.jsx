@@ -11,7 +11,7 @@ import { DetailsReserve } from "./DetailsReserve";
 const BookWithInformation = ({ dbValues, onPress }) => (
     <Box marginX={4} marginY={1.5}>
         <TouchableOpacity style={{ flex: 1, flexDirection: 'row', maxHeight: 144 }} onPress={onPress} activeOpacity={0.7}>
-            <Image source={{ uri:'data:image/jpeg;base64,' + fromBase64(dbValues.bookImage) }} alt={"Foto Livro"} resizeMode={'cover'} w={'100'} h={'150'} borderRadius={'10'} />
+            <Image source={{ uri: 'data:image/jpeg;base64,' + fromBase64(dbValues.bookImage) }} alt={"Foto Livro"} resizeMode={'cover'} w={'100'} h={'150'} borderRadius={'10'} />
             <Box flex={1} marginX={2}>
                 <Heading ellipsizeMode={'tail'} numberOfLines={1} text size={'lg'} _light={{ color: 'black' }} _dark={{ color: 'white' }}>{dbValues.title}</Heading>
                 <Heading size={'sm'} color={'gray.500'}>{`${dbValues.author !== null ? dbValues.author : ' '} ${dbValues.authorLastName !== null ? dbValues.authorLastName : ' '}`}</Heading>
@@ -45,7 +45,7 @@ function fromBase64(encoded) {
 const BookOnlyPhoto = ({ dbValues, onPress }) => (
     <Box mr={2} marginY={1.5} >
         <TouchableOpacity style={{ flex: 1, flexDirection: 'row', maxHeight: 225 }} onPress={onPress} activeOpacity={0.7}>
-            <Image source={{ uri:'data:image/png;base64,' + fromBase64(dbValues.Book.bookImage) }} alt={"Foto Livro"} resizeMode={'cover'} w={'150'} h={'225'} borderRadius={'10'}></Image>
+            <Image source={{ uri: 'data:image/png;base64,' + fromBase64(dbValues.Book.bookImage) }} alt={"Foto Livro"} resizeMode={'cover'} w={'150'} h={'225'} borderRadius={'10'}></Image>
         </TouchableOpacity >
     </Box >
 );
@@ -120,7 +120,6 @@ export function ListBooks(props/* , { navigation } */) {
                     keyExtractor={item => item.id}
                     showsHorizontalScrollIndicator={false}
                     ListEmptyComponent={EmptyAllBooks}
-                //ListHeaderComponent={HeaderAllBooks}
                 />
             </Box>
         );
@@ -128,7 +127,7 @@ export function ListBooks(props/* , { navigation } */) {
 
     return (
         <Box flex={1} mb={1} justifyContent={'space-around'} >
-            {userToken !== null ? <MyBooks /> : null}
+            {userToken !== null && props.dataMyBooks.length != 0 ? <MyBooks /> : null}
             <AllBooks />
             <Actionsheet isOpen={isOpen} onClose={onClose} /* disableOverlay */ >
                 <Actionsheet.Content _light={{ bgColor: 'gray.300' }} _dark={{ bgColor: 'dark.100' }}  >

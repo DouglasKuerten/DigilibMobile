@@ -23,7 +23,7 @@ const Item = ({ name, title, onPress }) => (
 const Reserve = ({ dbValues, onPress }) => (
     <Box marginX={4} marginY={1.5}>
         <TouchableOpacity style={{ flex: 1, flexDirection: 'row', maxHeight: 144 }} onPress={onPress} activeOpacity={0.7}>
-            <Image source={{ uri:'data:image/jpeg;base64,' + fromBase64(dbValues.Book.bookImage) }} alt={"Foto Livro"} resizeMode={'cover'} w={'100'} h={'150'} borderRadius={'10'} />
+            <Image source={{ uri: 'data:image/jpeg;base64,' + fromBase64(dbValues.Book.bookImage) }} alt={"Foto Livro"} resizeMode={'cover'} w={'100'} h={'150'} borderRadius={'10'} />
             <Box flex={1} marginX={2}>
                 <Heading ellipsizeMode={'tail'} numberOfLines={1} text size={'lg'} _light={{ color: 'black' }} _dark={{ color: 'white' }}>{dbValues.Book.title}</Heading>
                 <Text ellipsizeMode={'tail'} numberOfLines={1} fontSize={'md'} _light={{ color: 'black' }} _dark={{ color: 'gray.200' }}>Usuário: {dbValues.User.name} {dbValues.User.lastName}</Text>
@@ -56,19 +56,19 @@ export function ListReserves(props) {
     const renderItem = ({ item }) => <Reserve dbValues={item} onPress={() => clickItem(item)} />;
 
     const FlatListEmpty = () => (
-        <Center >
-            <Text>Sem dados encontados</Text>
-        </Center>
-    );
-    const HeaderFlatList = () => (
-        <Center flexDir={'row'} w={"95%"} alignSelf={'center'} >
-            {/* Cabecalho da listagem */}
-        </Center>
+        <Box flex={1} paddingX={4} justifyContent={'center'} alignItems={'center'} pt={2} >
+            <Heading size={'md'}>Nenhuma reserva encontrada</Heading>
+        </Box>
     );
 
     return (
         <Box flex={1} justifyContent={"space-around"} _light={{ bgColor: 'gray.100' }} _dark={{ bgColor: 'dark.50' }}>
-            <FlatList data={props.data} renderItem={renderItem} keyExtractor={(item) => item.id} ListEmptyComponent={FlatListEmpty()} initialNumToRender={25} ListHeaderComponent={HeaderFlatList()} showsVerticalScrollIndicator={false} />
+            <FlatList data={props.data}
+                renderItem={renderItem}
+                keyExtractor={(item) => item.id}
+                ListEmptyComponent={FlatListEmpty()}
+                initialNumToRender={25}
+                showsVerticalScrollIndicator={false} />
             <Actionsheet isOpen={isOpen} onClose={onClose} /* disableOverlay */>
                 <Actionsheet.Content _light={{ bgColor: 'gray.300' }} _dark={{ bgColor: 'dark.100' }}>
                     <Box h={240}>
