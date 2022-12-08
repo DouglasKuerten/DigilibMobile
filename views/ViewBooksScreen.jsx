@@ -7,9 +7,9 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { URL_API_BACK_END } from '@env';
 import { AuthContext } from "../navigation/AuthContext"
 
-export function ViewBooksScreen() {
+export function ViewBooksScreen({ navigation }) {
   const { userToken } = useContext(AuthContext)
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(false);
   const [dataAllBooks, setDataAllBooks] = useState([]);
   const [dataMyBooks, setDataMyBooks] = useState([]);
   const [dataFilter, setDataFilter] = useState([]);
@@ -23,8 +23,6 @@ export function ViewBooksScreen() {
       setDataAllBooks(json);
     } catch (error) {
       // console.error(error);
-    } finally {
-      setLoading(false);
     }
   }
   const getMyBooks = async () => {
@@ -34,15 +32,21 @@ export function ViewBooksScreen() {
       setDataMyBooks(json);
     } catch (error) {
       // console.error(error);
-    } finally {
-      setLoading(false);
     }
+  }
+  async function getAll() {
+    setLoading(true);
+    await getAllBooks();
+    await getMyBooks();
+    setLoading(false);
   }
 
   useEffect(() => {
-    getAllBooks();
-    getMyBooks();
-  }, []);
+    const reloadBooks = navigation.addListener("focus", () => {
+      getAll();
+    });
+    return reloadBooks
+  }, [navigation]);
 
   /*   const filterBooks = dataAllBooks.filter(title => title.includes()) */
 

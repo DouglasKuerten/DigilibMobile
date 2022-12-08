@@ -15,6 +15,7 @@ export function RegBooksScreen({ navigation }) {
   const toast = useToast();
   const toastIdRef = React.useRef();
   const { dataInputs, setDataInputs } = useContext(BookValueContext);
+  const [isLoadingButton, setIsLoadingButton] = useState(false)
 
   async function setBooks() {
     await fetch(URL_API_BACK_END + 'books', {
@@ -133,9 +134,10 @@ export function RegBooksScreen({ navigation }) {
     return Object.values(errors).length == 0 ? true : false;
   };
 
-  const registerBook = () => {
+  async function registerBook() {
+    setIsLoadingButton(true)
     if (validate()) {
-      setBooks();
+      await setBooks();
       setDataInputs({
         internalCode: null,
         isbn: null,
@@ -167,6 +169,7 @@ export function RegBooksScreen({ navigation }) {
         });
       }
     }
+    setIsLoadingButton(false)
   };
   return (
     <Box flex={1} _light={{ bgColor: 'gray.100' }} _dark={{ bgColor: 'dark.50' }}>
@@ -307,7 +310,7 @@ export function RegBooksScreen({ navigation }) {
 
           <Divider />
           <Box w={'100%'} alignItems={'center'} mt={2} mb={4}>
-            <ButtonContained w={'30%'} title={'Cadastrar'} onPress={(registerBook)} colorScheme="cyan" />
+            <ButtonContained isLoading={isLoadingButton} w={'30%'} title={'Cadastrar'} onPress={(registerBook)} colorScheme="cyan" />
           </Box>
         </ScrollView>
 

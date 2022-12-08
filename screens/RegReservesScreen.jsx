@@ -26,6 +26,10 @@ export function RegReservesScreen({ navigation }) {
 
   const [showReserveDate, setShowReserveDate] = useState(false);
   const [showReturnDate, setShowReturnDate] = useState(false);
+  const [isLoadingButton, setIsLoadingButton] = useState(false)
+  const [isLoadingBook, setIsLoadingBook] = useState('');
+  const [isLoadingUser, setIsLoadingUser] = useState('');
+
 
   async function setReserve() {
     await fetch(URL_API_BACK_END + 'reserves', {
@@ -77,9 +81,10 @@ export function RegReservesScreen({ navigation }) {
     return Object.values(errors).length == 0 ? true : false;
   };
 
-  const registerReserve = () => {
+  async function registerReserve() {
     if (validate()) {
-      setReserve();
+      setIsLoadingButton(true);
+      await setReserve();
       setDataInputs({
         internalCode: null,
         registration: null,
@@ -88,6 +93,8 @@ export function RegReservesScreen({ navigation }) {
         reserveStatus: 'Ativa',
         observation: null
       });
+      setIsLoadingUser('');
+      setIsLoadingBook('');
     } else {
       const idAtivo = toastIdRef !== undefined ? toastIdRef.current : null;
       if (!toast.isActive(idAtivo)) {
@@ -98,22 +105,29 @@ export function RegReservesScreen({ navigation }) {
         });
       }
     }
+    setIsLoadingButton(false);
   };
   const getUser = async (registration) => {
     try {
+      setIsLoadingUser('Buscando...')
       const response = await fetch(URL_API_BACK_END + 'users/registration/' + registration);
       const json = await response.json();
       setDataUser(json);
+      setIsLoadingUser(json.name === 'SequelizeDatabaseError' || json.name === undefined ? 'Usuário não encontrado' : json.name)
     } catch (error) {
+      setIsLoadingUser("Valor Inválido")
       // console.error(error);
     }
   }
   const getBook = async (internalCode) => {
     try {
+      setIsLoadingBook('Buscando...')
       const response = await fetch(URL_API_BACK_END + 'books/internalCode/' + internalCode);
       const json = await response.json();
       setDataBook(json);
+      setIsLoadingBook(json.title === 'SequelizeDatabaseError' || json.title === undefined ? 'Livro não encontrado' : json.title)
     } catch (error) {
+      setIsLoadingBook("Valor Inválido")
       // console.error(error);
     }
   }
@@ -122,17 +136,14 @@ export function RegReservesScreen({ navigation }) {
     if (Number.isInteger(Number(value))) {
       setDataInputs({ ...dataInputs, internalCode: value })
       getBook(value);
-    } /* else {
-      setErrors(Object.assign(errors, { internalCode: 'Somente números são aceitos no código interno' }));
-    } */
+    }
+
   }
   const onChangeUserRegistration = (value) => {
     if (Number.isInteger(Number(value))) {
       setDataInputs({ ...dataInputs, registration: value })
       getUser(value);
-    } /* else {
-      setErrors(Object.assign(errors, { registration: 'Somente números são aceitos na matrícula' }));
-    } */
+    }
   }
 
   const onChangeReserveDate = (event, selectedDate) => {
@@ -205,7 +216,7 @@ export function RegReservesScreen({ navigation }) {
             <FormControl.Label _text={{ bold: true }}>Código do Livro</FormControl.Label>
             <Row>
               <InputField w={'30%'} mr={1} placeholder="" keyboardType='numeric' onChangeText={value => onChangeBookInternalCode(value)} value={dataInputs.internalCode} />
-              <InputField isDisabled={true} flex={1} placeholder="" value={dataBook.title !== 'SequelizeDatabaseError' ? dataBook.title : ''} />
+              <InputField isDisabled={true} flex={1} placeholder="" value={isLoadingBook} />
             </Row>
             {'internalCode' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.internalCode}</FormControl.ErrorMessage> : null}
           </FormControl>
@@ -214,7 +225,7 @@ export function RegReservesScreen({ navigation }) {
             <FormControl.Label _text={{ bold: true }}>Matrícula do Usuário</FormControl.Label>
             <Row>
               <InputField w={'30%'} mr={1} placeholder="" keyboardType='numeric' onChangeText={value => onChangeUserRegistration(value)} value={dataInputs.registration} />
-              <InputField isDisabled={true} flex={1} placeholder="" value={dataUser.name !== 'SequelizeDatabaseError' ? dataUser.name : ''} />
+              <InputField isDisabled={true} flex={1} placeholder="" value={isLoadingUser} />
             </Row>
             {'registration' in errors ? <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>{errors.registration}</FormControl.ErrorMessage> : null}
           </FormControl>
@@ -250,7 +261,7 @@ export function RegReservesScreen({ navigation }) {
 
           <Divider />
           <Box w={'100%'} alignItems={'center'} mt={2} mb={4}>
-            <ButtonContained w={'30%'} title={'Cadastrar'} onPress={(registerReserve)} colorScheme="cyan" />
+            <ButtonContained isLoading={isLoadingButton} w={'30%'} title={'Cadastrar'} onPress={(registerReserve)} colorScheme="cyan" />
           </Box>
         </ScrollView>
 

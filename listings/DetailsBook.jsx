@@ -53,12 +53,11 @@ export function DetailsBook(props) {
         <Box flex={1} w={'100%'} flexDirection={'column'}>
             <Box w={'100%'} justifyContent={'space-around'} flexDir={'row'} height={255}>
                 <Box pl={2} pb={5} w={155}>
-                    <Image source={{ uri:'data:image/png;base64,' + fromBase64(props.dbValues.bookImage) }} alt={'Foto Livro'} resizeMode='cover' style={{ flex: 1, width: 155, height: 225 }} borderRadius={10} />
+                    <Image source={{ uri: 'data:image/png;base64,' + fromBase64(props.dbValues.bookImage) }} alt={'Foto Livro'} resizeMode='cover' style={{ flex: 1, width: 155, height: 225 }} borderRadius={10} />
                 </Box>
                 <Box flex={1} pl={4}>
                     <Row justifyContent={'space-between'} alignItems={'flex-start'}>
                         <Heading size={'lg'} _light={{ color: 'black' }} _dark={{ color: 'gray.200' }}>{props.dbValues.title}</Heading>
-                        {userToken !== null ? <ButtonEditDelete bookId={props.dbValues.id} /> : null}
                     </Row>
                     <Text _light={{ color: 'black' }} _dark={{ color: 'gray.200' }}>{`${props.dbValues.author !== null ? props.dbValues.author : ' '} ${props.dbValues.authorLastName !== null ? props.dbValues.authorLastName : ' '}`}</Text>
                     <Row pt={2}>

@@ -18,12 +18,13 @@ export function RegUserScreen({ navigation }) {
     lastName: null,
     email: null,
     phoneNumber: null,
-    acessGroup: null,
+    acessGroup: 'Aluno',
     userImage: null
   });
   const toast = useToast();
   const toastIdRef = React.useRef();
   const [doc, setDoc] = useState();
+  const [isLoadingButton, setIsLoadingButton] = useState(false)
 
   async function setUser() {
     await fetch(URL_API_BACK_END + 'users', {
@@ -123,9 +124,10 @@ export function RegUserScreen({ navigation }) {
     return Object.values(errors).length == 0 ? true : false;
   };
 
-  const registerUser = () => {
+  async function registerUser() {
+    setIsLoadingButton(true);
     if (validate()) {
-      setUser();
+      await setUser();
       setDataInputs({
         registration: null,
         name: null,
@@ -145,6 +147,7 @@ export function RegUserScreen({ navigation }) {
         });
       }
     }
+    setIsLoadingButton(false);
   };
 
   return (
@@ -212,9 +215,8 @@ export function RegUserScreen({ navigation }) {
 
           <Divider />
           <Box w={'100%'} alignItems={'center'} mt={2} mb={4}>
-            <ButtonContained w={'30%'} title={'Cadastrar'} onPress={(registerUser)} colorScheme="cyan" />
+            <ButtonContained isLoading={isLoadingButton} w={'30%'} title={'Cadastrar'} onPress={(registerUser)} colorScheme="cyan" />
           </Box>
-
         </VStack>
       </ScrollView>
     </Box>

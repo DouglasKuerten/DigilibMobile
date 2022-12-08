@@ -7,8 +7,8 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { URL_API_BACK_END } from '@env';
 import { useColorModeValue } from "native-base";
 
-export function ViewUsersScreen() {
-    const [isLoading, setLoading] = useState(true);
+export function ViewUsersScreen({ navigation }) {
+    const [isLoading, setLoading] = useState(false);
     const [data, setData] = useState([]);
     const [dataFilter, setDataFilter] = useState([]);
     const [searchValue, setSearchValue] = useState('');
@@ -16,22 +16,22 @@ export function ViewUsersScreen() {
 
     const getUsers = async () => {
         try {
+            setLoading(true);
             const response = await fetch(URL_API_BACK_END + 'users');
             const json = await response.json();
             setData(json);
+            setLoading(false);
         } catch (error) {
             // console.error(error);
-        } finally {
-            setLoading(false);
         }
     }
 
     useEffect(() => {
-        getUsers();
-    }, []);
-
-    /*   const filterBooks = data.filter(title => title.includes()) */
-
+        const reloadUsers = navigation.addListener("focus", () => {
+            getUsers();
+        });
+        return reloadUsers
+    }, [navigation]);
 
     function LoadingUsers() {
         return (

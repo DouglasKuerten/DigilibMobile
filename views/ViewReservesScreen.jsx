@@ -6,8 +6,8 @@ import { InputField } from "../components/InputField";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { URL_API_BACK_END } from '@env';
 
-export function ViewReservesScreen() {
-  const [isLoading, setLoading] = useState(true);
+export function ViewReservesScreen({ navigation }) {
+  const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [dataFilter, setDataFilter] = useState([]);
   const [searchValue, setSearchValue] = useState('');
@@ -15,22 +15,22 @@ export function ViewReservesScreen() {
 
   const getReserves = async () => {
     try {
+      setLoading(true);
       const response = await fetch(URL_API_BACK_END + 'reserves');
       const json = await response.json();
       setData(json);
+      setLoading(false);
     } catch (error) {
       // console.error(error);
-    } finally {
-      setLoading(false);
     }
   }
 
   useEffect(() => {
-    getReserves();
-  }, []);
-
-  /*   const filterBooks = data.filter(title => title.includes()) */
-
+    const reloadReserves = navigation.addListener("focus", () => {
+      getReserves();
+    });
+    return reloadReserves
+  }, [navigation]);
 
   function SkeletonReserves() {
     return (

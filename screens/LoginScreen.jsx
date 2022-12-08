@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { View, Image } from "react-native";
 
-import { Icon, Pressable, Center, Switch, useColorMode, useColorModeValue, setColorMode } from "native-base";
+import { Icon, Pressable, Center, Switch, useColorMode } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import { InputField } from "../components/InputField";
 
